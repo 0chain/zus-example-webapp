@@ -1,7 +1,10 @@
 import Head from "next/head";
+import zus from "zus-sdk";
+
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const message = zus.Greeter();
   return (
     <>
       <Head>
@@ -13,6 +16,7 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <h3>Zus Example Web App using JS SDK</h3>
+          <p>{message}</p>
         </div>
       </main>
     </>
