@@ -2006,10 +2006,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zus-sdk@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/zus-sdk/-/zus-sdk-0.0.3.tgz#883d9a8d1698840f362a910262795304164e887b"
-  integrity sha512-LBJONkF/wNye2N0n1vSe4tBlkJx978yizcxVBuirb2xwDVvuWNUAB75c2uxmxIaTkcS4dbyW+mMoL/Qaqu9/ug==
+zus-sdk@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/zus-sdk/-/zus-sdk-0.0.4.tgz#3eec00d750773fb884a9939c3902093f6035752a"
+  integrity sha512-X1fQhucC1bab4DqiyUVdtzxHmkOdup6vgogJvVUsYBa3IMn9MRkhvogIZCGct4PyuVo+md4GdJISTm9wNZp2QA==
   dependencies:
     axios "^1.2.0"
     bluebird "^3.7.2"
