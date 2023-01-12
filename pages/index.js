@@ -1,10 +1,10 @@
 import Head from "next/head";
-import zus from "zus-sdk";
+import { Greeter } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const message = zus.Greeter();
+  const message = Greeter("john doe");
   return (
     <>
       <Head>
