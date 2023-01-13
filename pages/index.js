@@ -31,7 +31,7 @@ export default function Home() {
       console.log("allocations", allocations);
 
       //Call getBalance method
-      //await getBalance(wallet.clientId);
+      await getBalance(wallet.clientId);
     };
 
     loadData();
