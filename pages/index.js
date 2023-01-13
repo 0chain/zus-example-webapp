@@ -1,10 +1,44 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { Greeter } from "zus-sdk";
+
+import { init, setWallet, Greeter, listAllocations, getBalance } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const message = Greeter("john doe");
+  useEffect(() => {
+    const loadData = async () => {
+      //Initialize SDK
+      await init();
+
+      const wallet = {
+        clientId:
+          "5cd1d56a0842db11994ee2221f9f6468d36f9b89ba016880ac2598d214671012",
+        privateKey:
+          "6050f9a83bd8c15aa478d99c4dc2dd15a2f415c2b6f3d6e860bc8ab19ac92012",
+        publicKey:
+          "495cc7e63c3395d6afc632334a6fefcbdaca15e37da4f0416bc0d1b44ff4571a4d2a748307ca55c7439611148cbf18188a4eef3474b752fd64ded7fd02606c9f",
+      };
+      //Call setWallet method
+      await setWallet(wallet.clientId, wallet.privateKey, wallet.publicKey);
+
+      //Call Greeter method
+      const greetMessage = Greeter("john doe");
+      setMessage(greetMessage);
+
+      //Call listAllocations method
+      const allocations = await listAllocations();
+      console.log("allocations", allocations);
+
+      //Call getBalance method
+      //await getBalance(wallet.clientId);
+    };
+
+    loadData();
+  }, []);
+
+  const [message, setMessage] = useState("");
+
   return (
     <>
       <Head>
