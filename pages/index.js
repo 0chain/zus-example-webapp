@@ -31,13 +31,17 @@ export default function Home() {
       console.log("allocations", allocations);
 
       //Call getBalance method
-      await getBalance(wallet.clientId);
+      const balanceObj = await getBalance(wallet.clientId);
+      console.log("balanceObj", balanceObj);
+      console.log("balance", balanceObj?.balance);
+      setBalance(balanceObj?.balance || 0);
     };
 
     loadData();
   }, []);
 
   const [message, setMessage] = useState("");
+  const [balance, setBalance] = useState(0);
 
   return (
     <>
@@ -51,6 +55,7 @@ export default function Home() {
         <div>
           <h3>Zus Example Web App using JS SDK</h3>
           <p>{message}</p>
+          <p>Wallet Balance: {balance}</p>
         </div>
       </main>
     </>
