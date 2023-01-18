@@ -10,6 +10,7 @@ import {
   getBalance,
   getBalanceWasm,
   bulkUpload,
+  getFaucetToken,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -116,6 +117,10 @@ export default function Home() {
     setBalance(balanceObj?.zcn || 0);
   };
 
+  const getFaucetTokenClick = async () => {
+    await getFaucetToken();
+  };
+
   const greetClick = async () => {
     //Call Greeter method
     const greetMessage = Greeter("john doe");
@@ -147,7 +152,7 @@ export default function Home() {
     );
     if (filesForUpload && filesForUpload.length > 0) {
       const objects = [];
-      const allocationId = selectAllocation.id;
+      const allocationId = selectedAllocation.id;
       for (const file of filesForUpload) {
         objects.push({
           allocationId: allocationId,
@@ -202,6 +207,11 @@ export default function Home() {
           <br />
           <fieldset>
             <legend>Wallet</legend>
+            <div>
+              <button id="btnGetFaucetToken" onClick={getFaucetTokenClick}>
+                Faucet
+              </button>
+            </div>
             <div>
               <button id="btnGetBalance" onClick={getBalanceWasmClick}>
                 Get Balance Wasm
