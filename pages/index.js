@@ -23,18 +23,48 @@ const testWallet = {
     "495cc7e63c3395d6afc632334a6fefcbdaca15e37da4f0416bc0d1b44ff4571a4d2a748307ca55c7439611148cbf18188a4eef3474b752fd64ded7fd02606c9f",
 };
 
+const newWallet = {
+  clientId: "30764bcba73216b67c36b05a17b4dd076bfdc5bb0ed84856f27622188c377269",
+  privateKey:
+    "41729ed8d82f782646d2d30b9719acfd236842b9b6e47fee12b7bdbd05b35122",
+  publicKey:
+    "1f495df9605a4479a7dd6e5c7a78caf9f9d54e3a40f62a3dd68ed377115fe614d8acf0c238025f67a85163b9fbf31d10fbbb4a551d1cf00119897edf18b1841c",
+};
+
+const configJson = {
+  miners: [
+    "https://beta.0chain.net/miner01",
+    "https://beta.0chain.net/miner03",
+    "https://beta.0chain.net/miner02",
+  ],
+  sharders: [
+    "https://beta.0chain.net/sharder01",
+    "https://beta.0chain.net/sharder02",
+  ],
+  chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
+  signatureScheme: "bls0chain",
+  minConfirmation: 50,
+  minSubmit: 50,
+  confirmationChainLength: 3,
+  blockWorker: "https://beta.0chain.net/dns",
+  zboxHost: "https://0box.beta.0chain.net",
+  zboxAppType: "vult",
+};
+
 export default function Home() {
-  const [myWallet, setMyWallet] = useState(testWallet);
   const [message, setMessage] = useState("");
   const [balance, setBalance] = useState(0);
   const [allocationList, setAllocationList] = useState([]);
   const [selectedAllocation, setSelectedAllocation] = useState();
   const [filesForUpload, setFilesForUpload] = useState([]);
+  const [clientId, setClientId] = useState(newWallet.clientId);
+  const [privateKey, setPrivateKey] = useState(newWallet.privateKey);
+  const [publicKey, setPublicKey] = useState(newWallet.publicKey);
 
   useEffect(() => {
     const loadData = async () => {
       //Initialize SDK
-      await init();
+      await init(configJson);
 
       //Call setWallet method
       await setWallet(
@@ -103,7 +133,7 @@ export default function Home() {
 
   const getBalanceClick = async () => {
     //Call getBalance method
-    const balanceObj = await getBalance(myWallet.clientId);
+    const balanceObj = await getBalance(clientId);
     console.log("balanceObj", balanceObj);
     console.log("balance", balanceObj?.balance);
     setBalance(balanceObj?.balance || 0);
@@ -111,14 +141,21 @@ export default function Home() {
 
   const getBalanceWasmClick = async () => {
     //Call getBalance method on Wasm
-    const balanceObj = await getBalanceWasm(myWallet.clientId);
+    const balanceObj = await getBalanceWasm(clientId);
     console.log("balanceObj", balanceObj);
     console.log("balance", balanceObj?.zcn);
     setBalance(balanceObj?.zcn || 0);
   };
 
   const getFaucetTokenClick = async () => {
+    console.log("calling getFaucetToken");
     await getFaucetToken();
+  };
+
+  const changeWalletClick = async () => {
+    console.log("calling change wallet");
+    //Call setWallet method
+    await setWallet(clientId, privateKey, publicKey);
   };
 
   const greetClick = async () => {
@@ -207,6 +244,41 @@ export default function Home() {
           <br />
           <fieldset>
             <legend>Wallet</legend>
+            <div>
+              <label htmlFor="clientId"> ClientID </label>
+              <input
+                id="clientId"
+                name="clientId"
+                value={clientId}
+                size={90}
+                onChange={(e) => setClientId(e.target.value ?? "")}
+              />
+              <br />
+              <label htmlFor="privateKey">PrivateKey</label>
+              <input
+                id="privateKey"
+                name="privateKey"
+                value={privateKey}
+                size={90}
+                onChange={(e) => setPrivateKey(e.target.value ?? "")}
+              />
+              <br />
+              <label htmlFor="publicKey"> PublicKey</label>
+              <input
+                id="publicKey"
+                name="publicKey"
+                value={publicKey}
+                size={90}
+                onChange={(e) => setPublicKey(e.target.value ?? "")}
+              />
+              <br />
+
+              <button id="btnSetWallet" onClick={changeWalletClick}>
+                Change Wallet
+              </button>
+            </div>
+            <br />
+            <br />
             <div>
               <button id="btnGetFaucetToken" onClick={getFaucetTokenClick}>
                 Faucet
