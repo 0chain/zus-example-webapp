@@ -15,21 +15,30 @@ import {
 
 import styles from "../styles/Home.module.css";
 
+// const testWallet = {
+//   clientId: "5cd1d56a0842db11994ee2221f9f6468d36f9b89ba016880ac2598d214671012",
+//   privateKey:
+//     "6050f9a83bd8c15aa478d99c4dc2dd15a2f415c2b6f3d6e860bc8ab19ac92012",
+//   publicKey:
+//     "495cc7e63c3395d6afc632334a6fefcbdaca15e37da4f0416bc0d1b44ff4571a4d2a748307ca55c7439611148cbf18188a4eef3474b752fd64ded7fd02606c9f",
+// };
+
 const testWallet = {
-  clientId: "5cd1d56a0842db11994ee2221f9f6468d36f9b89ba016880ac2598d214671012",
+  clientId: "01158df3ec1a7b8d64892227dcb632536c9731bd4b7e57823a2864fbe9868bf2",
   privateKey:
-    "6050f9a83bd8c15aa478d99c4dc2dd15a2f415c2b6f3d6e860bc8ab19ac92012",
+    "5d10fd94941013b0cf89a568a20fded8462c2cd36c4f09993bacb72a7396cd0a",
   publicKey:
-    "495cc7e63c3395d6afc632334a6fefcbdaca15e37da4f0416bc0d1b44ff4571a4d2a748307ca55c7439611148cbf18188a4eef3474b752fd64ded7fd02606c9f",
+    "6f6afd54528b4cebf3d4c8aa5e7e923c60770abc8cb4c4ea2efebdc601091d142d9973c6ca4dfef8a8edfd98217f39484adcf6c8644a468f97507e345e360c19",
 };
 
-const newWallet = {
-  clientId: "30764bcba73216b67c36b05a17b4dd076bfdc5bb0ed84856f27622188c377269",
-  privateKey:
-    "41729ed8d82f782646d2d30b9719acfd236842b9b6e47fee12b7bdbd05b35122",
-  publicKey:
-    "1f495df9605a4479a7dd6e5c7a78caf9f9d54e3a40f62a3dd68ed377115fe614d8acf0c238025f67a85163b9fbf31d10fbbb4a551d1cf00119897edf18b1841c",
-};
+const newWallet = testWallet;
+// const newWallet = {
+//   clientId: "30764bcba73216b67c36b05a17b4dd076bfdc5bb0ed84856f27622188c377269",
+//   privateKey:
+//     "41729ed8d82f782646d2d30b9719acfd236842b9b6e47fee12b7bdbd05b35122",
+//   publicKey:
+//     "1f495df9605a4479a7dd6e5c7a78caf9f9d54e3a40f62a3dd68ed377115fe614d8acf0c238025f67a85163b9fbf31d10fbbb4a551d1cf00119897edf18b1841c",
+// };
 
 const configJson = {
   miners: [
@@ -102,12 +111,12 @@ export default function Home() {
       lock: 5000000000,
     };
 
-    config.size = convertToBytes(config.size);
-    config.minReadPrice = convertZCNToToken(config.minReadPrice);
-    config.maxReadPrice = convertZCNToToken(config.maxReadPrice);
-    config.minWritePrice = convertZCNToToken(config.minWritePrice);
-    config.maxWritePrice = convertZCNToToken(config.maxWritePrice);
-    config.lock = convertZCNToToken(config.lock);
+    // config.size = convertToBytes(config.size);
+    // config.minReadPrice = convertZCNToToken(config.minReadPrice);
+    // config.maxReadPrice = convertZCNToToken(config.maxReadPrice);
+    // config.minWritePrice = convertZCNToToken(config.minWritePrice);
+    // config.maxWritePrice = convertZCNToToken(config.maxWritePrice);
+    // config.lock = convertZCNToToken(config.lock);
 
     //Call createAllocation method
     await createAllocation(config);
