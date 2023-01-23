@@ -11,6 +11,7 @@ import {
   getBalanceWasm,
   bulkUpload,
   getFaucetToken,
+  sendToken,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -69,6 +70,10 @@ export default function Home() {
   const [clientId, setClientId] = useState(newWallet.clientId);
   const [privateKey, setPrivateKey] = useState(newWallet.privateKey);
   const [publicKey, setPublicKey] = useState(newWallet.publicKey);
+  const [sendTo, setSendTo] = useState(
+    "6895775e56cdd6443f864009f178f8878e114136dc779cf40b67c7120dc2fddb"
+  );
+  const [sendAmount, setSendAmount] = useState("10000000000");
 
   useEffect(() => {
     const loadData = async () => {
@@ -159,6 +164,11 @@ export default function Home() {
   const getFaucetTokenClick = async () => {
     console.log("calling getFaucetToken");
     await getFaucetToken();
+  };
+
+  const sendTokenClick = async () => {
+    console.log("calling sendToken");
+    await sendToken(sendTo, parseInt(sendAmount));
   };
 
   const changeWalletClick = async () => {
@@ -305,6 +315,38 @@ export default function Home() {
             </div>
             <br />
             <p>Balance: {balance}</p>
+          </fieldset>
+
+          <br />
+          <fieldset>
+            <legend>Send Token</legend>
+            <br />
+            <div>
+              <label htmlFor="sendTo">Send To</label>
+              <input
+                id="sendTo"
+                name="sendTo"
+                value={sendTo}
+                size={90}
+                onChange={(e) => setSendTo(e.target.value ?? "")}
+              />
+              <br />
+              <label htmlFor="sendAmount">Send Amount</label>
+              <input
+                id="sendAmount"
+                name="sendAmount"
+                value={sendAmount}
+                size={90}
+                onChange={(e) => setSendAmount(e.target.value ?? "")}
+              />
+              <br />
+            </div>
+            <div>
+              <button id="btnSendToken" onClick={sendTokenClick}>
+                Send Token
+              </button>
+            </div>
+            <br />
           </fieldset>
 
           <br />
