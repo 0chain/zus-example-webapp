@@ -93,7 +93,7 @@ export default function Home() {
   useEffect(() => {
     const loadData = async () => {
       //Initialize SDK
-      await init(configJson);
+      await init();
 
       //Call setWallet method
       await setWallet(
@@ -104,6 +104,9 @@ export default function Home() {
     };
 
     loadData();
+    return () => {
+      console.log("unmount");
+    };
   }, []);
 
   const listAllocationsClick = async () => {
@@ -265,6 +268,9 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <h3>Zus Example Web App using JS SDK</h3>
+          {/* <button id="btnInit" onClick={loadData}>
+            Init
+          </button> */}
 
           <br />
           <fieldset>
