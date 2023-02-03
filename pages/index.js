@@ -16,64 +16,12 @@ import {
 
 import styles from "../styles/Home.module.css";
 
-// const testWallet = {
-//   clientId: "5cd1d56a0842db11994ee2221f9f6468d36f9b89ba016880ac2598d214671012",
-//   privateKey:
-//     "6050f9a83bd8c15aa478d99c4dc2dd15a2f415c2b6f3d6e860bc8ab19ac92012",
-//   publicKey:
-//     "495cc7e63c3395d6afc632334a6fefcbdaca15e37da4f0416bc0d1b44ff4571a4d2a748307ca55c7439611148cbf18188a4eef3474b752fd64ded7fd02606c9f",
-// };
-
-// const testWallet = {
-//   clientId: "01158df3ec1a7b8d64892227dcb632536c9731bd4b7e57823a2864fbe9868bf2",
-//   privateKey:
-//     "5d10fd94941013b0cf89a568a20fded8462c2cd36c4f09993bacb72a7396cd0a",
-//   publicKey:
-//     "6f6afd54528b4cebf3d4c8aa5e7e923c60770abc8cb4c4ea2efebdc601091d142d9973c6ca4dfef8a8edfd98217f39484adcf6c8644a468f97507e345e360c19",
-// };
-
-const testWallet = {
+const newWallet = {
   clientId: "7d35a6c3ba5066e62989d34cee7dd434d0833d5ea9ff00928aa89994d80e4700",
   privateKey:
     "5ababb1e99fe08e44b9843a0a365a832928f9e1aa2d6bba24e01058f1bf0e813",
   publicKey:
     "5b7ce801f11b5ce02c2ff980469b00e7ed34a9690977661b0cc80bc5eb33ee13baaf6b099f38a2586c5ff63c576870829c117e392fc40868e4bd6418dbaf389c",
-};
-// const testWallet = {
-//   clientId: "30764bcba73216b67c36b05a17b4dd076bfdc5bb0ed84856f27622188c377269",
-//   privateKey:
-//     "41729ed8d82f782646d2d30b9719acfd236842b9b6e47fee12b7bdbd05b35122",
-//   publicKey:
-//     "1f495df9605a4479a7dd6e5c7a78caf9f9d54e3a40f62a3dd68ed377115fe614d8acf0c238025f67a85163b9fbf31d10fbbb4a551d1cf00119897edf18b1841c",
-// };
-
-const newWallet = testWallet;
-// const newWallet = {
-//   clientId: "30764bcba73216b67c36b05a17b4dd076bfdc5bb0ed84856f27622188c377269",
-//   privateKey:
-//     "41729ed8d82f782646d2d30b9719acfd236842b9b6e47fee12b7bdbd05b35122",
-//   publicKey:
-//     "1f495df9605a4479a7dd6e5c7a78caf9f9d54e3a40f62a3dd68ed377115fe614d8acf0c238025f67a85163b9fbf31d10fbbb4a551d1cf00119897edf18b1841c",
-// };
-
-const configJson = {
-  miners: [
-    "https://beta.0chain.net/miner01",
-    "https://beta.0chain.net/miner03",
-    "https://beta.0chain.net/miner02",
-  ],
-  sharders: [
-    "https://beta.0chain.net/sharder01",
-    "https://beta.0chain.net/sharder02",
-  ],
-  chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
-  signatureScheme: "bls0chain",
-  minConfirmation: 50,
-  minSubmit: 50,
-  confirmationChainLength: 3,
-  blockWorker: "https://beta.0chain.net/dns",
-  zboxHost: "https://0box.dev.0chain.net", //"https://0box.beta.0chain.net",
-  zboxAppType: "vult",
 };
 
 export default function Home() {
@@ -90,26 +38,40 @@ export default function Home() {
   );
   const [sendAmount, setSendAmount] = useState("10000000000");
 
-  useEffect(() => {
-    // const loadData = async () => {
-    //   //Initialize SDK
-    //   await init();
-    //   //Call setWallet method
-    //   await setWallet(
-    //     testWallet.clientId,
-    //     testWallet.privateKey,
-    //     testWallet.publicKey
-    //   );
-    // };
-    // loadData();
-    // return () => {
-    //   console.log("unmount");
-    // };
-  }, []);
+  const configJson = {
+    miners: [
+      "https://dev.0chain.net/miner02",
+      "https://dev.0chain.net/miner01",
+      "https://dev.0chain.net/miner03",
+    ],
+    sharders: [
+      "https://dev.0chain.net/sharder01",
+      "https://dev.0chain.net/sharder02",
+    ],
+    chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
+    signatureScheme: "bls0chain",
+    minConfirmation: 50,
+    minSubmit: 50,
+    confirmationChainLength: 3,
+    blockWorker: "https://dev.0chain.net/dns",
+    zboxHost: "https://0box.dev.0chain.net",
+    zboxAppType: "vult",
+  };
+
+  const config = [
+    configJson.chainId,
+    configJson.blockWorker,
+    configJson.signatureScheme,
+    configJson.minConfirmation,
+    configJson.minSubmit,
+    configJson.confirmationChainLength,
+    "https://0box.dev.0chain.net", //zboxHost
+    "vult", //zboxAppType
+  ];
 
   const initClick = async () => {
     //Initialize SDK
-    await init();
+    await init(config);
   };
 
   const listAllocationsClick = async () => {
@@ -137,34 +99,10 @@ export default function Home() {
       lock: 5000000000,
     };
 
-    // config.size = convertToBytes(config.size);
-    // config.minReadPrice = convertZCNToToken(config.minReadPrice);
-    // config.maxReadPrice = convertZCNToToken(config.maxReadPrice);
-    // config.minWritePrice = convertZCNToToken(config.minWritePrice);
-    // config.maxWritePrice = convertZCNToToken(config.maxWritePrice);
-    // config.lock = convertZCNToToken(config.lock);
-
     //Call createAllocation method
     await createAllocation(config);
     listAllocationsClick();
   };
-
-  const convertToBytes = (value, unit) => {
-    const K = 1024;
-    if (value === 0) return 0;
-
-    const i = getIndexUnit(unit);
-
-    return value * Math.pow(K, i);
-  };
-
-  const getIndexUnit = (unit) => {
-    const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-    return SIZES.indexOf(unit);
-  };
-
-  const convertZCNToToken = (zcn) => zcn * 10000000000;
 
   const getBalanceClick = async () => {
     //Call getBalance method
@@ -192,8 +130,8 @@ export default function Home() {
     await sendToken(sendTo, parseInt(sendAmount));
   };
 
-  const changeWalletClick = async () => {
-    console.log("calling change wallet");
+  const setWalletClick = async () => {
+    console.log("calling set wallet");
     //Call setWallet method
     await setWallet(clientId, privateKey, publicKey);
   };
@@ -325,8 +263,8 @@ export default function Home() {
               />
               <br />
 
-              <button id="btnSetWallet" onClick={changeWalletClick}>
-                Change Wallet
+              <button id="btnSetWallet" onClick={setWalletClick}>
+                Set Wallet
               </button>
             </div>
             <br />
