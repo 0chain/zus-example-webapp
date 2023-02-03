@@ -91,23 +91,26 @@ export default function Home() {
   const [sendAmount, setSendAmount] = useState("10000000000");
 
   useEffect(() => {
-    const loadData = async () => {
-      //Initialize SDK
-      await init();
-
-      //Call setWallet method
-      await setWallet(
-        testWallet.clientId,
-        testWallet.privateKey,
-        testWallet.publicKey
-      );
-    };
-
-    loadData();
-    return () => {
-      console.log("unmount");
-    };
+    // const loadData = async () => {
+    //   //Initialize SDK
+    //   await init();
+    //   //Call setWallet method
+    //   await setWallet(
+    //     testWallet.clientId,
+    //     testWallet.privateKey,
+    //     testWallet.publicKey
+    //   );
+    // };
+    // loadData();
+    // return () => {
+    //   console.log("unmount");
+    // };
   }, []);
+
+  const initClick = async () => {
+    //Initialize SDK
+    await init();
+  };
 
   const listAllocationsClick = async () => {
     //Call listAllocations method
@@ -277,6 +280,15 @@ export default function Home() {
             <legend>Greeter</legend>
             <button id="btnGreet" onClick={greetClick}>
               Greet
+            </button>
+            <p>{message}</p>
+          </fieldset>
+
+          <br />
+          <fieldset>
+            <legend>SDK Init</legend>
+            <button id="btnGreet" onClick={initClick}>
+              Init
             </button>
             <p>{message}</p>
           </fieldset>
