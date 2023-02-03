@@ -39,15 +39,6 @@ export default function Home() {
   const [sendAmount, setSendAmount] = useState("10000000000");
 
   const configJson = {
-    miners: [
-      "https://dev.0chain.net/miner02",
-      "https://dev.0chain.net/miner01",
-      "https://dev.0chain.net/miner03",
-    ],
-    sharders: [
-      "https://dev.0chain.net/sharder01",
-      "https://dev.0chain.net/sharder02",
-    ],
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
     signatureScheme: "bls0chain",
     minConfirmation: 50,
@@ -65,8 +56,8 @@ export default function Home() {
     configJson.minConfirmation,
     configJson.minSubmit,
     configJson.confirmationChainLength,
-    "https://0box.dev.0chain.net", //zboxHost
-    "vult", //zboxAppType
+    configJson.zboxHost,
+    configJson.zboxAppType,
   ];
 
   const initClick = async () => {
