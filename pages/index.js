@@ -216,10 +216,9 @@ export default function Home() {
           <br />
           <fieldset>
             <legend>SDK Init</legend>
-            <button id="btnGreet" onClick={initClick}>
+            <button id="btnInit" onClick={initClick}>
               Init
             </button>
-            <p>{message}</p>
           </fieldset>
 
           <br />
