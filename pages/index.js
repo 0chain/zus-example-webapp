@@ -12,6 +12,7 @@ import {
   bulkUpload,
   getFaucetToken,
   sendToken,
+  listObjects,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -30,6 +31,8 @@ export default function Home() {
   const [allocationList, setAllocationList] = useState([]);
   const [selectedAllocation, setSelectedAllocation] = useState();
   const [filesForUpload, setFilesForUpload] = useState([]);
+  const [fileList, setFilesList] = useState([]);
+  const [selectedFile, setSelectedFile] = useState();
   const [clientId, setClientId] = useState(newWallet.clientId);
   const [privateKey, setPrivateKey] = useState(newWallet.privateKey);
   const [publicKey, setPublicKey] = useState(newWallet.publicKey);
@@ -189,6 +192,17 @@ export default function Home() {
     }
   };
 
+  const listFilesClick = async () => {
+    const list = (await listObjects(selectedAllocation.id, "/")) || [];
+    console.log("file list", list);
+    setFilesList(list);
+  };
+
+  const selectFile = (file) => {
+    setSelectedFile(file);
+    console.log("selected file", file);
+  };
+
   return (
     <>
       <Head>
@@ -200,10 +214,6 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <h3>Zus Example Web App using JS SDK</h3>
-          {/* <button id="btnInit" onClick={loadData}>
-            Init
-          </button> */}
-
           <br />
           <fieldset>
             <legend>Greeter</legend>
@@ -325,7 +335,11 @@ export default function Home() {
               </button>
               <br />
               <br />
-              {allocationList && <div>Allocation List</div>}
+              {allocationList && allocationList.length > 0 && (
+                <div>
+                  <b>Allocation List</b>
+                </div>
+              )}
               {allocationList.map((allocation, index) => (
                 <div key={index}>
                   <input
@@ -358,6 +372,31 @@ export default function Home() {
               <button id="btnUpload" onClick={uploadClick}>
                 Upload
               </button>
+            </div>
+            <br />
+            <div>
+              <button id="btnListFiles" onClick={listFilesClick}>
+                List
+              </button>
+              <br />
+              <br />
+              {fileList && fileList.length > 0 && (
+                <div>
+                  <b>File List</b>
+                </div>
+              )}
+              {fileList.map((file, index) => (
+                <div key={index}>
+                  <input
+                    type="radio"
+                    name="selectedFile"
+                    value={file.name}
+                    onClick={() => selectFile(file)}
+                  />
+                  <label htmlFor={file.name}>&nbsp;{file.name}</label>
+                  <br></br>
+                </div>
+              ))}
             </div>
             <br />
           </fieldset>
