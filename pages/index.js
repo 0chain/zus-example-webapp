@@ -7,9 +7,11 @@ import {
   Greeter,
   listAllocations,
   createAllocation,
+  getAllocation,
   getBalance,
   getBalanceWasm,
   bulkUpload,
+  download,
   getFaucetToken,
   sendToken,
   listObjects,
@@ -30,6 +32,7 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
   const [allocationList, setAllocationList] = useState([]);
   const [selectedAllocation, setSelectedAllocation] = useState();
+  const [allocationDetails, setAllocationDetails] = useState();
   const [filesForUpload, setFilesForUpload] = useState([]);
   const [fileList, setFilesList] = useState([]);
   const [selectedFile, setSelectedFile] = useState();
@@ -96,6 +99,13 @@ export default function Home() {
     //Call createAllocation method
     await createAllocation(config);
     listAllocationsClick();
+  };
+
+  const getAllocationDetailsClick = async (allocationId) => {
+    //Call getAllocation method
+    const allocation = await getAllocation(allocationId);
+    console.log("allocation", allocation);
+    setAllocationDetails(allocation);
   };
 
   const getBalanceClick = async () => {
@@ -190,6 +200,42 @@ export default function Home() {
 
       console.log("upload results", JSON.stringify(results));
     }
+  };
+
+  const downloadClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for download");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for download");
+      return;
+    }
+    console.log(
+      "downloading from allocation",
+      selectedAllocation.id,
+      selectedFile.path
+    );
+    //allocationID, remotePath, authTicket, lookupHash string, downloadThumbnailOnly bool, numBlocks int
+    const file = await download(
+      selectedAllocation.id,
+      selectedFile.path,
+      "",
+      "",
+      false,
+      10
+    );
+    console.log("downloaded file", file);
+
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+
+    a.href = file.url;
+    a.download = file.fileName;
+    a.click();
+    window.URL.revokeObjectURL(file.url);
+    document.body.removeChild(a);
   };
 
   const listFilesClick = async () => {
@@ -351,12 +397,28 @@ export default function Home() {
                   <label htmlFor={allocation.id}>
                     Allocation: {allocation.id}
                   </label>
+                  <button
+                    id="btnGetAllocation"
+                    onClick={() => getAllocationDetailsClick(allocation.id)}
+                  >
+                    Get Allocation Details
+                  </button>
                   <br></br>
                 </div>
               ))}
             </div>
             <br />
             <div id="listAllocations"></div>
+            <br />
+            <br />
+            {allocationDetails && (
+              <div>
+                Allocation Details - id:{allocationDetails.id}, name:{" "}
+                {allocationDetails.name}, Size: {allocationDetails.size}, Start
+                Time: {allocationDetails.start_time}, Expiration Date:{" "}
+                {allocationDetails.expiration_date}
+              </div>
+            )}
           </fieldset>
 
           <br />
@@ -390,11 +452,14 @@ export default function Home() {
                   <input
                     type="radio"
                     name="selectedFile"
-                    value={file.name}
+                    value={file.path}
                     onClick={() => selectFile(file)}
                   />
-                  <label htmlFor={file.name}>&nbsp;{file.name}</label>
-                  <br></br>
+                  <label htmlFor={file.path}>&nbsp;{file.path}</label>
+                  <button id="btnDownload" onClick={downloadClick}>
+                    Download
+                  </button>
+                  <br />
                 </div>
               ))}
             </div>
