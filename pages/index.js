@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 import {
@@ -14,6 +14,7 @@ import {
   download,
   getFaucetToken,
   sendToken,
+  sendTransaction,
   listObjects,
 } from "zus-sdk";
 
@@ -40,7 +41,7 @@ export default function Home() {
   const [privateKey, setPrivateKey] = useState(newWallet.privateKey);
   const [publicKey, setPublicKey] = useState(newWallet.publicKey);
   const [sendTo, setSendTo] = useState(
-    "6895775e56cdd6443f864009f178f8878e114136dc779cf40b67c7120dc2fddb"
+    "0ab9c5ab5effbe47db31299aff6464e7b447e7fb372109758c0d9dcd596b5429"
   );
   const [sendAmount, setSendAmount] = useState("10000000000");
 
@@ -132,6 +133,16 @@ export default function Home() {
   const sendTokenClick = async () => {
     console.log("calling sendToken");
     await sendToken(sendTo, parseInt(sendAmount));
+  };
+
+  const sendTransactionClick = async () => {
+    console.log("calling sendTransaction");
+    const fromWallet = {
+      id: clientId,
+      public_key: publicKey,
+      secretKey: privateKey,
+    };
+    await sendTransaction(fromWallet, sendTo, parseInt(sendAmount), "");
   };
 
   const setWalletClick = async () => {
@@ -361,6 +372,11 @@ export default function Home() {
             <div>
               <button id="btnSendToken" onClick={sendTokenClick}>
                 Send Token
+              </button>
+            </div>
+            <div>
+              <button id="btnSendTransaction" onClick={sendTransactionClick}>
+                Send Transaction
               </button>
             </div>
             <br />
