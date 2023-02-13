@@ -13,7 +13,6 @@ import {
   bulkUpload,
   download,
   getFaucetToken,
-  sendToken,
   sendTransaction,
   listObjects,
 } from "zus-sdk";
@@ -128,11 +127,6 @@ export default function Home() {
   const getFaucetTokenClick = async () => {
     console.log("calling getFaucetToken");
     await getFaucetToken();
-  };
-
-  const sendTokenClick = async () => {
-    console.log("calling sendToken");
-    await sendToken(sendTo, parseInt(sendAmount));
   };
 
   const sendTransactionClick = async () => {
@@ -368,11 +362,6 @@ export default function Home() {
                 onChange={(e) => setSendAmount(e.target.value ?? "")}
               />
               <br />
-            </div>
-            <div>
-              <button id="btnSendToken" onClick={sendTokenClick}>
-                Send Token
-              </button>
             </div>
             <div>
               <button id="btnSendTransaction" onClick={sendTransactionClick}>
