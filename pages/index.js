@@ -15,6 +15,7 @@ import {
   getFaucetToken,
   sendTransaction,
   listObjects,
+  share,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -243,6 +244,29 @@ export default function Home() {
     document.body.removeChild(a);
   };
 
+  const shareClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for share");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for share");
+      return;
+    }
+    console.log("share file", selectedAllocation.id, selectedFile.path);
+    //allocationId, filePath, clientId, encryptionPublicKey string, expireAt int, revoke bool,availableAfter string
+    const authTicket = await share(
+      selectedAllocation.id,
+      selectedFile.path,
+      "",
+      "",
+      0,
+      false,
+      0
+    );
+    console.log("authTicket", authTicket);
+  };
+
   const listFilesClick = async () => {
     const list = (await listObjects(selectedAllocation.id, "/")) || [];
     console.log("file list", list);
@@ -463,6 +487,9 @@ export default function Home() {
                   <label htmlFor={file.path}>&nbsp;{file.path}</label>
                   <button id="btnDownload" onClick={downloadClick}>
                     Download
+                  </button>
+                  <button id="btnShare" onClick={shareClick}>
+                    Share
                   </button>
                   <br />
                 </div>
