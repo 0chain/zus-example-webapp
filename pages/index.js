@@ -15,6 +15,7 @@ import {
   getFaucetToken,
   sendTransaction,
   listObjects,
+  share,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -43,6 +44,9 @@ export default function Home() {
     "0ab9c5ab5effbe47db31299aff6464e7b447e7fb372109758c0d9dcd596b5429"
   );
   const [sendAmount, setSendAmount] = useState("10000000000");
+  const [authTicket, setAuthTicket] = useState(
+    "eyJjbGllbnRfaWQiOiIiLCJvd25lcl9pZCI6IjdkMzVhNmMzYmE1MDY2ZTYyOTg5ZDM0Y2VlN2RkNDM0ZDA4MzNkNWVhOWZmMDA5MjhhYTg5OTk0ZDgwZTQ3MDAiLCJhbGxvY2F0aW9uX2lkIjoiMDZmNzRhYWE1OWVmM2E5M2I1NmNkM2E3NTMxODlkODkzNjMzMDllYzk4NWNmMTRiMmMyMTBkYzhkYTFkZmVhNyIsImZpbGVfcGF0aF9oYXNoIjoiODc1MTA4NDFhZDJkZjViZjUwMTA3Yzg1MWNmMDU0ZDVkYzc0YTU2ZTg0NjFjYzBmYmNhZTMzNGVhNzJmNWRlYSIsImFjdHVhbF9maWxlX2hhc2giOiI1ZWRiN2E5ZTIyM2ZkMzVlODczYzJhMzQzZjFhZWZjMGE5ZjE0MWY0YzdkZDZmNzYxOTA4N2YxNGI1OGUyYjU2IiwiZmlsZV9uYW1lIjoiMS5wbmciLCJyZWZlcmVuY2VfdHlwZSI6ImYiLCJleHBpcmF0aW9uIjowLCJ0aW1lc3RhbXAiOjE2NzY0NDQ4OTgsImVuY3J5cHRlZCI6ZmFsc2UsInNpZ25hdHVyZSI6IjcxNzhiODBjYjQ1M2Q3NWUyYzg1YThiNTM4YjAxYjQ1ZTBhY2UwYjdmOGZiZmNjN2RlYzE3NTQ5OTNiZmUwOTMifQ=="
+  );
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -241,6 +245,49 @@ export default function Home() {
     a.click();
     window.URL.revokeObjectURL(file.url);
     document.body.removeChild(a);
+  };
+
+  const shareClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for share");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for share");
+      return;
+    }
+    console.log("share file", selectedAllocation.id, selectedFile.path);
+    //allocationId, filePath, clientId, encryptionPublicKey string, expireAt int, revoke bool,availableAfter string
+    const authTick = await share(
+      selectedAllocation.id,
+      selectedFile.path,
+      "",
+      "",
+      0,
+      false,
+      0
+    );
+    console.log("authTicket", authTick);
+    setAuthTicket(authTick);
+  };
+
+  const downloadSharedClick = async () => {
+    if (authTicket) {
+      console.log("downloading using authTicket", authTicket);
+
+      //allocationID, remotePath, authTicket, lookupHash string, downloadThumbnailOnly bool, numBlocks int
+      const file = await download("", "", authTicket, "", false, 10);
+      console.log("downloaded file", file);
+
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = file.url;
+      a.download = file.fileName;
+      a.click();
+      window.URL.revokeObjectURL(file.url);
+      document.body.removeChild(a);
+    }
   };
 
   const listFilesClick = async () => {
@@ -464,11 +511,31 @@ export default function Home() {
                   <button id="btnDownload" onClick={downloadClick}>
                     Download
                   </button>
+                  <button id="btnShare" onClick={shareClick}>
+                    Share
+                  </button>
                   <br />
                 </div>
               ))}
             </div>
             <br />
+          </fieldset>
+
+          <fieldset>
+            <legend>Sharing</legend>
+            <label htmlFor="authTicket"> AuthTicket </label>
+            <input
+              id="authTicket"
+              name="authTicket"
+              value={authTicket}
+              size={90}
+              onChange={(e) => setAuthTicket(e.target.value ?? "")}
+            />
+            <br />
+            <br />
+            <button id="btnDownloadShared" onClick={downloadSharedClick}>
+              Download Shared File
+            </button>
           </fieldset>
         </div>
       </main>
