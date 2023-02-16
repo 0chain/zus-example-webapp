@@ -16,6 +16,8 @@ import {
   sendTransaction,
   listObjects,
   share,
+  showLogs,
+  hideLogs,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -301,6 +303,14 @@ export default function Home() {
     console.log("selected file", file);
   };
 
+  const showLogsClick = async () => {
+    await showLogs();
+  };
+
+  const hideLogsClick = async () => {
+    await hideLogs();
+  };
+
   return (
     <>
       <Head>
@@ -312,6 +322,18 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <h3>Zus Example Web App using JS SDK</h3>
+
+          <br />
+          <fieldset>
+            <legend>Logs</legend>
+            <button id="btnShowLogs" onClick={showLogsClick}>
+              Show Logs
+            </button>
+            <button id="btnHideLogs" onClick={hideLogsClick}>
+              Hide Logs
+            </button>
+          </fieldset>
+
           <br />
           <fieldset>
             <legend>Greeter</legend>
