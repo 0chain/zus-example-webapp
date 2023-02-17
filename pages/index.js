@@ -18,6 +18,12 @@ import {
   share,
   showLogs,
   hideLogs,
+  deleteObject,
+  renameObject,
+  copyObject,
+  moveObject,
+  play,
+  stop,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -311,6 +317,78 @@ export default function Home() {
     await hideLogs();
   };
 
+  const copyClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for copy");
+      return;
+    }
+    console.log("copy file", selectedAllocation.id, selectedFile.path);
+    //allocationId, path, destination
+    await copyObject(
+      selectedAllocation.id,
+      selectedFile.path,
+      selectedFile.path + "_copy"
+    );
+    console.log("copy completed");
+  };
+
+  const moveClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for move");
+      return;
+    }
+    console.log("move file", selectedAllocation.id, selectedFile.path);
+    //allocationId, path, destination
+    await moveObject(
+      selectedAllocation.id,
+      selectedFile.path,
+      selectedFile.path + "_move"
+    );
+    console.log("move completed");
+  };
+
+  const deleteClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for delete");
+      return;
+    }
+    console.log("delete file", selectedAllocation.id, selectedFile.path);
+    //allocationId, path
+    await deleteObject(selectedAllocation.id, selectedFile.path);
+    console.log("delete completed");
+  };
+
+  const renameClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for rename");
+      return;
+    }
+    console.log("rename file", selectedAllocation.id, selectedFile.path);
+    //allocationId, path, newName
+    await renameObject(
+      selectedAllocation.id,
+      selectedFile.path,
+      selectedFile.path + "_new"
+    );
+    console.log("rename completed");
+  };
+
   return (
     <>
       <Head>
@@ -535,6 +613,18 @@ export default function Home() {
                   </button>
                   <button id="btnShare" onClick={shareClick}>
                     Share
+                  </button>
+                  <button id="btnShare" onClick={copyClick}>
+                    Copy
+                  </button>
+                  <button id="btnShare" onClick={moveClick}>
+                    Move
+                  </button>
+                  <button id="btnShare" onClick={deleteClick}>
+                    Delete
+                  </button>
+                  <button id="btnShare" onClick={renameClick}>
+                    Rename
                   </button>
                   <br />
                 </div>
