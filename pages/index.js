@@ -22,8 +22,6 @@ import {
   renameObject,
   copyObject,
   moveObject,
-  play,
-  stop,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -44,6 +42,7 @@ export default function Home() {
   const [allocationDetails, setAllocationDetails] = useState();
   const [filesForUpload, setFilesForUpload] = useState([]);
   const [fileList, setFilesList] = useState([]);
+  const [destFileList, setDestFilesList] = useState([]);
   const [selectedFile, setSelectedFile] = useState();
   const [clientId, setClientId] = useState(newWallet.clientId);
   const [privateKey, setPrivateKey] = useState(newWallet.privateKey);
@@ -299,9 +298,22 @@ export default function Home() {
   };
 
   const listFilesClick = async () => {
-    const list = (await listObjects(selectedAllocation.id, "/")) || [];
-    console.log("file list", list);
-    setFilesList(list);
+    try {
+      const list = (await listObjects(selectedAllocation.id, "/")) || [];
+      console.log("file list", list);
+      setFilesList(list);
+    } catch (error) {
+      console.log("error:", error);
+    }
+
+    try {
+      const destList =
+        (await listObjects(selectedAllocation.id, "/test")) || [];
+      console.log("dest file list", destList);
+      setDestFilesList(destList);
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   const selectFile = (file) => {
@@ -317,6 +329,17 @@ export default function Home() {
     await hideLogs();
   };
 
+  const getAppendedFileName = (filename, postfix) => {
+    const isExtnExist = filename.lastIndexOf(".") > 0;
+    const newFileName = isExtnExist
+      ? filename.substring(0, filename.lastIndexOf(".")) +
+        postfix +
+        filename.substring(filename.lastIndexOf("."), filename.length)
+      : filename + postfix;
+    console.log("getAppendedFileName", newFileName);
+    return newFileName;
+  };
+
   const copyClick = async () => {
     if (!selectedAllocation) {
       alert("Please select allocation");
@@ -328,11 +351,7 @@ export default function Home() {
     }
     console.log("copy file", selectedAllocation.id, selectedFile.path);
     //allocationId, path, destination
-    await copyObject(
-      selectedAllocation.id,
-      selectedFile.path,
-      selectedFile.path + "_copy"
-    );
+    await copyObject(selectedAllocation.id, selectedFile.path, "/test");
     console.log("copy completed");
   };
 
@@ -347,11 +366,7 @@ export default function Home() {
     }
     console.log("move file", selectedAllocation.id, selectedFile.path);
     //allocationId, path, destination
-    await moveObject(
-      selectedAllocation.id,
-      selectedFile.path,
-      selectedFile.path + "_move"
-    );
+    await moveObject(selectedAllocation.id, selectedFile.path, "/test");
     console.log("move completed");
   };
 
@@ -384,7 +399,7 @@ export default function Home() {
     await renameObject(
       selectedAllocation.id,
       selectedFile.path,
-      selectedFile.path + "_new"
+      getAppendedFileName(selectedFile.path, "_new")
     );
     console.log("rename completed");
   };
@@ -596,7 +611,7 @@ export default function Home() {
               <br />
               {fileList && fileList.length > 0 && (
                 <div>
-                  <b>File List</b>
+                  <b>File List: /</b>
                 </div>
               )}
               {fileList.map((file, index) => (
@@ -614,17 +629,41 @@ export default function Home() {
                   <button id="btnShare" onClick={shareClick}>
                     Share
                   </button>
-                  <button id="btnShare" onClick={copyClick}>
+                  <button id="btnCopy" onClick={copyClick}>
                     Copy
                   </button>
-                  <button id="btnShare" onClick={moveClick}>
+                  <button id="btnMove" onClick={moveClick}>
                     Move
                   </button>
-                  <button id="btnShare" onClick={deleteClick}>
+                  <button id="btnDelete" onClick={deleteClick}>
                     Delete
                   </button>
-                  <button id="btnShare" onClick={renameClick}>
+                  <button id="btnRename" onClick={renameClick}>
                     Rename
+                  </button>
+                  <br />
+                </div>
+              ))}
+              <br />
+              {destFileList && destFileList.length > 0 && (
+                <div>
+                  <b>File List: /test</b>
+                </div>
+              )}
+              {destFileList.map((file, index) => (
+                <div key={index}>
+                  <input
+                    type="radio"
+                    name="selectedFile"
+                    value={file.path}
+                    onClick={() => selectFile(file)}
+                  />
+                  <label htmlFor={file.path}>&nbsp;{file.path}</label>
+                  <button id="btnDestDownload" onClick={downloadClick}>
+                    Download
+                  </button>
+                  <button id="btnDestDelete" onClick={deleteClick}>
+                    Delete
                   </button>
                   <br />
                 </div>
