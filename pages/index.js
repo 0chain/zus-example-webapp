@@ -131,6 +131,16 @@ export default function Home() {
     setAllocationDetails(allocation);
   };
 
+  const freezeAllocationClick = async (allocationId) => {
+    //Call freezeAllocation method
+    await freezeAllocation(allocationId);
+  };
+
+  const cancelAllocationClick = async (allocationId) => {
+    //Call cancelAllocation method
+    await cancelAllocation(allocationId);
+  };
+
   const getBalanceClick = async () => {
     //Call getBalance method
     const balanceObj = await getBalance(clientId);
@@ -580,13 +590,25 @@ export default function Home() {
                     id="btnGetAllocation"
                     onClick={() => getAllocationDetailsClick(allocation.id)}
                   >
-                    Get Allocation Details
+                    Get Details
                   </button>
                   <button
                     id="btnReloadAllocation"
                     onClick={() => reloadAllocationClick(allocation.id)}
                   >
-                    Reload Allocation
+                    Reload
+                  </button>
+                  <button
+                    id="btnFreezeAllocation"
+                    onClick={() => freezeAllocationClick(allocation.id)}
+                  >
+                    Freeze
+                  </button>
+                  <button
+                    id="btnCancelAllocation"
+                    onClick={() => cancelAllocationClick(allocation.id)}
+                  >
+                    Cancel
                   </button>
                   <br></br>
                 </div>
