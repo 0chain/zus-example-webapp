@@ -22,6 +22,11 @@ import {
   renameObject,
   copyObject,
   moveObject,
+  reloadAllocation,
+  transferAllocation,
+  freezeAllocation,
+  cancelAllocation,
+  updateAllocation,
 } from "zus-sdk";
 
 import styles from "../styles/Home.module.css";
@@ -115,6 +120,13 @@ export default function Home() {
   const getAllocationDetailsClick = async (allocationId) => {
     //Call getAllocation method
     const allocation = await getAllocation(allocationId);
+    console.log("allocation", allocation);
+    setAllocationDetails(allocation);
+  };
+
+  const reloadAllocationClick = async (allocationId) => {
+    //Call reloadAllocation method
+    const allocation = await reloadAllocation(allocationId);
     console.log("allocation", allocation);
     setAllocationDetails(allocation);
   };
@@ -569,6 +581,12 @@ export default function Home() {
                     onClick={() => getAllocationDetailsClick(allocation.id)}
                   >
                     Get Allocation Details
+                  </button>
+                  <button
+                    id="btnReloadAllocation"
+                    onClick={() => reloadAllocationClick(allocation.id)}
+                  >
+                    Reload Allocation
                   </button>
                   <br></br>
                 </div>
