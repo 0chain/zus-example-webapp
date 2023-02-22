@@ -59,6 +59,13 @@ export default function Home() {
   const [authTicket, setAuthTicket] = useState(
     "eyJjbGllbnRfaWQiOiIiLCJvd25lcl9pZCI6IjdkMzVhNmMzYmE1MDY2ZTYyOTg5ZDM0Y2VlN2RkNDM0ZDA4MzNkNWVhOWZmMDA5MjhhYTg5OTk0ZDgwZTQ3MDAiLCJhbGxvY2F0aW9uX2lkIjoiMDZmNzRhYWE1OWVmM2E5M2I1NmNkM2E3NTMxODlkODkzNjMzMDllYzk4NWNmMTRiMmMyMTBkYzhkYTFkZmVhNyIsImZpbGVfcGF0aF9oYXNoIjoiODc1MTA4NDFhZDJkZjViZjUwMTA3Yzg1MWNmMDU0ZDVkYzc0YTU2ZTg0NjFjYzBmYmNhZTMzNGVhNzJmNWRlYSIsImFjdHVhbF9maWxlX2hhc2giOiI1ZWRiN2E5ZTIyM2ZkMzVlODczYzJhMzQzZjFhZWZjMGE5ZjE0MWY0YzdkZDZmNzYxOTA4N2YxNGI1OGUyYjU2IiwiZmlsZV9uYW1lIjoiMS5wbmciLCJyZWZlcmVuY2VfdHlwZSI6ImYiLCJleHBpcmF0aW9uIjowLCJ0aW1lc3RhbXAiOjE2NzY0NDQ4OTgsImVuY3J5cHRlZCI6ZmFsc2UsInNpZ25hdHVyZSI6IjcxNzhiODBjYjQ1M2Q3NWUyYzg1YThiNTM4YjAxYjQ1ZTBhY2UwYjdmOGZiZmNjN2RlYzE3NTQ5OTNiZmUwOTMifQ=="
   );
+  const [newOwnerId, setNewOwnerId] = useState(
+    "0ab9c5ab5effbe47db31299aff6464e7b447e7fb372109758c0d9dcd596b5429"
+  );
+  const [newOwnerPublicKey, setNewOwnerPublicKey] = useState(
+    "764e896d08088121d4af9d517eedeac32c463f80245e32f4ccd875db8e621b0c3efeccfbd5007e204e984f2bfbf61bc59aba84ff9d3a0eee0cafd1488e00688e"
+  );
+  const [newAllocationName, setNewAllocationName] = useState("new");
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -131,6 +138,25 @@ export default function Home() {
     setAllocationDetails(allocation);
   };
 
+  const transferAllocationClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for transfer");
+      return;
+    }
+    console.log(
+      "transferring allocation",
+      selectedAllocation.id,
+      newOwnerId,
+      newOwnerPublicKey
+    );
+    //Call transferAllocation method
+    await transferAllocation(
+      selectedAllocation.id,
+      newOwnerId,
+      newOwnerPublicKey
+    );
+  };
+
   const freezeAllocationClick = async (allocationId) => {
     //Call freezeAllocation method
     await freezeAllocation(allocationId);
@@ -139,6 +165,36 @@ export default function Home() {
   const cancelAllocationClick = async (allocationId) => {
     //Call cancelAllocation method
     await cancelAllocation(allocationId);
+  };
+
+  const updateAllocationClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for update");
+      return;
+    }
+    console.log("updating allocation", selectedAllocation.id);
+    //allocationId string, name string,size, expiry int64,lock int64, isImmutable, updateTerms bool,addBlobberId, removeBlobberId string
+    const name = newAllocationName,
+      size = null,
+      expiry = null,
+      lock = null,
+      isImmutable = false,
+      updateTerms = true,
+      addBlobberId = "",
+      removeBlobberId = "";
+
+    //Call updateAllocation method
+    await updateAllocation(
+      selectedAllocation.id,
+      name,
+      size,
+      expiry,
+      lock,
+      isImmutable,
+      updateTerms,
+      addBlobberId,
+      removeBlobberId
+    );
   };
 
   const getBalanceClick = async () => {
@@ -439,7 +495,7 @@ export default function Home() {
           <h3>Zus Example Web App using JS SDK</h3>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Logs</legend>
             <button id="btnShowLogs" onClick={showLogsClick}>
               Show Logs
@@ -450,7 +506,7 @@ export default function Home() {
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Greeter</legend>
             <button id="btnGreet" onClick={greetClick}>
               Greet
@@ -459,7 +515,7 @@ export default function Home() {
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>SDK Init</legend>
             <button id="btnInit" onClick={initClick}>
               Init
@@ -467,7 +523,7 @@ export default function Home() {
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Wallet</legend>
             <div>
               <label htmlFor="clientId"> ClientID </label>
@@ -524,7 +580,7 @@ export default function Home() {
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Send Token</legend>
             <br />
             <div>
@@ -556,7 +612,7 @@ export default function Home() {
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Allocations</legend>
             <div>
               <button id="btnCreateAllocation" onClick={createAllocationClick}>
@@ -626,10 +682,60 @@ export default function Home() {
                 {allocationDetails.expiration_date}
               </div>
             )}
+            <fieldset className={styles.transfer}>
+              <legend>Transfer Allocation</legend>
+              <div>
+                <label htmlFor="newOwnerId">New Owner Id</label>
+                <input
+                  id="newOwnerId"
+                  name="newOwnerId"
+                  value={newOwnerId}
+                  size={90}
+                  onChange={(e) => setNewOwnerId(e.target.value ?? "")}
+                />
+              </div>
+              <br />
+              <div>
+                <label htmlFor="newOwnerPublicKey">New Owner Public Key</label>
+                <input
+                  id="newOwnerPublicKey"
+                  name="newOwnerPublicKey"
+                  value={newOwnerPublicKey}
+                  size={90}
+                  onChange={(e) => setNewOwnerPublicKey(e.target.value ?? "")}
+                />
+              </div>
+              <br />
+              <br />
+              <button
+                id="btnTransferAllocation"
+                onClick={transferAllocationClick}
+              >
+                Transfer
+              </button>
+            </fieldset>
+            <fieldset className={styles.transfer}>
+              <legend>Update Allocation</legend>
+              <div>
+                <label htmlFor="newAllocationName">New Allocation Name</label>
+                <input
+                  id="newAllocationName"
+                  name="newAllocationName"
+                  value={newAllocationName}
+                  size={90}
+                  onChange={(e) => setNewAllocationName(e.target.value ?? "")}
+                />
+              </div>
+              <br />
+              <br />
+              <button id="btnUpdateAllocation" onClick={updateAllocationClick}>
+                Update
+              </button>
+            </fieldset>
           </fieldset>
 
           <br />
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>File Ops</legend>
             <div>
               <input
@@ -712,7 +818,7 @@ export default function Home() {
             <br />
           </fieldset>
 
-          <fieldset>
+          <fieldset className={styles.fieldset}>
             <legend>Sharing</legend>
             <label htmlFor="authTicket"> AuthTicket </label>
             <input
