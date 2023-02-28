@@ -12,6 +12,10 @@ export default function Document() {
           src="https://cdn.jsdelivr.net/gh/golang/go@go1.18.5/misc/wasm/wasm_exec.js"
           async
         ></script>
+        <script
+          src="https://github.com/videojs/mux.js/releases/latest/download/mux.js"
+          async
+        ></script>
       </Head>
       <body>
         <Main />
