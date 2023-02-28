@@ -29,6 +29,8 @@ import {
   updateAllocation,
 } from "zus-sdk";
 
+import { startPlay, stopPlay } from "./player";
+
 import styles from "../styles/Home.module.css";
 
 const newWallet = {
@@ -482,6 +484,84 @@ export default function Home() {
     console.log("rename completed");
   };
 
+  let player;
+
+  let isPlayerReady = false;
+
+  const playClick = async () => {
+    player = document.getElementById("player");
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for play");
+      return;
+    }
+    console.log("playing file", selectedAllocation.id, selectedFile.path);
+
+    if (isPlayerReady) {
+      if (player.paused) {
+        player.play();
+      }
+    } else {
+      const file = selectedFile;
+      console.log("playing file", file);
+      const isLive = file.type == "d";
+
+      if (file) {
+        const allocationId = selectedAllocation.id;
+        startPlay({
+          allocationId,
+          videoElement: player,
+          remotePath: file?.path,
+          authTicket: "",
+          lookupHash: file?.lookup_hash,
+          mimeType: file?.mimetype,
+          isLive: isLive,
+        });
+        isPlayerReady = true;
+      }
+    }
+  };
+
+  const playSharedClick = async () => {
+    player = document.getElementById("player");
+
+    if (isPlayerReady) {
+      if (player.paused) {
+        player.play();
+      }
+    } else {
+      const isLive = false;
+
+      if (authTicket) {
+        const allocationId = selectedAllocation.id;
+        startPlay({
+          allocationId,
+          videoElement: player,
+          remotePath: "",
+          authTicket: authTicket,
+          lookupHash: "",
+          mimeType: "",
+          isLive: isLive,
+        });
+        isPlayerReady = true;
+      }
+    }
+  };
+
+  const pauseClick = async () => {
+    player.pause();
+  };
+
+  const stopClick = async () => {
+    if (isPlayerReady) {
+      stopPlay({ videoElement: player });
+      isPlayerReady = false;
+    }
+  };
+
   return (
     <>
       <Head>
@@ -833,6 +913,31 @@ export default function Home() {
             <button id="btnDownloadShared" onClick={downloadSharedClick}>
               Download Shared File
             </button>
+          </fieldset>
+
+          <fieldset className={styles.fieldset}>
+            <legend>Media WebPlayer</legend>
+            <video
+              id="player"
+              preload="metadata"
+              controls
+              width="320"
+              height="240"
+            ></video>
+            <div className="controls">
+              <button id="btnPlay" onClick={playClick}>
+                Play
+              </button>
+              <button id="btnPlayShared" onClick={playSharedClick}>
+                Play with auth ticket
+              </button>
+              <button id="btnPause" onClick={pauseClick}>
+                Pause
+              </button>
+              <button id="btnStop" onClick={stopClick}>
+                Stop
+              </button>
+            </div>
           </fieldset>
         </div>
       </main>
