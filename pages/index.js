@@ -27,6 +27,9 @@ import {
   freezeAllocation,
   cancelAllocation,
   updateAllocation,
+  createDir,
+  getFileStats,
+  downloadBlocks,
 } from "zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -68,6 +71,7 @@ export default function Home() {
     "764e896d08088121d4af9d517eedeac32c463f80245e32f4ccd875db8e621b0c3efeccfbd5007e204e984f2bfbf61bc59aba84ff9d3a0eee0cafd1488e00688e"
   );
   const [newAllocationName, setNewAllocationName] = useState("new");
+  const [dirName, setDirName] = useState("/test");
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -562,6 +566,61 @@ export default function Home() {
     }
   };
 
+  const createDirClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    console.log("create Dir", selectedAllocation.id, dirName);
+    //allocationId, path
+    await createDir(selectedAllocation.id, "/" + dirName);
+    console.log("create Dir completed");
+  };
+
+  const getFileStatsClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for file stats");
+      return;
+    }
+    console.log("getting file stats", selectedAllocation.id, selectedFile.path);
+    const fileStats = await getFileStats(
+      selectedAllocation.id,
+      selectedFile.path
+    );
+    console.log("file stats completed", fileStats);
+  };
+
+  const downloadBlocksClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation for download blocks");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for download blocks");
+      return;
+    }
+    console.log(
+      "downloading blocks from allocation",
+      selectedAllocation.id,
+      selectedFile.path
+    );
+    //allocationID, remotePath, authTicket, lookupHash string, numBlocks int, startBlockNumber, endBlockNumber int64, callbackFuncName string
+    const output = await downloadBlocks(
+      selectedAllocation.id,
+      selectedFile.path,
+      "",
+      "",
+      10,
+      0,
+      10
+    );
+    console.log("downloaded blocks", output);
+  };
+
   return (
     <>
       <Head>
@@ -867,6 +926,12 @@ export default function Home() {
                   <button id="btnRename" onClick={renameClick}>
                     Rename
                   </button>
+                  <button id="btnGetFileStats" onClick={getFileStatsClick}>
+                    Get File Stats
+                  </button>
+                  <button id="btnDownloadBlocks" onClick={downloadBlocksClick}>
+                    Download Blocks
+                  </button>
                   <br />
                 </div>
               ))}
@@ -896,6 +961,28 @@ export default function Home() {
               ))}
             </div>
             <br />
+          </fieldset>
+
+          <br />
+          <fieldset className={styles.fieldset}>
+            <legend>Extended File Ops</legend>
+            <div>
+              <br />
+              <div>
+                <label htmlFor="dirName">Directory Name</label>
+                <input
+                  id="dirName"
+                  name="dirName"
+                  value={dirName}
+                  size={30}
+                  onChange={(e) => setDirName(e.target.value ?? "")}
+                />
+                <br />
+              </div>
+              <button id="btnCreateDir" onClick={createDirClick}>
+                Create Dir
+              </button>
+            </div>
           </fieldset>
 
           <fieldset className={styles.fieldset}>
