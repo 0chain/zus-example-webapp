@@ -30,7 +30,7 @@ import {
   createDir,
   getFileStats,
   downloadBlocks,
-} from "zus-sdk";
+} from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
 
