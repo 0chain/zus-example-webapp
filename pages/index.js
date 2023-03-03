@@ -30,6 +30,10 @@ import {
   createDir,
   getFileStats,
   downloadBlocks,
+  getUSDRate,
+  isWalletID,
+  getPublicEncryptionKey,
+  getLookupHash,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -72,6 +76,11 @@ export default function Home() {
   );
   const [newAllocationName, setNewAllocationName] = useState("new");
   const [dirName, setDirName] = useState("/test");
+  const [output, setOutput] = useState("");
+  const [encryptKey, setEncryptKey] = useState("");
+  const [mnemonic, setMnemonic] = useState(
+    "crumble innocent find when document spray dutch buzz list giraffe away green drastic hello below siren pact festival hammer swim sweet veteran across like"
+  );
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -621,6 +630,43 @@ export default function Home() {
     console.log("downloaded blocks", output);
   };
 
+  const getUSDRateClick = async () => {
+    console.log("getUSDRate");
+    const rate = await getUSDRate("zcn");
+    console.log("getUSDRate completed", rate);
+    setOutput(rate);
+  };
+
+  const isWalletIDClick = async () => {
+    console.log("isWalletID");
+    const output = await isWalletID(clientId);
+    //const output = await isWalletID("abc");
+    console.log("isWalletID completed", output);
+    setOutput("" + output);
+  };
+
+  const getPublicEncryptionKeyClick = async () => {
+    console.log("getPublicEncryptionKey");
+    const key = await getPublicEncryptionKey(mnemonic);
+    console.log("getPublicEncryptionKey completed", key);
+    setEncryptKey(key);
+  };
+
+  const getLookupHashClick = async () => {
+    if (!selectedAllocation) {
+      alert("Please select allocation");
+      return;
+    }
+    if (!selectedFile) {
+      alert("Please select the file for lookup hash");
+      return;
+    }
+    console.log("lookup hash file", selectedAllocation.id, selectedFile.path);
+    //allocationId, path
+    const hash = await getLookupHash(selectedAllocation.id, selectedFile.path);
+    console.log("lookup hash completed", hash);
+  };
+
   return (
     <>
       <Head>
@@ -932,6 +978,9 @@ export default function Home() {
                   <button id="btnDownloadBlocks" onClick={downloadBlocksClick}>
                     Download Blocks
                   </button>
+                  <button id="btnGetLookupHash" onClick={getLookupHashClick}>
+                    Lookup Hash
+                  </button>
                   <br />
                 </div>
               ))}
@@ -1024,6 +1073,51 @@ export default function Home() {
               <button id="btnStop" onClick={stopClick}>
                 Stop
               </button>
+            </div>
+          </fieldset>
+
+          <br />
+          <fieldset className={styles.fieldset}>
+            <legend>Utils</legend>
+            <div>
+              <button id="btnGetUSDRate" onClick={getUSDRateClick}>
+                USD Rate
+              </button>
+              <button id="btnIsWalletID" onClick={isWalletIDClick}>
+                isWalletID
+              </button>
+              <br />
+              <br />
+              <div>Output: {output}</div>
+            </div>
+          </fieldset>
+
+          <br />
+          <fieldset className={styles.fieldset}>
+            <legend>Encryption Key</legend>
+            <div>
+              <br />
+              <div>
+                <label htmlFor="mnemonic">Mnemonic</label>
+                <textarea
+                  id="mnemonic"
+                  name="mnemonic"
+                  rows="4"
+                  cols="80"
+                  value={mnemonic}
+                  onChange={(e) => setMnemonic(e.target.value ?? "")}
+                />
+                <br />
+              </div>
+              <button
+                id="btnGetPublicEncryptKey"
+                onClick={getPublicEncryptionKeyClick}
+              >
+                Get Public Encrypt Key
+              </button>
+              <br />
+              <br />
+              <div>Key: {encryptKey}</div>
             </div>
           </fieldset>
         </div>
