@@ -13,6 +13,13 @@ const TextArea = ({
   ...inputProps
 }) => {
   const handleOnChange = (e) => {
+<<<<<<< HEAD
+=======
+    // if (onChange) {
+    //   onChange(e);
+    // }
+
+>>>>>>> 4f4c7e6 (UI - Refactored homepage, components created)
     if (setValue) {
       setValue(e.target.value);
     }
