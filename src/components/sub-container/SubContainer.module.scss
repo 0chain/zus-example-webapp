@@ -1,0 +1,26 @@
+@import 'styles/common';
+
+.container {
+  width: 100%;
+  border: 1px solid hsla(0,0%,55%,.3);
+  border-radius: 10px;
+  padding: 20px 30px;
+  background: hsla(0,0%,100%,.05);
+}
+
+.label{
+  display: grid;
+  gap:10px;
+}
+
+.label1{
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.label2{
+  font-size: 24px;
+  font-weight: 700;
+  color: $white;
+}
+

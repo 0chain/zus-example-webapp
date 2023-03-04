@@ -4,7 +4,25 @@
   justify-content: space-between;
   align-items: center;
   padding: 6rem;
+  min-height: 100dvh;
   min-height: 100vh;
+}
+
+.mainContent{
+  max-width: 800px;
+  width: 100%;
+  display: grid;
+  gap:20px
+}
+
+.buttonContainer{
+  display: flex;
+  gap:10px;
+}
+
+.inputContainer{
+  display: grid;
+  gap:10px;
 }
 
 .transfer {

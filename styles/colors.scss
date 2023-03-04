@@ -1,0 +1,361 @@
+$white: #ffffff;
+$black: #000000;
+$semiBlack: rgb(30, 30, 30);
+$zusWhite: #fafbff;
+$primaryBlue: #175bff;
+$darkBlue: #0d3ae6;
+$primaryText: #000;
+$secondaryGray: #5e647f;
+$labelGray: '#90939E';
+$subTitleGray: rgba(0, 0, 0, 0.6);
+$veryLightGray: #fdfdfd;
+$veryPaleBlue: #e8eeff;
+$lightGrayishBlue: #cfcfe1;
+$lightBlueish: #d9efff;
+$grayishBlue: #a8a5bc;
+$darkGray: rgba(155, 155, 155, 0.15);
+$darkGray2: rgba(143, 143, 143, 0.302);
+$backgroundGrey: #f0f2f6;
+$semiGray: #f1f0f6;
+$pinkRed: #ff295c;
+$lightGrayishAltBlue: #dbdee4;
+$toastSuccess: #bdf1c6;
+$toastSuccessText: #22a73b;
+$toastErrorText: #f11212;
+$toastError: #f5d7d7;
+$toastErrorBackground: rgb(241, 18, 18, 10%);
+$toastInfo: hsla(214, 94%, 53%, 0.18);
+$veryLightPaleBlue: #f3f5f9;
+$toastWarning: #f1d4ab;
+$grayishBlueAlt: #a8a5cb;
+$loadingBar: #e7e7e7;
+$lightInfoBox: #ecf0ff;
+$fileUploadGray: #f9fafb;
+
+$gray0: #202127;
+$gray1: #333333;
+$gray2: #4f4f4f;
+$gray3: #828282;
+$gray4: #bdbdbd;
+$gray5: #dcdee7;
+
+$selectedMnemonicBackground: rgba(23, 91, 255, 0.1);
+$cancelBackground: rgba(250, 251, 255, 0.1);
+$modalBoxShadow: rgba(0, 0, 0, 0.2);
+$overlayBackground: rgba(0, 0, 0, 0.5);
+$lightBorder: #d3d3d3;
+$hoverShadow: rgba(155, 155, 155, 0.45);
+$scrollbarBoxShadow: rgba(0, 0, 0, 0.11);
+$darkGray40: rgba(117, 117, 117, 0.4);
+$darkGray12: rgba(117, 117, 117, 0.12);
+$lightGrayishBlueAlt: rgb(243, 245, 249, 0.5);
+$lightGray: #d0d0d0;
+$toggleBtnBall: rgba(0, 0, 0, 0.25);
+$toastBoxShadow: rgba(19, 11, 48, 0.15);
+$modalBackground: rgba(0, 0, 0, 0.3);
+$skeletonItemsBackground: #e6eaf2;
+$cardBoxShadow: rgba(121, 121, 121, 0.34);
+$cardBoxShadowFocus: rgba(121, 121, 121, 0.24);
+$darkSpinnerBorderColor: rgb(172, 172, 172, 5.3);
+$lightSpinnerBorderColor: rgb(174, 176, 179, 8.3);
+$zusWhitelight: rgba(250, 251, 255, 0.75);
+$lightGrayShade: rgba(203, 203, 203, 0.4);
+$darkControlBar: rgba(45, 45, 45, 0.65);
+$lightControlBar: rgba(250, 251, 255, 0.5);
+$white50: rgba(255, 255, 255, 0.5);
+$black0: rgba(255, 255, 255, 0);
+
+$primaryGradient: linear-gradient(121.99deg, #00d3ff -26.48%, #1a49ff 64.48%);
+$cardHeaderBlueGradient: linear-gradient(
+  120.78deg,
+  #00d3ff 6.03%,
+  #1a49ff 262.9%
+);
+$cardHeaderYellowGradient: linear-gradient(180deg, #ffdf34 0%, #ffc83c 100%);
+
+$cardHeaderBlueGradient: linear-gradient(
+  120.78deg,
+  #00d3ff 6.03%,
+  #1a49ff 262.9%
+);
+
+//BOLT
+$primaryGreen: #03c17d;
+$secondaryGreen: #97e81c;
+$darkGreenShade: #46961a;
+$grayishBlue: #bebeca;
+$lightGrey: #a8a5cb;
+$borderGrey: #c4c4c4;
+$lightGreen: #33ce60;
+$badgeGrey: #f8f8f8;
+$gradGreen: linear-gradient(39.18deg, #03c17d 21.01%, #97e81c 139.72%);
+
+:export {
+  primaryblue: $primaryBlue;
+  primarygradient: $primaryGradient;
+}
+
+$boltPrimaryGradient: linear-gradient(
+  39.18deg,
+  #03c17d 21.01%,
+  #97e81c 139.72%
+);
+
+$boltToastGradient: linear-gradient(39.18deg, #004f16 21.01%, #0d005a 139.72%);
+
+:export {
+  primaryblue: $primaryBlue;
+}
+
+// Chalk
+$darkyGreen: #3d9c66;
+$shadowGrey: #e0d6d690;
+$darkBlueBorder: rgb(32, 33, 39);
+$darkBlueBorderOpacity: rgba(32, 33, 39, 0.5);
+$borderShadowGrey: rgba(139, 139, 139, 0.3);
+$borderShadowGrey1: rgba(139, 139, 139, 0.06);
+$borderShadowGrey2: rgba(139, 139, 139, 0.12);
+$shadowbox: rgba(117, 117, 117, 0.12);
+$shadedBlack: rgba(0, 0, 0, 0.05);
+$transparentGrey: rgba(0, 0, 0, 0.1);
+$transparentShadedBlack: rgba(0, 0, 0, 0.4);
+$shadedActiveBlack: rgba(0, 0, 0, 0.7);
+$greyLight: #f1f2f2;
+$veryDarkGray: rgba(100, 100, 100, 0.35);
+$primaryGrey: #717171;
+$shadedWhite: #ececec;
+$veryDarkBlue: #202127;
+$veryDarkBlueHover: #212227;
+$brightBlue: #414be4;
+$chalkPrimaryGradient: linear-gradient(135deg, #7781c6 0%, #384279 100%);
+$sideMenuBackDrop: rgba(75, 70, 70, 0.6);
+$chalkPrimaryGradientGrey: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2)
+  ),
+  linear-gradient(135deg, #7781c6 0%, #384279 100%);
+
+$chalkPrimaryGradientGreyDark: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.3)
+  ),
+  linear-gradient(135deg, #7781c6 0%, #384279 100%);
+$chalkMenthol: linear-gradient(242.01deg, #a8ffe5 15.54%, #50d5ff 112.6%);
+$chalkMentholGrey: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+  linear-gradient(242.01deg, #a8ffe5 15.54%, #50d5ff 112.6%);
+$chalkMentholGreyDark: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2)
+  ),
+  linear-gradient(242.01deg, #a8ffe5 15.54%, #50d5ff 112.6%);
+$slightlyDesaturatedBlue: #384279;
+$lightBlue: #d0d6fb;
+$blackShadow: #8e8e8e4d;
+$blueShaded: #cfd2dc;
+$darkBlack: #40444e;
+$darkShadow: rgba(255, 255, 255, 0.08);
+$whiteBlueGradient: linear-gradient(135deg, #d0d6fb 0%, #7e8acb 91.98%);
+$whiteShaded: #f0f3f4;
+$veryDarkGrayishBlue: #5c606b;
+$veryDarkGrayishBlue2: #272a39;
+$veryLightGray2: #fefefe;
+$lightGrayishBlue3: #fafbfc;
+$metaMaskBg: #222329;
+$metaMaskBorder: #424246;
+$veryDarkBlackBlue: #191c1f;
+$veryDarkBlackBlue2: #030819;
+
+$mnemonicText: #5e647f;
+$mnemonicBox: rgba(188, 188, 188, 0.14);
+$lightPrimaryGreen: #ddecc7;
+$lightBlueBackground: rgba(32, 33, 41, 0.8);
+
+// Explorer
+$buttonBlue: #009eff;
+$tabbuttonBackground: rgba(94, 100, 127, 0.1);
+$darkTableBackground: #1d2434;
+$darkTableHeader: #181f2f;
+$darkTableRowBorder: rgba(#040c1d, 0.2);
+$darkTableHeaderText: #e6e7e8;
+$mapBackgroundDark: #1d2434;
+$searchBarBack: #f8f9fd;
+$headerDark: #040c1d;
+$blackbg: #151617;
+$jsonBack: #f8f9fa;
+$dropDownDark: #363d4a;
+$searchBarBack: #f8f9fd;
+$lineShadeDark: rgba(139, 139, 139, 0.3);
+$lineShadeDark2: rgba(139, 139, 139, 0.12);
+$greyDescriptionText: #90939e;
+$summaryUp: #22a73b;
+$summaryDown: #ff014d;
+$summaryUpBack: rgba(34, 167, 59, 0.1);
+$summaryDownBack: rgba(255, 1, 77, 0.1);
+$summaryBackDark: #1d2434;
+$containerBoxShadow: rgba(155, 155, 155, 0.15);
+$tagFontColor: #0053ff;
+$tagBackground: rgba(23, 91, 255, 0.1);
+$tagBackground2: #5f657f;
+$darkTagFontColor: #009eff;
+$darkTagbackground: rgba(0, 158, 255, 0.1);
+$subDescription: rgba(0, 0, 0, 0.9);
+$secondaryTagBack: rgba(94, 100, 127, 0.1);
+$elementFontColor: #81858e;
+$serverMapStroke: rgba(0, 72, 255, 0.2);
+$serverMapStrokeDark: rgba(0, 0, 0, 0.3);
+$tooltipBack: #5f657f;
+$accountBackground: #e9e9f3;
+$activeColor: #0053ff;
+$paginationBack: #f7f9fa;
+$paginationFont: #8e91a7;
+$footerFontDark: #81858e;
+$paginationHover: rgba(0, 0, 0, 0.4);
+$paginationSelect: rgba(0, 0, 0, 0.8);
+$paginationBtnHover: #808080;
+$paginationHoverBack: rgba(0, 0, 0, 0.4);
+$paginationSelectBack: rgba(0, 0, 0, 0.8);
+$footerDark: #81858e;
+$containerBack: #e9e9f3;
+$containerBackDark: #040c1d;
+$breadcrumbsLast: rgba(190, 190, 202, 1);
+$breadcrumbsLight: #f8f9fd;
+$breadcrumbsDark: #040c1d;
+$blackishCoolor: #270e1e;
+$lightPinkColor: #b35291;
+$pinkColor: #ff92e2;
+$lightGrayColor: #41434a;
+$brownishColor: #451e37;
+$darkwhite: #e1e1e1;
+$paginationBackHover: rgba(0, 0, 0, 0.4);
+$paginationBackSelected: rgba(0, 0, 0, 0.8);
+$paginationBtnHoverBack: #808080;
+$secondaryGrayBorder: #cfcfe1;
+$inputTextColor: #1b2938;
+$badgeTextColor: #175bff;
+$textareaBorderDark: rgba(4, 12, 29, 0.2);
+$numberBack: #efeff2;
+$tabBack: rgba(94, 100, 127, 0.1);
+$toggleBtnShadow: #00d3ff;
+$offWhiteColor: rgba(255, 255, 255, 0.9);
+$tableBorderColor: rgba(139, 139, 139, 0.6);
+$offGreyColor: rgb(155 155 155 / 15%);
+$veryDarkBlue: rgba(7, 24, 73, 0.6);
+
+//range slider
+$rangeSliderShadow: 0px 0.5px 4px rgba(0, 0, 0, 0.12),
+  0px 6px 13px rgba(0, 0, 0, 0.12);
+
+$rangeSliderBackground: linear-gradient(
+  90deg,
+  $darkwhite 0%,
+  $pinkColor 75.08%
+);
+
+$chalkRangeSliderBackground: linear-gradient(
+  135deg,
+  #d0d6fb 0%,
+  #7e8acb 91.98%
+);
+
+$gradientDotColor: linear-gradient(45deg, #03c17d 0%, #97e81c 100%);
+$gradientDotColorRed: linear-gradient(135deg, #ff3a3a 0%, #c2230d 98.75%);
+
+$serverMapStroke: rgba(0, 72, 255, 0.2);
+$serverMapStrokeDark: rgba(0, 0, 0, 0.3);
+$tableHover: rgba(0, 158, 255, 0.1);
+$typeTag: #a6aabc;
+$attrBack: #5f657f;
+$attrBackDark: #363d4a;
+$dullGray: #d4d2d2;
+
+//blimp
+$lightOrange: #ff6b00;
+$lightOrange2: #e87c0b;
+$darkOrange: #942424;
+$yellowShade: #fbb715;
+$borderShadow: rgba(0, 0, 0, 0.21);
+$borderShadow1: rgba(0, 0, 0, 0.25);
+$sliderRight: #43708a;
+$sliderThumb: #385c71;
+$disableSliderBar: #cfd1dc;
+$titleFont: #0070f3;
+$footerBorder: #eaeaea;
+$codeBack: #fafafa;
+$policeBlue: #385c71;
+$brightRed: #db2727;
+$pureOrange: #ea4700;
+$tooltipHoverShadow: rgba(155, 155, 155, 0.55);
+$miniCardSvgHover: rgba(234, 71, 0, 0.1);
+$loaderDropShadow: rgba(0, 0, 0, 0.35);
+$blBlue3: #142738;
+$blBlue4: #0e1d2f;
+
+$blimpGradiant: linear-gradient(135deg, #ffb156 0%, #ff4d00 55.52%);
+$boxBackgroundColor: linear-gradient($white 0 0);
+$darkBlueRadialGradient: radial-gradient(
+  15.46% 15.46% at 44.14% 67.3%,
+  #124cbc 24.61%,
+  #091c61 100%
+);
+$darkBlueRadialGradient2: radial-gradient(
+  53.19% 53.19% at 50% 50%,
+  #3f60d6 23.89%,
+  rgba(5, 11, 25, 0) 100%
+);
+
+// Chalk
+$imgContainerDropShadow: rgba(0, 0, 0, 0.35);
+
+// Chimney
+$primaryPink: #b35291;
+$gradPink: linear-gradient(135deg, #ff92e2 0%, #932c6e 91.98%);
+$baseBackground: #e5e5e5;
+$cn27percent: rgba(179, 82, 145, 0.22);
+$cnGradPink: linear-gradient(135deg, #ff92e2 0%, #932c6e 91.98%);
+$cnGradLight: linear-gradient(135deg, #ffd1f3 0%, #9d6388 91.98%);
+$cnLead1: #ffb4ef;
+$cnLead2: #ff92e2;
+$cnLead3: #b35291;
+$cnLead4: #451e37;
+$cnLead5: #eb5757;
+$cnLead20Percent: rgba(179, 82, 145, 0.2);
+$chWhite: #ffffff;
+$chBlack: #202127;
+$chGrey1: #cfd2dc;
+$chGrey2: #f1f2f2;
+$chGrey4: #90939e;
+$chGrey5: #5c606b;
+$chGrey6: #41434a;
+$chGrey7: #333333;
+$chGrey8: #e0e0e0;
+$neutral80Percent: rgba(139, 139, 139, 0.8);
+$neutral60Percent: rgba(139, 139, 139, 0.6);
+$neutral30Percent: rgba(139, 139, 139, 0.3);
+$neutral12Percent: rgba(139, 139, 139, 0.12);
+$gray10Percent: rgba(155, 155, 155, 0.1);
+$baseBackgroundDark: #270e1e;
+$baseBackgroundDarker: #230d1b;
+$baseBackgroundGradDark: linear-gradient(
+    0deg,
+    $baseBackgroundDark,
+    $baseBackgroundDark
+  ),
+  $chBlack;
+$green2: #27ae60;
+$blue1: #385c71;
+$blue2: #3d98d3;
+$red1: rgb(184, 3, 3);
+$teal: #008080;
+$baseBackgroundGrey: #fafbfc;
+$borderGrey: #dddddd;
+$baseBackgroundFooter: #edefef;
+$baseBackgroundFooterDark: #191c1f;
+$white5percent: rgba(255, 255, 255, 0.05);
+$crayolaGradient: radial-gradient(
+  50% 50% at 50% 50%,
+  #b44b91 0%,
+  rgba(5, 11, 25, 0) 100%
+);

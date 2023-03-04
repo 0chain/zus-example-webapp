@@ -39,6 +39,11 @@ import {
 import { startPlay, stopPlay } from "./player";
 
 import styles from "../styles/Home.module.css";
+import ActionButton from "../src/components/action-button/ActionButton";
+import Input from "../src/components/input/Input";
+import Container from "../src/components/container/Container";
+import SubContainer from "../src/components/sub-container/SubContainer";
+import TextArea from "../src/components/text-area";
 
 const newWallet = {
   clientId: "7d35a6c3ba5066e62989d34cee7dd434d0833d5ea9ff00928aa89994d80e4700",
@@ -675,384 +680,410 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
-        <div>
+        <div className={styles.mainContent}>
           <h3>Zus Example Web App using JS SDK</h3>
 
           <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Logs</legend>
-            <button id="btnShowLogs" onClick={showLogsClick}>
-              Show Logs
-            </button>
-            <button id="btnHideLogs" onClick={hideLogsClick}>
-              Hide Logs
-            </button>
-          </fieldset>
+          <Container title="Logs" subtitle="Render logs in console">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnShowLogs"
+                buttonLabel="Show Logs"
+                onClick={showLogsClick}
+              />
+              <ActionButton
+                id="btnHideLogs"
+                buttonLabel="Hide Logs"
+                type="secondary"
+                onClick={hideLogsClick}
+              />
+            </div>
+          </Container>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Greeter</legend>
-            <button id="btnGreet" onClick={greetClick}>
-              Greet
-            </button>
-            <p>{message}</p>
-          </fieldset>
+          <Container title="Greeter" subtitle="Greets">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnGreet"
+                buttonLabel="Greet"
+                onClick={greetClick}
+              />
+            </div>
+            <br />
+            <SubContainer title="Message" content={message} />
+          </Container>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>SDK Init</legend>
-            <button id="btnInit" onClick={initClick}>
-              Init
-            </button>
-          </fieldset>
+          <Container title="Init" subtitle="Init">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnInit"
+                buttonLabel="Init"
+                onClick={initClick}
+              />
+            </div>
+          </Container>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Wallet</legend>
-            <div>
-              <label htmlFor="clientId"> ClientID </label>
-              <input
+          <Container title="Wallet" subtitle="Wallet">
+            <div className={styles.inputContainer}>
+              <Input
                 id="clientId"
-                name="clientId"
+                title="ClientID"
                 value={clientId}
-                size={90}
-                onChange={(e) => setClientId(e.target.value ?? "")}
+                setValue={setClientId}
               />
-              <br />
-              <label htmlFor="privateKey">PrivateKey</label>
-              <input
+              <Input
                 id="privateKey"
-                name="privateKey"
+                title="Private Key"
                 value={privateKey}
-                size={90}
-                onChange={(e) => setPrivateKey(e.target.value ?? "")}
+                setValue={setPrivateKey}
               />
-              <br />
-              <label htmlFor="publicKey"> PublicKey</label>
-              <input
+              <Input
                 id="publicKey"
-                name="publicKey"
+                title="Public Key"
                 value={publicKey}
-                size={90}
-                onChange={(e) => setPublicKey(e.target.value ?? "")}
+                setValue={setPublicKey}
               />
-              <br />
+            </div>
 
-              <button id="btnSetWallet" onClick={setWalletClick}>
-                Set Wallet
-              </button>
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnSetWallet"
+                buttonLabel="Set Wallet"
+                onClick={setWalletClick}
+              />
             </div>
-            <br />
-            <br />
-            <div>
-              <button id="btnGetFaucetToken" onClick={getFaucetTokenClick}>
-                Faucet
-              </button>
-            </div>
-            <div>
-              <button id="btnGetBalance" onClick={getBalanceWasmClick}>
-                Get Balance Wasm
-              </button>
-            </div>
-            <div>
-              <button id="btnGetBalance" onClick={getBalanceClick}>
-                Get Balance
-              </button>
-            </div>
-            <br />
-            <p>Balance: {balance}</p>
-          </fieldset>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Send Token</legend>
             <br />
-            <div>
-              <label htmlFor="sendTo">Send To</label>
-              <input
+            <br />
+
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnGetFaucetToken"
+                buttonLabel="Faucet"
+                onClick={getFaucetTokenClick}
+                type="secondary"
+              />
+              <ActionButton
+                id="btnGetBalance"
+                buttonLabel="Get Balance Wasm"
+                onClick={getBalanceWasmClick}
+                type="secondary"
+              />
+              <ActionButton
+                id="btnGetBalance"
+                buttonLabel="Get Balance"
+                onClick={getBalanceClick}
+                type="secondary"
+              />
+            </div>
+            <br />
+            <SubContainer title="Balance" content={balance} />
+          </Container>
+
+          <Container title="Send Token" subtitle="Send Token">
+            <div className={styles.inputContainer}>
+              <Input
                 id="sendTo"
-                name="sendTo"
+                title="Send To"
                 value={sendTo}
-                size={90}
-                onChange={(e) => setSendTo(e.target.value ?? "")}
+                setValue={setSendTo}
               />
-              <br />
-              <label htmlFor="sendAmount">Send Amount</label>
-              <input
+              <Input
                 id="sendAmount"
-                name="sendAmount"
+                title="Send Amount"
                 value={sendAmount}
-                size={90}
-                onChange={(e) => setSendAmount(e.target.value ?? "")}
+                setValue={setSendAmount}
               />
-              <br />
             </div>
-            <div>
-              <button id="btnSendTransaction" onClick={sendTransactionClick}>
-                Send Transaction
-              </button>
-            </div>
-            <br />
-          </fieldset>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Allocations</legend>
-            <div>
-              <button id="btnCreateAllocation" onClick={createAllocationClick}>
-                Create
-              </button>
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnSendTransaction"
+                buttonLabel="Send Transaction"
+                onClick={sendTransactionClick}
+              />
+            </div>
+          </Container>
+
+          <Container title="Allocations" subtitle="Allocations">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnCreateAllocation"
+                buttonLabel="Create"
+                onClick={createAllocationClick}
+              />
+              <ActionButton
+                id="btnListAllocations"
+                buttonLabel="List"
+                onClick={listAllocationsClick}
+                type="secondary"
+              />
             </div>
             <br />
-            <div>
-              <button id="btnListAllocations" onClick={listAllocationsClick}>
-                List
-              </button>
-              <br />
-              <br />
-              {allocationList && allocationList.length > 0 && (
-                <div>
-                  <b>Allocation List</b>
-                </div>
-              )}
-              {allocationList.map((allocation, index) => (
-                <div key={index}>
-                  <input
-                    type="radio"
-                    name="selectedAllocation"
-                    value={allocation.id}
-                    onClick={() => selectAllocation(allocation)}
+
+            {allocationList && allocationList.length > 0 && (
+              <Container title="Allocation List">
+                {allocationList?.map((allocation, index) => (
+                  <div key={index}>
+                    <input
+                      type="radio"
+                      name="selectedAllocation"
+                      value={allocation.id}
+                      onClick={() => selectAllocation(allocation)}
+                    />
+
+                    <label htmlFor={allocation.id}>
+                      Allocation: {allocation.id}
+                    </label>
+
+                    <div className={styles.buttonContainer}>
+                      <ActionButton
+                        id="btnGetAllocation"
+                        buttonLabel="Get Details"
+                        onClick={() => getAllocationDetailsClick(allocation.id)}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnReloadAllocation"
+                        buttonLabel="Reload"
+                        onClick={() => reloadAllocationClick(allocation.id)}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnFreezeAllocation"
+                        buttonLabel="Freeze"
+                        onClick={() => freezeAllocationClick(allocation.id)}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnCancelAllocation"
+                        buttonLabel="Cancel"
+                        onClick={() => cancelAllocationClick(allocation.id)}
+                        type="secondary"
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {allocationDetails && (
+                  <SubContainer
+                    title="Allocation Details"
+                    content={`Id: ${allocationDetails?.id}, Name: ${allocationDetails?.name}, Size: ${allocationDetails?.size}, Start Time: ${allocationDetails?.start_time}, Expiration Date: ${allocationDetails?.expiration_date}`}
                   />
-                  <label htmlFor={allocation.id}>
-                    Allocation: {allocation.id}
-                  </label>
-                  <button
-                    id="btnGetAllocation"
-                    onClick={() => getAllocationDetailsClick(allocation.id)}
-                  >
-                    Get Details
-                  </button>
-                  <button
-                    id="btnReloadAllocation"
-                    onClick={() => reloadAllocationClick(allocation.id)}
-                  >
-                    Reload
-                  </button>
-                  <button
-                    id="btnFreezeAllocation"
-                    onClick={() => freezeAllocationClick(allocation.id)}
-                  >
-                    Freeze
-                  </button>
-                  <button
-                    id="btnCancelAllocation"
-                    onClick={() => cancelAllocationClick(allocation.id)}
-                  >
-                    Cancel
-                  </button>
-                  <br></br>
-                </div>
-              ))}
-            </div>
-            <br />
-            <div id="listAllocations"></div>
-            <br />
-            <br />
-            {allocationDetails && (
-              <div>
-                Allocation Details - id:{allocationDetails.id}, name:{" "}
-                {allocationDetails.name}, Size: {allocationDetails.size}, Start
-                Time: {allocationDetails.start_time}, Expiration Date:{" "}
-                {allocationDetails.expiration_date}
-              </div>
+                )}
+              </Container>
             )}
-            <fieldset className={styles.transfer}>
-              <legend>Transfer Allocation</legend>
-              <div>
-                <label htmlFor="newOwnerId">New Owner Id</label>
-                <input
+            <br />
+            <Container title="Transfer Allocation">
+              <div className={styles.inputContainer}>
+                <Input
                   id="newOwnerId"
-                  name="newOwnerId"
+                  title="New Owner Id"
                   value={newOwnerId}
-                  size={90}
-                  onChange={(e) => setNewOwnerId(e.target.value ?? "")}
+                  setValue={setNewOwnerId}
                 />
-              </div>
-              <br />
-              <div>
-                <label htmlFor="newOwnerPublicKey">New Owner Public Key</label>
-                <input
+                <Input
                   id="newOwnerPublicKey"
-                  name="newOwnerPublicKey"
+                  title="New Owner Public Key"
                   value={newOwnerPublicKey}
-                  size={90}
-                  onChange={(e) => setNewOwnerPublicKey(e.target.value ?? "")}
+                  setValue={setNewOwnerPublicKey}
                 />
               </div>
-              <br />
-              <br />
-              <button
-                id="btnTransferAllocation"
-                onClick={transferAllocationClick}
-              >
-                Transfer
-              </button>
-            </fieldset>
-            <fieldset className={styles.transfer}>
-              <legend>Update Allocation</legend>
-              <div>
-                <label htmlFor="newAllocationName">New Allocation Name</label>
-                <input
+
+              <div className={styles.buttonContainer}>
+                <ActionButton
+                  id="btnTransferAllocation"
+                  buttonLabel="Transfer"
+                  onClick={transferAllocationClick}
+                />
+              </div>
+            </Container>
+            <br />
+            <Container title="Update Allocation">
+              <div className={styles.inputContainer}>
+                <Input
                   id="newAllocationName"
-                  name="newAllocationName"
+                  title="New Allocation Name"
                   value={newAllocationName}
-                  size={90}
-                  onChange={(e) => setNewAllocationName(e.target.value ?? "")}
+                  setValue={setNewAllocationName}
                 />
               </div>
-              <br />
-              <br />
-              <button id="btnUpdateAllocation" onClick={updateAllocationClick}>
-                Update
-              </button>
-            </fieldset>
-          </fieldset>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>File Ops</legend>
-            <div>
-              <input
-                type="file"
-                multiple={true}
-                name="uploadFile"
-                onChange={handleUploadFiles}
-              />
-              <button id="btnUpload" onClick={uploadClick}>
-                Upload
-              </button>
-            </div>
-            <br />
-            <div>
-              <button id="btnListFiles" onClick={listFilesClick}>
-                List
-              </button>
-              <br />
-              <br />
-              {fileList && fileList.length > 0 && (
-                <div>
-                  <b>File List: /</b>
-                </div>
-              )}
-              {fileList.map((file, index) => (
-                <div key={index}>
-                  <input
-                    type="radio"
-                    name="selectedFile"
-                    value={file.path}
-                    onClick={() => selectFile(file)}
-                  />
-                  <label htmlFor={file.path}>&nbsp;{file.path}</label>
-                  <button id="btnDownload" onClick={downloadClick}>
-                    Download
-                  </button>
-                  <button id="btnShare" onClick={shareClick}>
-                    Share
-                  </button>
-                  <button id="btnCopy" onClick={copyClick}>
-                    Copy
-                  </button>
-                  <button id="btnMove" onClick={moveClick}>
-                    Move
-                  </button>
-                  <button id="btnDelete" onClick={deleteClick}>
-                    Delete
-                  </button>
-                  <button id="btnRename" onClick={renameClick}>
-                    Rename
-                  </button>
-                  <button id="btnGetFileStats" onClick={getFileStatsClick}>
-                    Get File Stats
-                  </button>
-                  <button id="btnDownloadBlocks" onClick={downloadBlocksClick}>
-                    Download Blocks
-                  </button>
-                  <button id="btnGetLookupHash" onClick={getLookupHashClick}>
-                    Lookup Hash
-                  </button>
-                  <br />
-                </div>
-              ))}
-              <br />
-              {destFileList && destFileList.length > 0 && (
-                <div>
-                  <b>File List: /test</b>
-                </div>
-              )}
-              {destFileList.map((file, index) => (
-                <div key={index}>
-                  <input
-                    type="radio"
-                    name="selectedFile"
-                    value={file.path}
-                    onClick={() => selectFile(file)}
-                  />
-                  <label htmlFor={file.path}>&nbsp;{file.path}</label>
-                  <button id="btnDestDownload" onClick={downloadClick}>
-                    Download
-                  </button>
-                  <button id="btnDestDelete" onClick={deleteClick}>
-                    Delete
-                  </button>
-                  <br />
-                </div>
-              ))}
-            </div>
-            <br />
-          </fieldset>
-
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Extended File Ops</legend>
-            <div>
-              <br />
-              <div>
-                <label htmlFor="dirName">Directory Name</label>
-                <input
-                  id="dirName"
-                  name="dirName"
-                  value={dirName}
-                  size={30}
-                  onChange={(e) => setDirName(e.target.value ?? "")}
+              <div className={styles.buttonContainer}>
+                <ActionButton
+                  id="btnUpdateAllocation"
+                  buttonLabel="Update"
+                  onClick={updateAllocationClick}
                 />
-                <br />
               </div>
-              <button id="btnCreateDir" onClick={createDirClick}>
-                Create Dir
-              </button>
-            </div>
-          </fieldset>
+            </Container>
+          </Container>
 
-          <fieldset className={styles.fieldset}>
-            <legend>Sharing</legend>
-            <label htmlFor="authTicket"> AuthTicket </label>
+          <Container title="File Ops" subtitle="File Ops">
             <input
-              id="authTicket"
-              name="authTicket"
-              value={authTicket}
-              size={90}
-              onChange={(e) => setAuthTicket(e.target.value ?? "")}
+              type="file"
+              multiple={true}
+              name="uploadFile"
+              onChange={handleUploadFiles}
             />
-            <br />
-            <br />
-            <button id="btnDownloadShared" onClick={downloadSharedClick}>
-              Download Shared File
-            </button>
-          </fieldset>
+            <div className={styles.buttonContainer} style={{ marginTop: 15 }}>
+              <ActionButton
+                id="btnUpload"
+                buttonLabel="Upload"
+                onClick={uploadClick}
+              />
+              <ActionButton
+                id="btnListFiles"
+                buttonLabel="List"
+                onClick={listFilesClick}
+                type="secondary"
+              />
+            </div>
 
-          <fieldset className={styles.fieldset}>
-            <legend>Media WebPlayer</legend>
+            {fileList && fileList.length > 0 && (
+              <Container title="File List: /">
+                {fileList?.map((file, index) => (
+                  <div key={index}>
+                    <input
+                      type="radio"
+                      name="selectedFile"
+                      value={file.path}
+                      onClick={() => selectFile(file)}
+                    />
+                    <label htmlFor={file.path}>&nbsp;{file.path}</label>
+                    <div className={styles.buttonContainer}>
+                      <ActionButton
+                        id="btnDownload"
+                        buttonLabel="Download"
+                        onClick={downloadClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnShare"
+                        buttonLabel="Share"
+                        onClick={shareClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnCopy"
+                        buttonLabel="Copy"
+                        onClick={copyClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnMove"
+                        buttonLabel="Move"
+                        onClick={moveClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnDelete"
+                        buttonLabel="Delete"
+                        onClick={deleteClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnRename"
+                        buttonLabel="Rename"
+                        onClick={renameClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnGetFileStats"
+                        buttonLabel="Get File Stats"
+                        onClick={getFileStatsClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnDownloadBlocks"
+                        buttonLabel="Download Blocks"
+                        onClick={downloadBlocksClick}
+                        type="secondary"
+                      />
+                      <ActionButton
+                        id="btnGetLookupHash"
+                        buttonLabel="Lookup Hash"
+                        onClick={getLookupHashClick}
+                        type="secondary"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </Container>
+            )}
+
+            {destFileList && destFileList.length > 0 && (
+              <Container title="File List: /test">
+                {destFileList.map((file, index) => (
+                  <div key={index}>
+                    <input
+                      type="radio"
+                      name="selectedFile"
+                      value={file.path}
+                      onClick={() => selectFile(file)}
+                    />
+                    <label htmlFor={file.path}>&nbsp;{file.path}</label>
+
+                    <div className={styles.buttonContainer}>
+                      <ActionButton
+                        id="btnDestDownload"
+                        buttonLabel="Download"
+                        onClick={downloadClick}
+                      />
+                      <ActionButton
+                        id="btnDestDelete"
+                        buttonLabel="Delete"
+                        onClick={deleteClick}
+                        type="secondary"
+                      />
+                      <br />
+                    </div>
+                  </div>
+                ))}
+              </Container>
+            )}
+          </Container>
+
+          <Container title="Extended File Ops" subtitle="Extended File Ops">
+            <div className={styles.inputContainer}>
+              <Input
+                id="dirName"
+                title="Directory Name"
+                value={dirName}
+                setValue={setDirName}
+              />
+            </div>
+
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnCreateDir"
+                buttonLabel="Create Directory"
+                onClick={createDirClick}
+              />
+            </div>
+          </Container>
+
+          <Container title="Auth Ticket" subtitle="Auth Ticket">
+            <div className={styles.inputContainer}>
+              <Input
+                id="authTicket"
+                title="Auth Ticket"
+                value={authTicket}
+                setValue={setAuthTicket}
+              />
+            </div>
+
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnDownloadShared"
+                buttonLabel="Download Shared File"
+                onClick={downloadSharedClick}
+              />
+            </div>
+          </Container>
+
+          <Container title="Media WebPlayer" subtitle="Media WebPlayer">
             <video
               id="player"
               preload="metadata"
@@ -1060,66 +1091,71 @@ export default function Home() {
               width="320"
               height="240"
             ></video>
-            <div className="controls">
-              <button id="btnPlay" onClick={playClick}>
-                Play
-              </button>
-              <button id="btnPlayShared" onClick={playSharedClick}>
-                Play with auth ticket
-              </button>
-              <button id="btnPause" onClick={pauseClick}>
-                Pause
-              </button>
-              <button id="btnStop" onClick={stopClick}>
-                Stop
-              </button>
-            </div>
-          </fieldset>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Utils</legend>
-            <div>
-              <button id="btnGetUSDRate" onClick={getUSDRateClick}>
-                USD Rate
-              </button>
-              <button id="btnIsWalletID" onClick={isWalletIDClick}>
-                isWalletID
-              </button>
-              <br />
-              <br />
-              <div>Output: {output}</div>
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnPlay"
+                buttonLabel="Play"
+                onClick={playClick}
+              />
+              <ActionButton
+                id="btnPlayShared"
+                buttonLabel="Play with auth ticket"
+                onClick={playSharedClick}
+                type="secondary"
+              />
+              <ActionButton
+                id="btnPause"
+                buttonLabel="Pause"
+                onClick={pauseClick}
+                type="secondary"
+              />
+              <ActionButton
+                id="btnStop"
+                buttonLabel="Stop"
+                onClick={stopClick}
+                type="secondary"
+              />
             </div>
-          </fieldset>
+          </Container>
 
-          <br />
-          <fieldset className={styles.fieldset}>
-            <legend>Encryption Key</legend>
-            <div>
-              <br />
-              <div>
-                <label htmlFor="mnemonic">Mnemonic</label>
-                <textarea
-                  id="mnemonic"
-                  name="mnemonic"
-                  rows="4"
-                  cols="80"
-                  value={mnemonic}
-                  onChange={(e) => setMnemonic(e.target.value ?? "")}
-                />
-                <br />
-              </div>
-              <button
+          <Container title="Utils" subtitle="Utils">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnGetUSDRate"
+                buttonLabel="USD Rate"
+                onClick={getUSDRateClick}
+              />
+              <ActionButton
+                id="btnIsWalletID"
+                buttonLabel="isWalletID"
+                onClick={isWalletIDClick}
+              />
+            </div>
+            <br />
+            <SubContainer title="Output" content={output} />
+          </Container>
+
+          <Container title="Encryption Key" subtitle="Encryption Key">
+            <label htmlFor="mnemonic">Mnemonic</label>
+            <TextArea
+              id="mnemonic"
+              name="mnemonic"
+              rows="4"
+              value={mnemonic}
+              setValue={setMnemonic}
+            />
+            <br />
+            <div className={styles.buttonContainer}>
+              <ActionButton
                 id="btnGetPublicEncryptKey"
+                buttonLabel="Get Public Encrypt Key"
                 onClick={getPublicEncryptionKeyClick}
-              >
-                Get Public Encrypt Key
-              </button>
-              <br />
-              <br />
-              <div>Key: {encryptKey}</div>
+              />
             </div>
-          </fieldset>
+            <br />
+            <SubContainer title="Key" content={encryptKey} />
+          </Container>
         </div>
       </main>
     </>
