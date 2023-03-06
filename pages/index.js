@@ -34,6 +34,10 @@ import {
   isWalletID,
   getPublicEncryptionKey,
   getLookupHash,
+  createAllocationWithBlobbers,
+  getAllocationBlobbers,
+  getBlobberIds,
+  createReadPool,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -136,6 +140,30 @@ export default function Home() {
 
     //Call createAllocation method
     await createAllocation(config);
+    listAllocationsClick();
+  };
+
+  const createAllocationWithBlobbersClick = async () => {
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 30);
+
+    //name string, datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
+    const config = {
+      name: "newalloc",
+      datashards: 2,
+      parityshards: 2,
+      size: 2 * 1073741824,
+      expiry: Math.floor(expiry.getTime() / 1000),
+      minReadPrice: 0,
+      maxReadPrice: 184467440737095516,
+      minWritePrice: 0,
+      maxWritePrice: 184467440737095516,
+      lock: 5000000000,
+      blobbers: [],
+    };
+
+    //Call createAllocation method
+    await createAllocationWithBlobbers(config);
     listAllocationsClick();
   };
 
@@ -802,6 +830,14 @@ export default function Home() {
             <div>
               <button id="btnCreateAllocation" onClick={createAllocationClick}>
                 Create
+              </button>
+            </div>
+            <div>
+              <button
+                id="btnCreateAllocation"
+                onClick={createAllocationWithBlobbersClick}
+              >
+                Create With Blobbers
               </button>
             </div>
             <br />
