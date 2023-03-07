@@ -34,6 +34,21 @@ import {
   isWalletID,
   getPublicEncryptionKey,
   getLookupHash,
+  createAllocationWithBlobbers,
+  getAllocationBlobbers,
+  getBlobberIds,
+  createReadPool,
+  createWallet,
+  recoverWallet,
+  getAllocationFromAuthTicket,
+  getReadPoolInfo,
+  lockWritePool,
+  getBlobbers,
+  decodeAuthTicket,
+  initBridge,
+  burnZCN,
+  mintZCN,
+  getMintWZCNPayload,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -86,6 +101,7 @@ export default function Home() {
   const [mnemonic, setMnemonic] = useState(
     "crumble innocent find when document spray dutch buzz list giraffe away green drastic hello below siren pact festival hammer swim sweet veteran across like"
   );
+  const [txHash, setTxHash] = useState("abc");
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -125,9 +141,8 @@ export default function Home() {
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 30);
 
-    //name string, datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
+    //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
     const config = {
-      name: "newalloc",
       datashards: 2,
       parityshards: 2,
       size: 2 * 1073741824,
@@ -141,6 +156,30 @@ export default function Home() {
 
     //Call createAllocation method
     await createAllocation(config);
+    listAllocationsClick();
+  };
+
+  const createAllocationWithBlobbersClick = async () => {
+    const preferredBlobbers = getBlobberListForAllocation();
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 30);
+
+    //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
+    const config = {
+      datashards: 2,
+      parityshards: 2,
+      size: 2 * 1073741824,
+      expiry: Math.floor(expiry.getTime() / 1000),
+      minReadPrice: 0,
+      maxReadPrice: 184467440737095516,
+      minWritePrice: 0,
+      maxWritePrice: 184467440737095516,
+      lock: 5000000000,
+      blobbers: preferredBlobbers,
+    };
+
+    //Call createAllocation method
+    await createAllocationWithBlobbers(config);
     listAllocationsClick();
   };
 
@@ -217,6 +256,98 @@ export default function Home() {
     );
   };
 
+  const getBlobberListForAllocation = async () => {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 30);
+
+    const referredBlobberURLs = [
+        "https://dev2.zus.network/blobber02",
+        "https://dev1.zus.network/blobber02",
+      ],
+      dataShards = 2,
+      parityShards = 2,
+      size = 2 * 1073741824,
+      expiry = Math.floor(expiryDate.getTime() / 1000),
+      minReadPrice = 0,
+      maxReadPrice = 184467440737095516,
+      minWritePrice = 0,
+      maxWritePrice = 184467440737095516;
+
+    //Call getAllocationBlobbers method
+    const blobberList = await getAllocationBlobbers(
+      referredBlobberURLs,
+      dataShards,
+      parityShards,
+      size,
+      expiry,
+      minReadPrice,
+      maxReadPrice,
+      minWritePrice,
+      maxWritePrice
+    );
+    console.log("blobberList", blobberList);
+    return blobberList;
+  };
+
+  const getAllocationBlobbersClick = async () => {
+    await getBlobberListForAllocation();
+  };
+
+  const getBlobberIdsClick = async () => {
+    //https://dev1.zus.network/sharder01/v1/screst/6dba10422e368813802877a85039d3985d96760ed844092319743fb3a76712d7/getblobbers
+    //const blobberUrls = [];
+    const blobberUrls = [
+      "https://dev2.zus.network/blobber02",
+      "https://dev1.zus.network/blobber02",
+    ];
+    //Call getBlobberIds method
+    const blobberIds = await getBlobberIds(blobberUrls);
+    console.log("blobberIds", blobberIds);
+  };
+
+  const createReadPoolClick = async () => {
+    //Call createReadPool method
+    const result = await createReadPool();
+    console.log("result", result);
+  };
+
+  const getAllocationFromAuthTicketClick = async () => {
+    //Call getAllocationFromAuthTicket method
+    console.log("GetAllocFromAuthTicket", authTicket);
+    const allocation = await getAllocationFromAuthTicket(authTicket);
+    console.log("allocation", allocation);
+  };
+
+  const getReadPoolInfoClick = async () => {
+    //Call getReadPoolInfo method
+    console.log("GetReadPoolInfo", clientId);
+    const result = await getReadPoolInfo(clientId);
+    console.log("result", result);
+  };
+
+  const lockWritePoolClick = async () => {
+    //Call lockWritePool method
+    const allocationId = selectedAllocation.id;
+    console.log("LockWritePool", allocationId);
+    //allocationId string, tokens string, fee string
+    const result = await lockWritePool(allocationId, 1000, 10);
+    console.log("result", result);
+  };
+
+  const getBlobbersClick = async () => {
+    //Call getBlobbers method
+    console.log("GetBlobbers");
+    const result = await getBlobbers();
+    console.log("result", result);
+  };
+
+  const decodeAuthTicketClick = async () => {
+    //Call decodeAuthTicket method
+    console.log("DecodeAuthTicket", authTicket);
+    const result = await decodeAuthTicket(authTicket);
+    console.log("result", result);
+  };
+
   const getBalanceClick = async () => {
     //Call getBalance method
     const balanceObj = await getBalance(clientId);
@@ -231,6 +362,24 @@ export default function Home() {
     console.log("balanceObj", balanceObj);
     console.log("balance", balanceObj?.zcn);
     setBalance(balanceObj?.zcn || 0);
+  };
+
+  const createWalletClick = async () => {
+    console.log("calling createWallet");
+    const wallet = await createWallet();
+    console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
+  };
+
+  const recoverWalletClick = async () => {
+    console.log("calling recoverWallet");
+    const wallet = await recoverWallet(mnemonic);
+    console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
   };
 
   const getFaucetTokenClick = async () => {
@@ -397,6 +546,7 @@ export default function Home() {
 
   const listFilesClick = async () => {
     try {
+      debugger;
       const list = (await listObjects(selectedAllocation.id, "/")) || [];
       console.log("file list", list);
       setFilesList(list);
@@ -672,6 +822,63 @@ export default function Home() {
     console.log("lookup hash completed", hash);
   };
 
+  const initBridgeClick = async () => {
+    const ethereumAddress = "0x5B9eb7E72247c45F6c4B8424FB2002151c57c54d",
+      bridgeAddress = "0x2405e40161ea6da91AE0e95061e7A8462b4D5eEa",
+      authorizersAddress = "0xB132C20A02AD7C38d88805F0e3fFDdfb54224C58",
+      wzcnAddress = "0x10140fbca3a468A1c35F132D75659eF0EB5d95DB",
+      ethereumNodeURL =
+        "https://goerli.infura.io/v3/6141be73a15d47748af0dc14f53d57d7",
+      gasLimit = 300000,
+      value = 0,
+      consensusThreshold = 75.0;
+    console.log(
+      "initBridgeClick",
+      ethereumAddress,
+      bridgeAddress,
+      authorizersAddress,
+      wzcnAddress,
+      ethereumNodeURL,
+      gasLimit,
+      value,
+      consensusThreshold
+    );
+    //Call initBridge method
+    await initBridge(
+      ethereumAddress,
+      bridgeAddress,
+      authorizersAddress,
+      wzcnAddress,
+      ethereumNodeURL,
+      gasLimit,
+      value,
+      consensusThreshold
+    );
+  };
+
+  const burnZCNClick = async () => {
+    const amount = 1000;
+    console.log("burnZCNClick", amount);
+    const hash = await burnZCN(amount);
+    setTxHash(hash);
+    return hash;
+  };
+
+  const mintZCNClick = async () => {
+    const burnTrxHash = txHash,
+      timeout = 100;
+    console.log("mintZCNClick", burnTrxHash, timeout);
+    const hash = await mintZCN(burnTrxHash, timeout);
+    return hash;
+  };
+
+  const getMintWZCNPayloadClick = async () => {
+    const burnTrxHash = txHash;
+    console.log("getMintWZCNPayloadClick", burnTrxHash);
+    const result = await getMintWZCNPayload(burnTrxHash);
+    return result;
+  };
+
   return (
     <>
       <Head>
@@ -819,8 +1026,13 @@ export default function Home() {
                 onClick={listAllocationsClick}
                 type="secondary"
               />
+              <ActionButton
+                id="btnCreateAllocation"
+                buttonLabel="Create With Blobbers"
+                onClick={createAllocationWithBlobbersClick}
+                type="secondary"
+              />
             </div>
-            <br />
 
             {allocationList && allocationList.length > 0 && (
               <Container title="Allocation List">
@@ -867,10 +1079,48 @@ export default function Home() {
                 ))}
 
                 {allocationDetails && (
-                  <SubContainer
-                    title="Allocation Details"
-                    content={`Id: ${allocationDetails?.id}, Name: ${allocationDetails?.name}, Size: ${allocationDetails?.size}, Start Time: ${allocationDetails?.start_time}, Expiration Date: ${allocationDetails?.expiration_date}`}
-                  />
+                  <div>
+                    <SubContainer
+                      title="Allocation Details"
+                      content={`Id: ${allocationDetails?.id}, Name: ${allocationDetails?.name}, Size: ${allocationDetails?.size}, Start Time: ${allocationDetails?.start_time}, Expiration Date: ${allocationDetails?.expiration_date}`}
+                    />
+                    <label htmlFor={allocation.id}>
+                      Allocation: {allocation.id}
+                    </label>
+                    <button
+                      id="btnGetAllocation"
+                      onClick={() => getAllocationDetailsClick(allocation.id)}
+                    >
+                      Get Details
+                    </button>
+                    <button
+                      id="btnReloadAllocation"
+                      onClick={() => reloadAllocationClick(allocation.id)}
+                    >
+                      Reload
+                    </button>
+                    <button
+                      id="btnFreezeAllocation"
+                      onClick={() => freezeAllocationClick(allocation.id)}
+                    >
+                      Freeze
+                    </button>
+                    <button
+                      id="btnCancelAllocation"
+                      onClick={() => cancelAllocationClick(allocation.id)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                <div id="listAllocations"></div>
+                {allocationDetails && (
+                  <div>
+                    Allocation Details - id:{allocationDetails.id}, Size:{" "}
+                    {allocationDetails.size}, Start Time:{" "}
+                    {allocationDetails.start_time}, Expiration Date:{" "}
+                    {allocationDetails.expiration_date}
+                  </div>
                 )}
               </Container>
             )}
@@ -910,13 +1160,183 @@ export default function Home() {
                 />
               </div>
 
-              <div className={styles.buttonContainer}>
-                <ActionButton
-                  id="btnUpdateAllocation"
-                  buttonLabel="Update"
-                  onClick={updateAllocationClick}
-                />
-              </div>
+              <br />
+
+              <Container
+                title="Extended Allocation Ops"
+                subtitle="Extended Allocation Ops"
+              >
+                <div className={styles.buttonContainer}>
+                  <ActionButton
+                    id="btnGetAllocationBlobbers"
+                    buttonLabel="Get Allocation Blobbers"
+                    onClick={getAllocationBlobbersClick}
+                  />
+                  <ActionButton
+                    id="btnGetBlobberIdsClick"
+                    buttonLabel="Get Blobber Ids"
+                    onClick={getBlobberIdsClick}
+                  />
+                  <ActionButton
+                    id="btnCreateReadPoolClick"
+                    buttonLabel="Create ReadPool"
+                    onClick={createReadPoolClick}
+                  />
+                  <ActionButton
+                    id="btnGetAllocationFromAuthTicket"
+                    buttonLabel="Get Allocation From AuthTicket"
+                    onClick={getAllocationFromAuthTicketClick}
+                  />
+                  <ActionButton
+                    id="btnGetReadPoolInfo"
+                    buttonLabel="Get ReadPool Info"
+                    onClick={getReadPoolInfoClick}
+                  />
+                  <ActionButton
+                    id="btnLockWritePoolClick"
+                    buttonLabel="Lock WritePool"
+                    onClick={lockWritePoolClick}
+                  />
+                  <ActionButton
+                    id="btnGetBlobbersClick"
+                    buttonLabel="Get Blobbers"
+                    onClick={getBlobbersClick}
+                  />
+                  <ActionButton
+                    id="btnDecodeAuthTicketClick"
+                    buttonLabel="Decode AuthTicket"
+                    onClick={decodeAuthTicketClick}
+                  />
+                </div>
+              </Container>
+
+              <br />
+
+              <Container title="File Ops" subtitle="File Ops">
+                <div>
+                  <input
+                    type="file"
+                    multiple={true}
+                    name="uploadFile"
+                    onChange={handleUploadFiles}
+                  />
+                  <button id="btnUpload" onClick={uploadClick}>
+                    Upload
+                  </button>
+                </div>
+                <br />
+                <div>
+                  <button id="btnListFiles" onClick={listFilesClick}>
+                    List
+                  </button>
+                  <br />
+                  <br />
+                  {fileList && fileList.length > 0 && (
+                    <div>
+                      <b>File List: /</b>
+                    </div>
+                  )}
+                  {fileList.map((file, index) => (
+                    <div key={index}>
+                      <input
+                        type="radio"
+                        name="selectedFile"
+                        value={file.path}
+                        onClick={() => selectFile(file)}
+                      />
+                      <label htmlFor={file.path}>&nbsp;{file.path}</label>
+                      <button id="btnDownload" onClick={downloadClick}>
+                        Download
+                      </button>
+                      <button id="btnShare" onClick={shareClick}>
+                        Share
+                      </button>
+                      <button id="btnCopy" onClick={copyClick}>
+                        Copy
+                      </button>
+                      <button id="btnMove" onClick={moveClick}>
+                        Move
+                      </button>
+                      <button id="btnDelete" onClick={deleteClick}>
+                        Delete
+                      </button>
+                      <button id="btnRename" onClick={renameClick}>
+                        Rename
+                      </button>
+                      <button id="btnGetFileStats" onClick={getFileStatsClick}>
+                        Get File Stats
+                      </button>
+                      <button
+                        id="btnDownloadBlocks"
+                        onClick={downloadBlocksClick}
+                      >
+                        Download Blocks
+                      </button>
+                      <button
+                        id="btnGetLookupHash"
+                        onClick={getLookupHashClick}
+                      >
+                        Lookup Hash
+                      </button>
+                      <br />
+                    </div>
+                  ))}
+                  <br />
+                  {destFileList && destFileList.length > 0 && (
+                    <div>
+                      <b>File List: /test</b>
+                    </div>
+                  )}
+                  {destFileList.map((file, index) => (
+                    <div key={index}>
+                      <input
+                        type="radio"
+                        name="selectedFile"
+                        value={file.path}
+                        onClick={() => selectFile(file)}
+                      />
+                      <label htmlFor={file.path}>&nbsp;{file.path}</label>
+                      <div className={styles.buttonContainer}>
+                        <ActionButton
+                          id="btnDestDownload"
+                          buttonLabel="Download"
+                          onClick={downloadClick}
+                        />
+                        <ActionButton
+                          id="btnDestDelete"
+                          buttonLabel="Delete"
+                          onClick={deleteClick}
+                        />
+                      </div>
+                      <br />
+                    </div>
+                  ))}
+                </div>
+                <br />
+              </Container>
+
+              <br />
+              <Container title="Extended File Ops">
+                <div>
+                  <div className={styles.inputContainer}>
+                    <Input
+                      id="dirName"
+                      title="Directory Name"
+                      value={dirName}
+                      size={30}
+                      onChange={(e) => setDirName(e.target.value ?? "")}
+                      setValue={setDirName}
+                    />
+                  </div>
+                  <div className={styles.buttonContainer}>
+                    <ActionButton
+                      id="btnUpdateAllocation"
+                      buttonLabel="Update"
+                      onClick={updateAllocationClick}
+                    />
+                  </div>
+                </div>
+              </Container>
             </Container>
           </Container>
 
@@ -1153,8 +1573,31 @@ export default function Home() {
                 onClick={getPublicEncryptionKeyClick}
               />
             </div>
-            <br />
-            <SubContainer title="Key" content={encryptKey} />
+          </Container>
+
+          <Container title="Bridge Methods" subtitle="Bridge Methods">
+            <div className={styles.buttonContainer}>
+              <ActionButton
+                id="btnInitBridge"
+                buttonLabel="Init Bridge"
+                onClick={initBridgeClick}
+              />
+              <ActionButton
+                id="btnBurnZCN"
+                buttonLabel="Burn ZCN"
+                onClick={burnZCNClick}
+              />
+              <ActionButton
+                id="btnGetMintWZCNPayload"
+                buttonLabel="Get Mint WZCN Payload"
+                onClick={getMintWZCNPayloadClick}
+              />
+              <ActionButton
+                id="btnMintZCN"
+                buttonLabel="Mint ZCN"
+                onClick={mintZCNClick}
+              />
+            </div>
           </Container>
         </div>
       </main>
