@@ -34,6 +34,10 @@ import {
   isWalletID,
   getPublicEncryptionKey,
   getLookupHash,
+  createAllocationWithBlobbers,
+  getAllocationBlobbers,
+  getBlobberIds,
+  createReadPool,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -120,9 +124,8 @@ export default function Home() {
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 30);
 
-    //name string, datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
+    //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
     const config = {
-      name: "newalloc",
       datashards: 2,
       parityshards: 2,
       size: 2 * 1073741824,
@@ -136,6 +139,30 @@ export default function Home() {
 
     //Call createAllocation method
     await createAllocation(config);
+    listAllocationsClick();
+  };
+
+  const createAllocationWithBlobbersClick = async () => {
+    const preferredBlobbers = getBlobberListForAllocation();
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 30);
+
+    //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
+    const config = {
+      datashards: 2,
+      parityshards: 2,
+      size: 2 * 1073741824,
+      expiry: Math.floor(expiry.getTime() / 1000),
+      minReadPrice: 0,
+      maxReadPrice: 184467440737095516,
+      minWritePrice: 0,
+      maxWritePrice: 184467440737095516,
+      lock: 5000000000,
+      blobbers: preferredBlobbers,
+    };
+
+    //Call createAllocation method
+    await createAllocationWithBlobbers(config);
     listAllocationsClick();
   };
 
@@ -210,6 +237,61 @@ export default function Home() {
       addBlobberId,
       removeBlobberId
     );
+  };
+
+  const getBlobberListForAllocation = async () => {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 30);
+
+    const referredBlobberURLs = [
+        "https://dev2.zus.network/blobber02",
+        "https://dev1.zus.network/blobber02",
+      ],
+      dataShards = 2,
+      parityShards = 2,
+      size = 2 * 1073741824,
+      expiry = Math.floor(expiryDate.getTime() / 1000),
+      minReadPrice = 0,
+      maxReadPrice = 184467440737095516,
+      minWritePrice = 0,
+      maxWritePrice = 184467440737095516;
+
+    //Call getAllocationBlobbers method
+    const blobberList = await getAllocationBlobbers(
+      referredBlobberURLs,
+      dataShards,
+      parityShards,
+      size,
+      expiry,
+      minReadPrice,
+      maxReadPrice,
+      minWritePrice,
+      maxWritePrice
+    );
+    console.log("blobberList", blobberList);
+    return blobberList;
+  };
+
+  const getAllocationBlobbersClick = async () => {
+    await getBlobberListForAllocation();
+  };
+
+  const getBlobberIdsClick = async () => {
+    //https://dev1.zus.network/sharder01/v1/screst/6dba10422e368813802877a85039d3985d96760ed844092319743fb3a76712d7/getblobbers
+    //const blobberUrls = [];
+    const blobberUrls = [
+      "https://dev2.zus.network/blobber02",
+      "https://dev1.zus.network/blobber02",
+    ];
+    //Call getBlobberIds method
+    const blobberIds = await getBlobberIds(blobberUrls);
+    console.log("blobberIds", blobberIds);
+  };
+
+  const createReadPoolClick = async () => {
+    //Call createReadPool method
+    const result = await createReadPool();
+    console.log("result", result);
   };
 
   const getBalanceClick = async () => {
@@ -804,6 +886,14 @@ export default function Home() {
                 Create
               </button>
             </div>
+            <div>
+              <button
+                id="btnCreateAllocation"
+                onClick={createAllocationWithBlobbersClick}
+              >
+                Create With Blobbers
+              </button>
+            </div>
             <br />
             <div>
               <button id="btnListAllocations" onClick={listAllocationsClick}>
@@ -861,9 +951,9 @@ export default function Home() {
             <br />
             {allocationDetails && (
               <div>
-                Allocation Details - id:{allocationDetails.id}, name:{" "}
-                {allocationDetails.name}, Size: {allocationDetails.size}, Start
-                Time: {allocationDetails.start_time}, Expiration Date:{" "}
+                Allocation Details - id:{allocationDetails.id}, Size:{" "}
+                {allocationDetails.size}, Start Time:{" "}
+                {allocationDetails.start_time}, Expiration Date:{" "}
                 {allocationDetails.expiration_date}
               </div>
             )}
@@ -917,6 +1007,28 @@ export default function Home() {
                 Update
               </button>
             </fieldset>
+          </fieldset>
+
+          <br />
+          <fieldset className={styles.fieldset}>
+            <legend>Extended Allocation Ops</legend>
+            <div>
+              <br />
+              <button
+                id="btnGetAllocationBlobbers"
+                onClick={getAllocationBlobbersClick}
+              >
+                Get Allocation Blobbers
+              </button>
+              <br />
+              <button id="btnGetBlobberIdsClick" onClick={getBlobberIdsClick}>
+                Get Blobber Ids
+              </button>
+              <br />
+              <button id="btnCreateReadPoolClick" onClick={createReadPoolClick}>
+                Create ReadPool
+              </button>
+            </div>
           </fieldset>
 
           <br />
