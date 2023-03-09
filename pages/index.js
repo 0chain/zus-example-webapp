@@ -38,6 +38,8 @@ import {
   getAllocationBlobbers,
   getBlobberIds,
   createReadPool,
+  createWallet,
+  recoverWallet,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -308,6 +310,24 @@ export default function Home() {
     console.log("balanceObj", balanceObj);
     console.log("balance", balanceObj?.zcn);
     setBalance(balanceObj?.zcn || 0);
+  };
+
+  const createWalletClick = async () => {
+    console.log("calling createWallet");
+    const wallet = await createWallet();
+    console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
+  };
+
+  const recoverWalletClick = async () => {
+    console.log("calling recoverWallet");
+    const wallet = await recoverWallet(mnemonic);
+    console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
   };
 
   const getFaucetTokenClick = async () => {
@@ -826,6 +846,16 @@ export default function Home() {
               </button>
             </div>
             <br />
+            <div>
+              <button id="btnCreateWallet" onClick={createWalletClick}>
+                Create Wallet
+              </button>
+            </div>
+            <div>
+              <button id="btnRecoverWallet" onClick={recoverWalletClick}>
+                Recover Wallet
+              </button>
+            </div>
             <br />
             <div>
               <button id="btnGetFaucetToken" onClick={getFaucetTokenClick}>
