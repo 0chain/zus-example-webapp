@@ -316,12 +316,18 @@ export default function Home() {
     console.log("calling createWallet");
     const wallet = await createWallet();
     console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
   };
 
   const recoverWalletClick = async () => {
     console.log("calling recoverWallet");
     const wallet = await recoverWallet(mnemonic);
     console.log("Wallet", wallet);
+    setClientId(wallet.keys.walletId);
+    setPublicKey(wallet.keys.publicKey);
+    setPrivateKey(wallet.keys.privateKey);
   };
 
   const getFaucetTokenClick = async () => {
