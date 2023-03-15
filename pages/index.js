@@ -40,6 +40,11 @@ import {
   createReadPool,
   createWallet,
   recoverWallet,
+  getAllocationFromAuthTicket,
+  getReadPoolInfo,
+  lockWritePool,
+  getBlobbers,
+  decodeAuthTicket,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -293,6 +298,43 @@ export default function Home() {
   const createReadPoolClick = async () => {
     //Call createReadPool method
     const result = await createReadPool();
+    console.log("result", result);
+  };
+
+  const getAllocationFromAuthTicketClick = async () => {
+    //Call getAllocationFromAuthTicket method
+    console.log("GetAllocFromAuthTicket", authTicket);
+    const allocation = await getAllocationFromAuthTicket(authTicket);
+    console.log("allocation", allocation);
+  };
+
+  const getReadPoolInfoClick = async () => {
+    //Call getReadPoolInfo method
+    console.log("GetReadPoolInfo", clientId);
+    const result = await getReadPoolInfo(clientId);
+    console.log("result", result);
+  };
+
+  const lockWritePoolClick = async () => {
+    //Call lockWritePool method
+    const allocationId = selectedAllocation.id;
+    console.log("LockWritePool", allocationId);
+    //allocationId string, tokens string, fee string
+    const result = await lockWritePool(allocationId, 1000, 10);
+    console.log("result", result);
+  };
+
+  const getBlobbersClick = async () => {
+    //Call getBlobbers method
+    console.log("GetBlobbers");
+    const result = await getBlobbers();
+    console.log("result", result);
+  };
+
+  const decodeAuthTicketClick = async () => {
+    //Call decodeAuthTicket method
+    console.log("DecodeAuthTicket", authTicket);
+    const result = await decodeAuthTicket(authTicket);
     console.log("result", result);
   };
 
@@ -1057,6 +1099,32 @@ export default function Home() {
               <br />
               <button id="btnCreateReadPoolClick" onClick={createReadPoolClick}>
                 Create ReadPool
+              </button>
+              <br />
+              <button
+                id="btnGetAllocationFromAuthTicket"
+                onClick={getAllocationFromAuthTicketClick}
+              >
+                Get Allocation From AuthTicket
+              </button>
+              <br />
+              <button id="btnGetReadPoolInfo" onClick={getReadPoolInfoClick}>
+                Get ReadPool Info
+              </button>
+              <br />
+              <button id="btnLockWritePoolClick" onClick={lockWritePoolClick}>
+                Lock WritePool
+              </button>
+              <br />
+              <button id="btnGetBlobbersClick" onClick={getBlobbersClick}>
+                Get Blobbers
+              </button>
+              <br />
+              <button
+                id="btnDecodeAuthTicketClick"
+                onClick={decodeAuthTicketClick}
+              >
+                Decode AuthTicket
               </button>
             </div>
           </fieldset>
