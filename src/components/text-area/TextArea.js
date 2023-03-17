@@ -13,10 +13,6 @@ const TextArea = ({
   ...inputProps
 }) => {
   const handleOnChange = (e) => {
-    // if (onChange) {
-    //   onChange(e);
-    // }
-
     if (setValue) {
       setValue(e.target.value);
     }
