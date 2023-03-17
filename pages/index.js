@@ -45,6 +45,10 @@ import {
   lockWritePool,
   getBlobbers,
   decodeAuthTicket,
+  initBridge,
+  burnZCN,
+  mintZCN,
+  getMintWZCNPayload,
 } from "@zerochain/zus-sdk";
 
 import { startPlay, stopPlay } from "./player";
@@ -92,6 +96,7 @@ export default function Home() {
   const [mnemonic, setMnemonic] = useState(
     "crumble innocent find when document spray dutch buzz list giraffe away green drastic hello below siren pact festival hammer swim sweet veteran across like"
   );
+  const [txHash, setTxHash] = useState("abc");
 
   const configJson = {
     chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
@@ -811,6 +816,63 @@ export default function Home() {
     console.log("lookup hash completed", hash);
   };
 
+  const initBridgeClick = async () => {
+    const ethereumAddress = "0x5B9eb7E72247c45F6c4B8424FB2002151c57c54d",
+      bridgeAddress = "0x2405e40161ea6da91AE0e95061e7A8462b4D5eEa",
+      authorizersAddress = "0xB132C20A02AD7C38d88805F0e3fFDdfb54224C58",
+      wzcnAddress = "0x10140fbca3a468A1c35F132D75659eF0EB5d95DB",
+      ethereumNodeURL =
+        "https://goerli.infura.io/v3/6141be73a15d47748af0dc14f53d57d7",
+      gasLimit = 300000,
+      value = 0,
+      consensusThreshold = 75.0;
+    console.log(
+      "initBridgeClick",
+      ethereumAddress,
+      bridgeAddress,
+      authorizersAddress,
+      wzcnAddress,
+      ethereumNodeURL,
+      gasLimit,
+      value,
+      consensusThreshold
+    );
+    //Call initBridge method
+    await initBridge(
+      ethereumAddress,
+      bridgeAddress,
+      authorizersAddress,
+      wzcnAddress,
+      ethereumNodeURL,
+      gasLimit,
+      value,
+      consensusThreshold
+    );
+  };
+
+  const burnZCNClick = async () => {
+    const amount = 1000;
+    console.log("burnZCNClick", amount);
+    const hash = await burnZCN(amount);
+    setTxHash(hash);
+    return hash;
+  };
+
+  const mintZCNClick = async () => {
+    const burnTrxHash = txHash,
+      timeout = 100;
+    console.log("mintZCNClick", burnTrxHash, timeout);
+    const hash = await mintZCN(burnTrxHash, timeout);
+    return hash;
+  };
+
+  const getMintWZCNPayloadClick = async () => {
+    const burnTrxHash = txHash;
+    console.log("getMintWZCNPayloadClick", burnTrxHash);
+    const result = await getMintWZCNPayload(burnTrxHash);
+    return result;
+  };
+
   return (
     <>
       <Head>
@@ -1329,6 +1391,29 @@ export default function Home() {
               <br />
               <div>Key: {encryptKey}</div>
             </div>
+          </fieldset>
+
+          <br />
+          <fieldset className={styles.fieldset}>
+            <legend>Bridge Methods</legend>
+            <button id="btnInitBridge" onClick={initBridgeClick}>
+              Init Bridge
+            </button>
+            <br />
+            <button id="btnBurnZCN" onClick={burnZCNClick}>
+              Burn ZCN
+            </button>
+            <br />
+            <button
+              id="btnGetMintWZCNPayload"
+              onClick={getMintWZCNPayloadClick}
+            >
+              Get Mint WZCN Payload
+            </button>
+            <br />
+            <button id="btnMintZCN" onClick={mintZCNClick}>
+              Mint ZCN
+            </button>
           </fieldset>
         </div>
       </main>
