@@ -201,3 +201,7 @@ export const getMimeCodecs = ({ mimeType, buf }) => {
   }
   return mimeType;
 };
+
+export default function Player() {
+  return <></>;
+}
