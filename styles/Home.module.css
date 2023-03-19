@@ -8,21 +8,22 @@
   min-height: 100vh;
 }
 
-.mainContent{
+.mainContent {
   max-width: 800px;
   width: 100%;
   display: grid;
-  gap:20px
+  gap: 20px;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
-  gap:10px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.inputContainer{
+.inputContainer {
   display: grid;
-  gap:10px;
+  gap: 10px;
 }
 
 .transfer {
