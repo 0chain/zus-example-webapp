@@ -94,7 +94,7 @@ export default function Home() {
   const [output, setOutput] = useState("");
   const [encryptKey, setEncryptKey] = useState("");
   const [mnemonic, setMnemonic] = useState(
-    "crumble innocent find when document spray dutch buzz list giraffe away green drastic hello below siren pact festival hammer swim sweet veteran across like"
+    "plunge tray magic student meat basic wheel mountain elevator neglect ginger oyster gallery hen ensure roast lake stage color oval antenna plug orchard initial"
   );
   const [txHash, setTxHash] = useState("abc");
 
@@ -395,7 +395,7 @@ export default function Home() {
   const setWalletClick = async () => {
     console.log("calling set wallet");
     //Call setWallet method
-    await setWallet(clientId, privateKey, publicKey);
+    await setWallet(clientId, privateKey, publicKey, mnemonic);
   };
 
   const greetClick = async () => {
@@ -944,6 +944,19 @@ export default function Home() {
                 onChange={(e) => setPublicKey(e.target.value ?? "")}
               />
               <br />
+              <br />
+              <div>
+                <label htmlFor="mnemonic">Mnemonic</label>
+                <textarea
+                  id="mnemonic"
+                  name="mnemonic"
+                  rows="4"
+                  cols="80"
+                  value={mnemonic}
+                  onChange={(e) => setMnemonic(e.target.value ?? "")}
+                />
+                <br />
+              </div>
 
               <button id="btnSetWallet" onClick={setWalletClick}>
                 Set Wallet
@@ -1368,19 +1381,6 @@ export default function Home() {
           <fieldset className={styles.fieldset}>
             <legend>Encryption Key</legend>
             <div>
-              <br />
-              <div>
-                <label htmlFor="mnemonic">Mnemonic</label>
-                <textarea
-                  id="mnemonic"
-                  name="mnemonic"
-                  rows="4"
-                  cols="80"
-                  value={mnemonic}
-                  onChange={(e) => setMnemonic(e.target.value ?? "")}
-                />
-                <br />
-              </div>
               <button
                 id="btnGetPublicEncryptKey"
                 onClick={getPublicEncryptionKeyClick}
