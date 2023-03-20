@@ -23,7 +23,6 @@ import {
   copyObject,
   moveObject,
   reloadAllocation,
-  transferAllocation,
   freezeAllocation,
   cancelAllocation,
   updateAllocation,
@@ -190,25 +189,6 @@ export default function Home() {
     const allocation = await reloadAllocation(allocationId);
     console.log("allocation", allocation);
     setAllocationDetails(allocation);
-  };
-
-  const transferAllocationClick = async () => {
-    if (!selectedAllocation) {
-      alert("Please select allocation for transfer");
-      return;
-    }
-    console.log(
-      "transferring allocation",
-      selectedAllocation.id,
-      newOwnerId,
-      newOwnerPublicKey
-    );
-    //Call transferAllocation method
-    await transferAllocation(
-      selectedAllocation.id,
-      newOwnerId,
-      newOwnerPublicKey
-    );
   };
 
   const freezeAllocationClick = async (allocationId) => {
@@ -1104,38 +1084,6 @@ export default function Home() {
                 {allocationDetails.expiration_date}
               </div>
             )}
-            <fieldset className={styles.transfer}>
-              <legend>Transfer Allocation</legend>
-              <div>
-                <label htmlFor="newOwnerId">New Owner Id</label>
-                <input
-                  id="newOwnerId"
-                  name="newOwnerId"
-                  value={newOwnerId}
-                  size={90}
-                  onChange={(e) => setNewOwnerId(e.target.value ?? "")}
-                />
-              </div>
-              <br />
-              <div>
-                <label htmlFor="newOwnerPublicKey">New Owner Public Key</label>
-                <input
-                  id="newOwnerPublicKey"
-                  name="newOwnerPublicKey"
-                  value={newOwnerPublicKey}
-                  size={90}
-                  onChange={(e) => setNewOwnerPublicKey(e.target.value ?? "")}
-                />
-              </div>
-              <br />
-              <br />
-              <button
-                id="btnTransferAllocation"
-                onClick={transferAllocationClick}
-              >
-                Transfer
-              </button>
-            </fieldset>
             <fieldset className={styles.transfer}>
               <legend>Update Allocation</legend>
               <div>
