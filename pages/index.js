@@ -996,6 +996,18 @@ export default function Home() {
 
             <div className={styles.buttonContainer}>
               <ActionButton
+                id="btnCreateWallet"
+                buttonLabel="Create Wallet"
+                onClick={createWalletClick}
+                type="secondary"
+              />
+              <ActionButton
+                id="btnRecoverWallet"
+                buttonLabel="Recover Wallet"
+                onClick={recoverWalletClick}
+                type="secondary"
+              />
+              <ActionButton
                 id="btnGetFaucetToken"
                 buttonLabel="Faucet"
                 onClick={getFaucetTokenClick}
