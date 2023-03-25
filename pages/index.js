@@ -82,13 +82,7 @@ export default function Home() {
   const [authTicket, setAuthTicket] = useState(
     "eyJjbGllbnRfaWQiOiIiLCJvd25lcl9pZCI6IjdkMzVhNmMzYmE1MDY2ZTYyOTg5ZDM0Y2VlN2RkNDM0ZDA4MzNkNWVhOWZmMDA5MjhhYTg5OTk0ZDgwZTQ3MDAiLCJhbGxvY2F0aW9uX2lkIjoiMDZmNzRhYWE1OWVmM2E5M2I1NmNkM2E3NTMxODlkODkzNjMzMDllYzk4NWNmMTRiMmMyMTBkYzhkYTFkZmVhNyIsImZpbGVfcGF0aF9oYXNoIjoiODc1MTA4NDFhZDJkZjViZjUwMTA3Yzg1MWNmMDU0ZDVkYzc0YTU2ZTg0NjFjYzBmYmNhZTMzNGVhNzJmNWRlYSIsImFjdHVhbF9maWxlX2hhc2giOiI1ZWRiN2E5ZTIyM2ZkMzVlODczYzJhMzQzZjFhZWZjMGE5ZjE0MWY0YzdkZDZmNzYxOTA4N2YxNGI1OGUyYjU2IiwiZmlsZV9uYW1lIjoiMS5wbmciLCJyZWZlcmVuY2VfdHlwZSI6ImYiLCJleHBpcmF0aW9uIjowLCJ0aW1lc3RhbXAiOjE2NzY0NDQ4OTgsImVuY3J5cHRlZCI6ZmFsc2UsInNpZ25hdHVyZSI6IjcxNzhiODBjYjQ1M2Q3NWUyYzg1YThiNTM4YjAxYjQ1ZTBhY2UwYjdmOGZiZmNjN2RlYzE3NTQ5OTNiZmUwOTMifQ=="
   );
-  const [newOwnerId, setNewOwnerId] = useState(
-    "0ab9c5ab5effbe47db31299aff6464e7b447e7fb372109758c0d9dcd596b5429"
-  );
-  const [newOwnerPublicKey, setNewOwnerPublicKey] = useState(
-    "764e896d08088121d4af9d517eedeac32c463f80245e32f4ccd875db8e621b0c3efeccfbd5007e204e984f2bfbf61bc59aba84ff9d3a0eee0cafd1488e00688e"
-  );
-  const [newAllocationName, setNewAllocationName] = useState("new");
+  const [allocationSize, setAllocationSize] = useState(2147483648);
   const [dirName, setDirName] = useState("/test");
   const [output, setOutput] = useState("");
   const [encryptKey, setEncryptKey] = useState("");
@@ -207,12 +201,14 @@ export default function Home() {
       return;
     }
     console.log("updating allocation", selectedAllocation.id);
-    //allocationId string, name string,size, expiry int64,lock int64, isImmutable, updateTerms bool,addBlobberId, removeBlobberId string
-    const name = newAllocationName,
-      size = null,
-      expiry = null,
-      lock = null,
-      isImmutable = false,
+
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 30);
+
+    //allocationId string,size, expiry int64,lock int64, isImmutable, updateTerms bool,addBlobberId, removeBlobberId string
+    const size = parseInt(allocationSize),
+      expiryVal = Math.floor(expiry.getTime() / 1000),
+      lock = 5000000000,
       updateTerms = true,
       addBlobberId = "",
       removeBlobberId = "";
@@ -220,11 +216,9 @@ export default function Home() {
     //Call updateAllocation method
     await updateAllocation(
       selectedAllocation.id,
-      name,
       size,
-      expiry,
+      expiryVal,
       lock,
-      isImmutable,
       updateTerms,
       addBlobberId,
       removeBlobberId
@@ -1087,13 +1081,13 @@ export default function Home() {
             <fieldset className={styles.transfer}>
               <legend>Update Allocation</legend>
               <div>
-                <label htmlFor="newAllocationName">New Allocation Name</label>
+                <label htmlFor="allocationSize">Allocation Size</label>
                 <input
-                  id="newAllocationName"
-                  name="newAllocationName"
-                  value={newAllocationName}
+                  id="allocationSize"
+                  name="allocationSize"
+                  value={allocationSize}
                   size={90}
-                  onChange={(e) => setNewAllocationName(e.target.value ?? "")}
+                  onChange={(e) => setAllocationSize(e.target.value ?? "")}
                 />
               </div>
               <br />
