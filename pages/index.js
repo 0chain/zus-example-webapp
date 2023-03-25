@@ -962,38 +962,6 @@ export default function Home() {
             </div>
             <br />
 
-            <div>
-              <button id="btnCreateWallet" onClick={createWalletClick}>
-                Create Wallet
-              </button>
-            </div>
-            <div>
-              <button id="btnRecoverWallet" onClick={recoverWalletClick}>
-                Recover Wallet
-              </button>
-            </div>
-            <br />
-            <div>
-              <button id="btnGetFaucetToken" onClick={getFaucetTokenClick}>
-                Faucet
-              </button>
-            </div>
-            <div>
-              <button id="btnGetBalance" onClick={getBalanceWasmClick}>
-                Get Balance Wasm
-              </button>
-            </div>
-            <div>
-              <button id="btnGetBalance" onClick={getBalanceClick}>
-                Get Balance
-              </button>
-            </div>
-            <br />
-            <p>Balance: {balance}</p>
-
-            <br />
-            <br />
-
             <div className={styles.buttonContainer}>
               <ActionButton
                 id="btnCreateWallet"
@@ -1599,13 +1567,13 @@ export default function Home() {
           </Container>
 
           <Container title="Encryption Key" subtitle="Encryption Key">
-            <label htmlFor="mnemonic">Mnemonic</label>
             <TextArea
               id="mnemonic"
               name="mnemonic"
               rows="4"
               value={mnemonic}
               setValue={setMnemonic}
+              title="Mnemonic"
             />
             <br />
             <div className={styles.buttonContainer}>

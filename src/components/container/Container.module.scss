@@ -1,28 +1,31 @@
-@import 'styles/common';
+@import "styles/common";
 
 .container {
   width: 100%;
-  border: 1px solid hsla(0,0%,55%,.3);
+  border: 1px solid var(--container-border-color);
   border-radius: 10px;
-  padding: 20px 30px;
-  background-color: #030819;
+  padding: 16px;
+  background: var(--container-background);
 }
 
-.label{
+.label {
   display: grid;
-  gap:10px;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.label1{
-  font-size: 28px;
-  font-weight: 700;
-  color: $white;
+.label1 {
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.label2{
+.label2 {
   font-size: 14px;
   font-weight: 400;
-  color: #cfd2dc;
 }
 
+@include desktops-laptops {
+  .container {
+    padding: 20px 30px;
+  }
+}

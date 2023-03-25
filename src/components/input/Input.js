@@ -6,10 +6,6 @@ import styles from "./Input.module.scss";
 
 const Input = ({ id, title, value, setValue, errorMessage, ...inputProps }) => {
   const handleOnChange = (e) => {
-    // if (onChange) {
-    //   onChange(e);
-    // }
-
     if (setValue) {
       setValue(e.target.value);
     }

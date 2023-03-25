@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 3rem 1rem;
   min-height: 100dvh;
   min-height: 100vh;
 }
@@ -11,7 +11,8 @@
 .mainContent {
   max-width: 800px;
   width: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -302,5 +303,12 @@
   }
   to {
     transform: rotate(0deg);
+  }
+}
+
+@media only screen and (min-device-width: 1024px) {
+  .main {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
   }
 }

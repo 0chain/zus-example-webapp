@@ -1,24 +1,28 @@
-@import 'styles/common';
+@import "styles/common";
 
 .container {
   width: 100%;
+  margin-bottom: 1rem;
 }
 
-.inputLabel{
-  color: rgba(255, 255, 255, 0.729);
+.inputLabel {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .inputWrapper {
   gap: 24px;
-  border: 2px solid $white;
+  border: 1px solid hsla(0, 0%, 55%, 0.3);
   border-radius: 8px;
-  margin-bottom: 5px;
   margin-top: 5px;
+  margin-bottom: 5px;
 
   > textarea {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.174);;
-    font-size: 16px;
+    font-family: inherit;
+    background-color: transparent;
+    font-size: 15px;
     padding: 10px 20px;
     outline: none;
     border: none;
