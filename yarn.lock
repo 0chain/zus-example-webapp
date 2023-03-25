@@ -232,10 +232,10 @@
     "@typescript-eslint/types" "5.48.0"
     eslint-visitor-keys "^3.3.0"
 
-"@zerochain/zus-sdk@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@zerochain/zus-sdk/-/zus-sdk-0.0.30.tgz#d3d3c1b8c1f6fb93e3d78b92a24e90cb0006301b"
-  integrity sha512-CWFgdIOMnVKszqX2dReSK3DTML8ESm9h5te0haAJSFZCtMyaeP1+2O8M0BKSS36uTfd86EFSCcKCGNJ8ubK5Zw==
+"@zerochain/zus-sdk@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@zerochain/zus-sdk/-/zus-sdk-0.0.33.tgz#7b25b88bf76857c20e604924fffceffe17534927"
+  integrity sha512-GSSwpSj6JhQt8af2Z2Zw9uHxd9z6qOQ9eTUVecLy4WvxUENsAp1k51V/UKDPp7IKi3Z9g7QLHYqzVy0Avw8eQQ==
   dependencies:
     axios "^1.2.0"
     bip39 "^3.1.0"
