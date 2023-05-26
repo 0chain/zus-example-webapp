@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Head from "next/head";
+import { config } from "@/constant/config";
 
 import {
   init,
@@ -90,28 +91,6 @@ export default function Home() {
     "plunge tray magic student meat basic wheel mountain elevator neglect ginger oyster gallery hen ensure roast lake stage color oval antenna plug orchard initial"
   );
   const [txHash, setTxHash] = useState("abc");
-
-  const configJson = {
-    chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
-    signatureScheme: "bls0chain",
-    minConfirmation: 50,
-    minSubmit: 50,
-    confirmationChainLength: 3,
-    blockWorker: "https://dev.zus.network/dns",
-    zboxHost: "https://0box.dev.zus.network",
-    zboxAppType: "vult",
-  };
-
-  const config = [
-    configJson.chainId,
-    configJson.blockWorker,
-    configJson.signatureScheme,
-    configJson.minConfirmation,
-    configJson.minSubmit,
-    configJson.confirmationChainLength,
-    configJson.zboxHost,
-    configJson.zboxAppType,
-  ];
 
   const initClick = async () => {
     //Initialize SDK

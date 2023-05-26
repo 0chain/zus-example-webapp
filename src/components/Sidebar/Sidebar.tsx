@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Sidebar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -8,6 +8,11 @@ import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
 import { SidebarContext } from './useSidebarContext'
+import dynamic from 'next/dynamic'
+
+// const SendTokenDialog = dynamic(() => import('../Dialog/SendToken'))
+// const EnterAmountDialog = dynamic(() => import('../Dialog/SendToken/EnterAmountDialog'))
+// const ConfirmTransactionDialog = dynamic(() => import('../Dialog/SendToken/ConfirmTransactionDialog'))
 
 const siteMenu = [
   {
@@ -54,7 +59,62 @@ export default function Sidebar() {
 
   const isActive = path => router.pathname === path
 
-  console.log(sidebarActive)
+  // const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
+  // const [selectedTransferDetails, setSelectedTransferDetails] = useState({})
+  // const [confirmedTransactionDetails, setConfirmedTransactionDetails] = useState({})
+  // const [showConfirmationToast, setShowConfirmationToast] = useState(false)
+  // const [showErrorToast, setShowErrorToast] = useState(false)
+
+  // const handleSend = () => setIsSendTokenDialogOpen(true)
+  // const handleReceive = () => setIsReceiveTokenDialogOpen(true)
+
+  // const onSendTokenDialogNext = (walletDetails, address) => {
+  //   setWalletDetails(walletDetails)
+  //   setSelectedSenderAddress(address)
+  //   setIsSendTokenDialogOpen(false)
+  //   setIsEnterAmountDialogOpen(true)
+  // }
+
+  // const onEnterAmountDialogNext = transferDetails => {
+  //   setSelectedTransferDetails(transferDetails)
+  //   setIsEnterAmountDialogOpen(false)
+  //   setIsConfirmTransactionDialogOpen(true)
+  // }
+
+  // const onConfirmTransactionDialogConfirm = (
+  //   transactionDetails,
+  //   responseData,
+  //   responseError
+  // ) => {
+  //   if (responseError) {
+  //     setShowErrorToast(true)
+  //   } else {
+  //     setConfirmedTransactionDetails({
+  //       ...transactionDetails,
+  //       transactionNumber: responseData.hash,
+  //       transactionDate: format(
+  //         new Date(responseData.creation_date * 1000),
+  //         'MMM do, yyyy, h:mm aaa'
+  //       ),
+  //       status: t('layout.confirmed'),
+  //       ...responseData,
+  //     })
+  //     setTimeout(() => {
+  //       dispatch(getTxnByWalletId())
+  //       setIsConfirmTransactionDialogOpen(false)
+  //       setShowConfirmationToast(true)
+  //     }, 1000)
+  //     setTimeout(() => {
+  //       dispatch(getBalance())
+  //     }, 2000)
+  //   }
+  // }
+
+  // const viewTransaction = () => {
+  //   console.log('confirmedTransactionDetails', confirmedTransactionDetails)
+  //   setShowConfirmationToast(false)
+  //   setIsTransactionConfirmedDialogOpen(true)
+  // }
 
   return (
     <div className={styles.siteSidebar}>
@@ -80,7 +140,7 @@ export default function Sidebar() {
         <ul className={styles.nav}>
           {
             navMenu.map((item) => {
-              return <li key={item.label}>
+              return <li key={item.label} className={isActive(item.href) ? styles.active : ''}>
                 <Link href={item.href}>
                   <figure>
                     <Image src={item.inactiveIcon} width={item.iconWidth} height={item.iconWidth} alt={item.label} />
@@ -95,21 +155,21 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.sidebarBottom}>
-        <Button url="#" theme="bolt">
+        <Button size='large' theme="bolt">
           Send
           <figure>
             <Image src="/icons/icon-arrow-right.svg" width="16" height="16" alt="" />
           </figure>
         </Button>
 
-        <Button url="#" theme="bolt">
+        <Button size='large' theme="bolt">
           Receive
           <figure>
             <Image src="/icons/icon-arrow-left.svg" width="16" height="16" alt="" />
           </figure>
         </Button>
 
-        <Button url="#" theme="bolt">
+        <Button size='large' theme="bolt">
           Faucet
           <figure>
             <Image src="/icons/icon-faucet.svg" width="20" height="20" alt="" />

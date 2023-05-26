@@ -1,0 +1,250 @@
+.content {
+  background-color: #fff;
+  box-shadow: 0 3px 15px $modalBoxShadow;
+  color: $primaryText;
+}
+
+.header {
+  position: relative;
+  @extend .flexStart;
+  align-items: center;
+  padding: 2rem;
+}
+
+.closeButton {
+  @extend .flexCenter;
+  border: none;
+  outline: none;
+  margin-right: 1em;
+  color: $primaryBlue;
+  background-color: transparent;
+  opacity: 1;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg path {
+    fill: $primaryBlue;
+  }
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  color: $primaryText;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  top: -0.5px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.leftButton {
+  all: unset;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: pointer;
+  width: max-content;
+  border-radius: 8px;
+
+  &:active {
+    transform: translateX(1px) translateY(2px);
+  }
+}
+
+.leftButtonText {
+  @extend .disableSelect;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 24px;
+  margin-left: 17px;
+}
+
+.titleLeft {
+  @extend .spaceBetween;
+
+  .closeButton {
+    margin: 0 !important;
+    padding: 0;
+    order: 1;
+
+    path {
+      fill: $gray0;
+    }
+  }
+
+  .title {
+    order: 0;
+    margin: 0;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 100%;
+  }
+}
+
+.backBtn {
+  all: unset;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.rounded {
+  border-radius: 12px;
+}
+
+.defaultMarginRight {
+  margin-right: 1rem;
+}
+
+.footerButton {
+  min-width: 104px;
+  width: max-content;
+}
+
+.vultTheme {
+  .header {
+    padding: 1rem 0;
+
+    button:hover svg path {
+      fill: $primaryBlue !important;
+    }
+  }
+
+  .leftButtonText {
+    color: $primaryBlue;
+  }
+
+  .leftButton {
+    svg path {
+      fill: $primaryBlue;
+    }
+
+    &:hover {
+      background: $veryLightPaleBlue;
+    }
+  }
+}
+
+.boltTheme .header {
+  padding: 1rem 0;
+
+  button:hover svg path {
+    fill: $primaryGreen !important;
+  }
+}
+
+.blowUp {
+  animation: blowUp 0.3s ease-in-out forwards;
+}
+
+.bounce {
+  animation: bounce 0.3s ease-in-out forwards;
+}
+
+.jump {
+  animation: jump 0.3s ease-in-out forwards;
+}
+
+.fallFromTop {
+  animation: fallFromTop 0.3s ease-in-out forwards;
+}
+
+.growFromBottom {
+  animation: growFromBottom 0.3s ease-in-out forwards;
+}
+
+.rotateFromLeftTop {
+  animation: rotateFromLeftTop 0.3s ease-in-out forwards;
+}
+
+.rotateFromLeftBottom {
+  animation: rotateFromLeftBottom 0.3s ease-in-out forwards;
+}
+
+.rotateFromRightTop {
+  animation: rotateFromRightTop 0.3s ease-in-out forwards;
+}
+
+.rotateFromRightBottom {
+  animation: rotateFromRightBottom 0.3s ease-in-out forwards;
+}
+
+.slideFromLeft {
+  animation: slideFromLeft 0.3s ease-in-out forwards;
+}
+
+.slideFromRight {
+  animation: slideFromRight 0.3s ease-in-out forwards;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateFromLeftTop {
+  0% {
+    transform: translateX(-100%) rotate(280deg);
+  }
+  90% {
+    transform: translateX(0) rotate(370deg);
+  }
+  100% {
+    transform: translateX(0) rotate(360deg);
+  }
+}
+
+@keyframes rotateFromLeftBottom {
+  0% {
+    transform: translateX(-100%) rotate(-280deg);
+  }
+  90% {
+    transform: translateX(0) rotate(-370deg);
+  }
+  100% {
+    transform: translateX(0) rotate(-360deg);
+  }
+}
+
+@keyframes rotateFromRightTop {
+  0% {
+    transform: translateX(100%) rotate(-280deg);
+  }
+  90% {
+    transform: translateX(0) rotate(-370deg);
+  }
+  100% {
+    transform: translateX(0) rotate(-360deg);
+  }
+}
+
+@keyframes rotateFromRightBottom {
+  0% {
+    transform: translateX(100%) rotate(280deg);
+  }
+  90% {
+    transform: translateX(0) rotate(370deg);
+  }
+  100% {
+    transform: translateX(0) rotate(360deg);
+  }
+}

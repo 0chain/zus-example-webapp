@@ -21,7 +21,6 @@ const LayoutDashboard = ({
             <Sidebar />
 
             <main className={styles.mainWrapper}>
-              {sidebarActive} {toggleSidebar}
               {children}
             </main>
           </div>

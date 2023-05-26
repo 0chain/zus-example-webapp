@@ -1,0 +1,91 @@
+
+.enterAmountDialog {
+  width: 468px;
+  border-radius: 12px;
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+}
+
+.subTitle {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  color: $primaryText;
+  margin-top: 62px;
+  margin-bottom: 16px;
+}
+
+.sendValue {
+  @extend .flexCenter;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 44px;
+  text-align: center;
+  color: $semiBlack;
+}
+
+.coinSymbol {
+  font-weight: 400;
+  font-size: 14px;
+  color: $semiBlack;
+  margin-left: 5px;
+}
+
+.sendAmount {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: $semiBlack;
+  margin-top: 21px;
+}
+
+.divider {
+  width: 280px;
+  height: 2px;
+  background: $boltPrimaryGradient;
+  border-bottom: 0;
+}
+
+.verticalDivider {
+  width: 2px;
+  height: 30px;
+  margin: 0 5px;
+  background: $boltPrimaryGradient;
+}
+
+.availableBalanceContainer {
+  @extend .flexCenterCol;
+  margin: 20px 0;
+  padding: 16px 0;
+  width: 200px;
+  background-color: $semiGray;
+}
+
+.balanceTitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  color: $semiBlack;
+}
+
+.balanceValue {
+  display: flex;
+  flex-direction: row;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  color: $semiBlack;
+}
+
+.secondaryButton {
+  min-width: 64px;
+  height: 32px;
+  margin-left: 20px;
+}
+
+.errorMessage {
+  color: red;
+}

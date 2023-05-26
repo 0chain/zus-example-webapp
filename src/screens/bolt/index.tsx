@@ -1,31 +1,32 @@
-import React, { useMemo, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { getBalance, getUSDRate } from "@zerochain/zus-sdk";
+import Link from "next/link";
+import Image from "next/image";
+
 import styles from './Bolt.module.scss'
 import { ContentBox } from "@/components/ContentBox";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import { ProgressBar } from "@/components/ProgressBar";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/Button";
+import { AppContext } from "@/components/App/App";
 
 export default function Bolt() {
-  const [page, setPage] = useState(1);
-  const perPage = 5;
-  
-  const transactions = [
-    { hash: "169de9f0438b2cc7c8e1467cecbb7634", date: new Date() },
-    { hash: "308097ddf0a90fbf48b01913a6986102", date: new Date() },
-    { hash: "4281a4e9f4040ecb6cbcc15ee51a8a7b", date: new Date() },
-    { hash: "a4619264e742e4d3d36f27cf0fcf2b66", date: new Date() },
-    { hash: "777d016de7b879e4d2742fe9b4b5d2df", date: new Date() },
-    { hash: "5a9edf056804093ed4f5102be9d06ed3", date: new Date() },
-    { hash: "9bb6e70aad0c3a6ef10e776b57011250", date: new Date() },
-    { hash: "0b43f263582ed55334b9fe6ca41ac2a6", date: new Date() },
-    { hash: "1ee69676e594484030c23f1317a04894", date: new Date() },
-  ]
+  const app = useContext(AppContext);
+  const [balance, setBalance] = useState(0);
+  const [rate, setRate] = useState(0);
 
-  const pages = useMemo(() => {
-    return Array.from(Array(Math.ceil(transactions.length / perPage)).keys());
-  }, [transactions.length])
+  const init = async () => {
+    const activeBalance = await getBalance(app.wallet.keys.walletId);
+    setBalance(activeBalance.balance / Math.pow(10, 10));
+    const fetchRate = await getUSDRate("zcn");
+    setRate(fetchRate);
+  }
+  
+  useEffect(() => {
+    if(app.wallet) {
+      console.log('Selected Wallet', app.wallet);
+      init();
+    }
+  }, [app.wallet]);
 
   return (
     <LayoutDashboard>
@@ -33,10 +34,10 @@ export default function Bolt() {
         <div className={styles.balanceWrapper}>
           <p>Available Balance</p>
           <h1 className={styles.value}>
-            <b>1000.00</b>
+            <b>{Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)}</b>
             <small className={styles.unit}>ZCN</small>
           </h1>
-          <small>1 ZCN = 0.193456</small>
+          <small>1 ZCN = {rate.toFixed(5)}</small>
 
           <ProgressBar value="50%" labelLeft="Staked" labelRight="Available" theme="bolt"></ProgressBar>
 
@@ -44,7 +45,7 @@ export default function Bolt() {
             <div>Total Balance</div>
             <div className={styles.total}>
               <span className={styles.currency}>$</span>
-              1000.00
+              {(balance * rate).toFixed(5)}
             </div>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function Bolt() {
             </tr>
           </thead>
           <tbody>
-            {transactions.slice(page * perPage, (page + 1) * perPage).map((e) => (
+            {/* {transactions.slice(page * perPage, (page + 1) * perPage).map((e) => (
               <tr key={e.hash}>
                 <td className={styles.hash}>
                   {e.hash}
@@ -79,7 +80,7 @@ export default function Bolt() {
                 </td>
                 <td>{e.date.toUTCString()}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
 
@@ -91,11 +92,11 @@ export default function Bolt() {
             </button>
           </li>
           
-          {pages.map((e) => (
+          {/* {pages.map((e, i) => (
           <li>
-            <button onClick={() => setPage(e)}>{e+1}</button>
+            <button key={i} onClick={() => setPage(e)}>{e+1}</button>
           </li>
-          ))}
+          ))} */}
           
           <li className={styles.next}>
             <button >
