@@ -4,14 +4,23 @@ import { ContentBox } from "@/components/ContentBox";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import { ProgressBar } from "@/components/ProgressBar";
 import { IconUpload } from "@/components/IconUpload";
+// import FileUploadDialog from "@/components/file-upload"
 
 export default function Vult() {
   const [imageFile, setImageFile] = useState<File>();
   const [docFile, setDocFile] = useState<File>();
 
-  const onImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onImageFileChange = (e) => {
     if(e.target.files?.length) setImageFile(e.target.files[0]);
   }
+
+  const handleSubmit = (e) => {
+    debugger
+    e.preventDefault();
+    console.log(imageFile)
+    const formData = new FormData();
+    formData.append("myfile", imageFile);
+  };
 
   const onDocFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(e.target.files?.length) setImageFile(e.target.files[0]);
@@ -39,7 +48,9 @@ export default function Vult() {
 
       <div className={styles.container}>
         <div className={styles.halfCol}>
-          <IconUpload type="image" label="Upload image" changeFunc={e => onImageFileChange(e)} />
+          <form action="form" onSubmit={handleSubmit}>
+            <IconUpload type="image" label="Upload image" changeFunc={e => onImageFileChange(e)} />
+          </form>
         </div>
 
         <div className={styles.halfCol}>
