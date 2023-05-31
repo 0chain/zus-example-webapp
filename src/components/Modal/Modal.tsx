@@ -15,7 +15,7 @@ const Modal = ({
           <h4>{title}</h4>
 
           { closeFunc && <div className={styles.headerRight}>
-            <button className={styles.close} onClick={closeFunc} >
+            <button className={styles.close} onClick={() => closeFunc() } >
               <Image src="icons/icon-close.svg" height="18" width="18" alt="" />
             </button>
           </div> }

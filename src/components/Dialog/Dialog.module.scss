@@ -1,32 +1,7 @@
-.disableSelect {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.spaceBetween {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flexStart {
-  display: flex;
-  justify-content: flex-start;
-}
-
-
 .content {
   background-color: #fff;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-  color: #000;
+  box-shadow: 0 3px 15px $modalBoxShadow;
+  color: $primaryText;
 }
 
 .header {
@@ -41,7 +16,7 @@
   border: none;
   outline: none;
   margin-right: 1em;
-  color: #175bff;
+  color: $primaryBlue;
   background-color: transparent;
   opacity: 1;
   cursor: pointer;
@@ -52,14 +27,14 @@
   }
 
   svg path {
-    fill: #175bff;
+    fill: $primaryBlue;
   }
 }
 
 .title {
   position: relative;
   margin: 0;
-  color: #000;
+  color: $primaryText;
   font-weight: 600;
   font-size: 16px;
   line-height: 28px;
@@ -103,7 +78,7 @@
     order: 1;
 
     path {
-      fill: #202127;
+      fill: $gray0;
     }
   }
 
@@ -143,21 +118,21 @@
     padding: 1rem 0;
 
     button:hover svg path {
-      fill: #175bff !important;
+      fill: $primaryBlue !important;
     }
   }
 
   .leftButtonText {
-    color: #175bff;
+    color: $primaryBlue;
   }
 
   .leftButton {
     svg path {
-      fill: #175bff;
+      fill: $primaryBlue;
     }
 
     &:hover {
-      background: #f3f5f9;
+      background: $veryLightPaleBlue;
     }
   }
 }
@@ -166,7 +141,7 @@
   padding: 1rem 0;
 
   button:hover svg path {
-    fill: #03c17d !important;
+    fill: $primaryGreen !important;
   }
 }
 

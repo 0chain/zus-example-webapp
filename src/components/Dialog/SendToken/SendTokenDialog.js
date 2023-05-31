@@ -8,45 +8,43 @@ import Dialog from 'components/dialog'
 import Button from 'components/button'
 import Toast from 'components/toast'
 
-// import { selectActiveWallet, getBalance } from 'store/wallet'
-// import { getBlobbers, selectZcnPrice } from 'store/zerochain'
-// import { tokenToZcn, isWalletID } from 'lib/utils'
+import { selectActiveWallet, getBalance } from 'store/wallet'
+import { getBlobbers, selectZcnPrice } from 'store/zerochain'
+import { tokenToZcn, isWalletID } from 'lib/utils'
 
 import stl from './SendTokenDialog.module.scss'
 
 const SendTokenDialog = ({ isOpen, close: onClose, next, customClass, id }) => {
   const { t } = useTranslation('shared-components')
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const [address, setAddress] = useState()
   const [showErrorToast, setShowErrorToast] = useState(false)
 
-  // const activeWallet = useSelector(selectActiveWallet)
+  const activeWallet = useSelector(selectActiveWallet)
   const activeBalance = useSelector(({ wallet }) => wallet.activeBalance)
-  // const zcnPrice = useSelector(selectZcnPrice)
+  const zcnPrice = useSelector(selectZcnPrice)
 
   const walletDetails = {
-    // coinAmount: tokenToZcn(activeBalance.balance),
-    coinAmount: '15',
+    coinAmount: tokenToZcn(activeBalance.balance),
     coinSymbol: 'ZCN',
-    // usdAmount: Number(zcnPrice),
-    usdAmount:1
+    usdAmount: Number(zcnPrice),
   }
 
-  // useEffect(() => {
-  //   if (activeWallet.id) {
-  //     dispatch(getBalance())
-  //     dispatch(getBlobbers())
-  //   }
-  // }, [activeWallet.id, dispatch])
+  useEffect(() => {
+    if (activeWallet.id) {
+      dispatch(getBalance())
+      dispatch(getBlobbers())
+    }
+  }, [activeWallet.id, dispatch])
 
   const nextStep = () => {
-    // const isValid = isWalletID(address)
-    // if (isValid) {
+    const isValid = isWalletID(address)
+    if (isValid) {
       next(walletDetails, address)
       setAddress('')
-    // } else {
-    //   setShowErrorToast(true)
-    // }
+    } else {
+      setShowErrorToast(true)
+    }
   }
 
   return (

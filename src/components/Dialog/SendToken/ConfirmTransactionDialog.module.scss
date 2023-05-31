@@ -10,7 +10,7 @@
   font-size: 15px;
   line-height: 18.54px;
   text-align: center;
-  color: rgba(0, 0, 0, 0.6);
+  color: $subTitleGray;
   margin: 3vh;
 }
 
@@ -20,13 +20,13 @@
   font-size: 36px;
   line-height: 44px;
   text-align: center;
-  color: rgb(30, 30, 30);
+  color: $semiBlack;
 }
 
 .coinSymbol {
   font-weight: 400;
   font-size: 14px;
-  color: rgb(30, 30, 30);
+  color: $semiBlack;
   margin-left: 5px;
 }
 
@@ -35,7 +35,7 @@
   font-size: 14px;
   line-height: 20px;
   text-align: center;
-  color: rgb(30, 30, 30);
+  color: $semiBlack;
   margin-top: 21px;
 }
 
