@@ -39,11 +39,11 @@ export default function Vult() {
 
       <div className={styles.container}>
         <div className={styles.halfCol}>
-          <IconUpload type="image" label="Upload image" changeFunc={e => onImageFileChange(e)} />
+          <IconUpload type="image" label="Upload image" changeFunc={onImageFileChange} />
         </div>
 
         <div className={styles.halfCol}>
-          <IconUpload type="document" label="Upload document" changeFunc={e => onDocFileChange(e)} />
+          <IconUpload type="document" label="Upload document" changeFunc={onDocFileChange} />
         </div>
       </div>
     </LayoutDashboard>
