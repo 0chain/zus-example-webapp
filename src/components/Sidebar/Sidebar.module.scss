@@ -1,3 +1,20 @@
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexCenterBaseline {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.flexCenterCol {
+  @extend .flexCenter;
+  flex-direction: column;
+}
+
 .siteSidebar {
   width: 28rem;
   height: calc(100vh - 6.6rem);
@@ -58,5 +75,145 @@
 @media (min-width: 1280px) {
   .siteSidebar {
     display: flex;
+  }
+}
+
+
+.box {
+  background-color: #f3f5f9;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+}
+
+.contentContainer {
+  color: #717171;
+  display: flex;
+  height: calc(100vh - 50px);
+}
+
+.header {
+  z-index: 50;
+}
+
+.leftMenu {
+  height: 100vh;
+}
+
+.content {
+  flex: 6;
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.boltHeaderBox {
+  display: flex;
+  background-color: #fefefe;
+  box-shadow: 1px 1px 1px 1px #e0d6d690;
+  height: 50px;
+  width: 100%;
+  margin: 0;
+}
+
+.sidebar {
+  background: #fff;
+  display: flex;
+  height: 92vh;
+
+  span {
+    &[data-active='true'] {
+      font-weight: 700;
+    }
+  }
+}
+
+.buttonContainer {
+  @extend .flexCenterCol;
+  margin-top: 50px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.menuButton {
+  margin-left: 32px;
+  margin-right: 32px;
+  margin-bottom: 24px;
+  padding: 12px 28px;
+  min-width: 216px;
+  width: 216px;
+  height: 56px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none;
+}
+
+.receiveTokenDialog {
+  width: 468px;
+}
+
+.sendTokenDialog {
+  width: 468px;
+}
+
+.confirmationToast {
+  width: 460px;
+  height: 100px;
+  background: linear-gradient(39.18deg, #004f16 21.01%, #0d005a 139.72%);;
+  border-radius: 20px;
+
+  p {
+    color: #fff;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22.5px;
+    max-width: 390px;
+  }
+
+  span {
+    color: #33ce60;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+    text-decoration-line: underline;
+    cursor: pointer;
+    width: 180px;
+    margin-left: 20px;
+  }
+}
+
+.walletAddress {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 960px) {
+  .menuButton {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 24px;
+    padding: 0px 0px;
+    min-width: 16px;
+    width: 70px;
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .receiveTokenDialog {
+    width: 350px;
+  }
+
+  .sendTokenDialog {
+    width: 350px;
+  }
+
+  .confirmationToast {
+    span {
+      width: 300px;
+    }
   }
 }

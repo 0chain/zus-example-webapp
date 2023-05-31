@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
@@ -17,7 +17,7 @@ const ConfirmTransactionDialog = ({
   customClass,
 }) => {
   const { t } = useTranslation('shared-components')
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const [notes, setNotes] = useState()
 
@@ -32,8 +32,8 @@ const ConfirmTransactionDialog = ({
   const onConfirm = async () => {
     const transactionDetails = { ...walletDetails, notes }
     const { sendTransaction } = await import('store/transaction')
-    const { error, data } = await dispatch(sendTransaction(transactionDetails))
-    confirm(transactionDetails, data, error)
+    // const { error, data } = await dispatch(sendTransaction(transactionDetails))
+    // confirm(transactionDetails, data, error)
   }
 
   return (

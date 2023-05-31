@@ -5,14 +5,16 @@ import Image from 'next/image'
 import { Button } from '../Button'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
+import format from 'date-fns/format'
 
 import { ROUTES } from '../../constant/routes'
 import { SidebarContext } from './useSidebarContext'
 import dynamic from 'next/dynamic'
+import Modal from '../Modal2'
 
-// const SendTokenDialog = dynamic(() => import('../Dialog/SendToken'))
-// const EnterAmountDialog = dynamic(() => import('../Dialog/SendToken/EnterAmountDialog'))
-// const ConfirmTransactionDialog = dynamic(() => import('../Dialog/SendToken/ConfirmTransactionDialog'))
+const SendTokenDialog = dynamic(() => import('../Dialog/SendToken'))
+const EnterAmountDialog = dynamic(() => import('../Dialog/SendToken/EnterAmountDialog'))
+const ConfirmTransactionDialog = dynamic(() => import('../Dialog/SendToken/ConfirmTransactionDialog'))
 
 const siteMenu = [
   {
@@ -55,66 +57,71 @@ const navMenu = [
 
 export default function Sidebar() {
   const router = useRouter()
-  const {sidebarActive} = useContext(SidebarContext)
+  const { sidebarActive } = useContext(SidebarContext)
 
   const isActive = path => router.pathname === path
 
-  // const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
-  // const [selectedTransferDetails, setSelectedTransferDetails] = useState({})
-  // const [confirmedTransactionDetails, setConfirmedTransactionDetails] = useState({})
-  // const [showConfirmationToast, setShowConfirmationToast] = useState(false)
-  // const [showErrorToast, setShowErrorToast] = useState(false)
+  // const [isSendOpen, setIsSendOpen] = useState(false)
+  const [walletDetails, setWalletDetails] = useState({})
+  const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
+  const [isSendTokenDialogOpen, setIsSendTokenDialogOpen] = useState(false)
+  const [isEnterAmountDialogOpen, setIsEnterAmountDialogOpen] = useState(false)
+  const closeEnterAmountDialogModal = () => setIsEnterAmountDialogOpen(false)
+  const [selectedTransferDetails, setSelectedTransferDetails] = useState({})
+  const [isConfirmTransactionDialogOpen, setIsConfirmTransactionDialogOpen] =
+    useState(false)
+  const closeConfirmTransactionDialogModal = () =>
+    setIsConfirmTransactionDialogOpen(false)
+  const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
+    useState({})
+    const [showConfirmationToast, setShowConfirmationToast] = useState(false)
 
-  // const handleSend = () => setIsSendTokenDialogOpen(true)
-  // const handleReceive = () => setIsReceiveTokenDialogOpen(true)
 
-  // const onSendTokenDialogNext = (walletDetails, address) => {
-  //   setWalletDetails(walletDetails)
-  //   setSelectedSenderAddress(address)
-  //   setIsSendTokenDialogOpen(false)
-  //   setIsEnterAmountDialogOpen(true)
-  // }
+  const closeSendTokenDialogModal = () => setIsSendTokenDialogOpen(false)
 
-  // const onEnterAmountDialogNext = transferDetails => {
-  //   setSelectedTransferDetails(transferDetails)
-  //   setIsEnterAmountDialogOpen(false)
-  //   setIsConfirmTransactionDialogOpen(true)
-  // }
+  const handleSend = () => setIsSendTokenDialogOpen(true)
+  const onSendTokenDialogNext = (walletDetails, address) => {
+    setWalletDetails(walletDetails)
+    setSelectedSenderAddress(address)
+    setIsSendTokenDialogOpen(false)
+    setIsEnterAmountDialogOpen(true)
+  }
 
-  // const onConfirmTransactionDialogConfirm = (
-  //   transactionDetails,
-  //   responseData,
-  //   responseError
-  // ) => {
-  //   if (responseError) {
-  //     setShowErrorToast(true)
-  //   } else {
-  //     setConfirmedTransactionDetails({
-  //       ...transactionDetails,
-  //       transactionNumber: responseData.hash,
-  //       transactionDate: format(
-  //         new Date(responseData.creation_date * 1000),
-  //         'MMM do, yyyy, h:mm aaa'
-  //       ),
-  //       status: t('layout.confirmed'),
-  //       ...responseData,
-  //     })
-  //     setTimeout(() => {
-  //       dispatch(getTxnByWalletId())
-  //       setIsConfirmTransactionDialogOpen(false)
-  //       setShowConfirmationToast(true)
-  //     }, 1000)
-  //     setTimeout(() => {
-  //       dispatch(getBalance())
-  //     }, 2000)
-  //   }
-  // }
+  const onEnterAmountDialogNext = transferDetails => {
+    setSelectedTransferDetails(transferDetails)
+    setIsEnterAmountDialogOpen(false)
+    setIsConfirmTransactionDialogOpen(true)
+  }
 
-  // const viewTransaction = () => {
-  //   console.log('confirmedTransactionDetails', confirmedTransactionDetails)
-  //   setShowConfirmationToast(false)
-  //   setIsTransactionConfirmedDialogOpen(true)
-  // }
+  const onConfirmTransactionDialogConfirm = (
+    transactionDetails,
+    responseData,
+    responseError
+  ) => {
+    if (responseError) {
+      // setShowErrorToast(true)
+    } else {
+      setConfirmedTransactionDetails({
+        ...transactionDetails,
+        transactionNumber: responseData.hash,
+        transactionDate: format(
+          new Date(responseData.creation_date * 1000),
+          'MMM do, yyyy, h:mm aaa'
+        ),
+        status: 'layout.confirmed',
+        ...responseData,
+      })
+      setTimeout(() => {
+        // dispatch(getTxnByWalletId())
+        setIsConfirmTransactionDialogOpen(false)
+        // setShowConfirmationToast(true)
+        alert('Transaction Sent')
+      }, 1000)
+      setTimeout(() => {
+        // dispatch(getBalance())
+      }, 2000)
+    }
+  }
 
   return (
     <div className={styles.siteSidebar}>
@@ -135,6 +142,8 @@ export default function Sidebar() {
           }
         </ul>
 
+
+
         <hr className={styles.ruler} />
 
         <ul className={styles.nav}>
@@ -154,8 +163,37 @@ export default function Sidebar() {
         </ul>
       </div>
 
+      <div id='modal' />
+
+      <SendTokenDialog
+        isOpen={isSendTokenDialogOpen}
+        close={closeSendTokenDialogModal}
+        next={onSendTokenDialogNext}
+        customClass={styles.sendTokenDialog}
+        id="sendTokenDialog"
+      />
+
+      <EnterAmountDialog
+        walletDetails={{
+          ...walletDetails,
+          sendAddress: selectedSenderAddress,
+        }}
+        isOpen={isEnterAmountDialogOpen}
+        close={closeEnterAmountDialogModal}
+        next={onEnterAmountDialogNext}
+        customClass={styles.sendTokenDialog}
+      />
+
+      <ConfirmTransactionDialog
+        walletDetails={selectedTransferDetails}
+        isOpen={isConfirmTransactionDialogOpen}
+        close={closeConfirmTransactionDialogModal}
+        confirm={onConfirmTransactionDialogConfirm}
+        customClass={styles.sendTokenDialog}
+      />
+
       <div className={styles.sidebarBottom}>
-        <Button size='large' theme="bolt">
+        <Button size='large' theme="bolt" onClick={handleSend}>
           Send
           <figure>
             <Image src="/icons/icon-arrow-right.svg" width="16" height="16" alt="" />

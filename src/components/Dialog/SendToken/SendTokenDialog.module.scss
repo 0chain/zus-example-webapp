@@ -1,3 +1,19 @@
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexCenterBaseline {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.flexCenterCol {
+  @extend .flexCenter;
+  flex-direction: column;
+}
 
 .sendTokenDialog {
   width: 468px;
@@ -50,7 +66,7 @@
 
   .selectedListItem {
     @extend .listItem;
-    border: 1px solid $semiBlack;
+    border: 1px solid rgb(30, 30, 30);
     border-radius: 10px;
   }
 }
@@ -58,13 +74,13 @@
 .confirmationToast {
   width: 460px;
   height: 80px;
-  background: $boltToastGradient;
+  background: linear-gradient(39.18deg, #004f16 21.01%, #0d005a 139.72%);;
   border-radius: 20px;
   display: flex;
   align-items: center;
 
   p {
-    color: $white;
+    color: #fff;
     font-weight: 400;
     font-size: 15px;
     line-height: 22.5px;
