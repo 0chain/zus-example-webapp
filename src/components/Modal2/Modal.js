@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import ModalPortal from './ModalPortal'
 
-import { useOnClickOutside } from 'lib/hooks'
+import { useOnClickOutside } from './useOnClickOutside'
 
 import stl from './Modal.module.scss'
 

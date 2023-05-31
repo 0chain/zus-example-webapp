@@ -20,6 +20,8 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        <div id="send-modal" /> 
+        <div id="receive-modal" /> 
       </body>
     </Html>
   );

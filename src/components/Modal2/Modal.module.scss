@@ -1,4 +1,8 @@
-@import 'styles/common';
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .background {
   @extend .flexCenter;
@@ -7,7 +11,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background: $hoverShadow;
+  background: rgba(155, 155, 155, 0.45);
   backdrop-filter: blur(5px);
   z-index: 1000;
   opacity: 0;

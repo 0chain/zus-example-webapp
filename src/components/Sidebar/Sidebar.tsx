@@ -8,7 +8,10 @@ import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
 import { SidebarContext } from './useSidebarContext'
-import dynamic from 'next/dynamic'
+import { AppContext } from "@/components/App/App";
+import Modal from '../Modal2'
+import LoadingBox from '../loading-box'
+import Input from '../Input'
 
 // const SendTokenDialog = dynamic(() => import('../Dialog/SendToken'))
 // const EnterAmountDialog = dynamic(() => import('../Dialog/SendToken/EnterAmountDialog'))
@@ -55,9 +58,35 @@ const navMenu = [
 
 export default function Sidebar() {
   const router = useRouter()
-  const {sidebarActive} = useContext(SidebarContext)
+  const { sidebarActive } = useContext(SidebarContext)
+  const app = useContext(AppContext);
 
   const isActive = path => router.pathname === path
+
+  const [isSendOpen, setIsSendOpen] = useState(false)
+  const [isReceiveOpen, setIsReceiveOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+
+  const [receiverId, setReceiverId] = useState("")
+  const [amount, setAmount] = useState(0)
+
+
+
+  const handleSend = () => {
+    setLoading(true)
+  }
+
+  const handleCopy = (value) => {
+    const textArea = document.createElement('textarea')
+    textArea.value = value
+
+    document.body.appendChild(textArea)
+    textArea.select()
+
+    document.execCommand('copy')
+    textArea.remove()
+  }
 
   // const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
   // const [selectedTransferDetails, setSelectedTransferDetails] = useState({})
@@ -135,6 +164,37 @@ export default function Sidebar() {
           }
         </ul>
 
+        <Modal isOpen={isSendOpen} close={() => setIsSendOpen(false)} selector='#send-modal'>
+          {loading ? <LoadingBox label='Making Transaction' /> : <div className={styles.sendTokenContainer}>
+            <div className={styles.sendTokenheading}>
+              <h2>Send Token</h2>
+            </div>
+            <div className={styles.sendTokenFormContainer}>
+              <form className={styles.sendTokenForm}>
+                <Input name='Receiver ID' title='Receiver ID' placeholder='Enter Client ID of Receiver' onChange={e => setReceiverId(e)} defaultValue={receiverId} />
+                <Input name='Amount' title='Amount' placeholder='Enter Amount' onChange={e => setAmount(e)} defaultValue={receiverId} type='number' />
+                <div className={styles.buttonArea}>
+                  <button className={styles.endButton} type="button" onClick={handleSend}>
+                    Send
+                  </button>
+                  {/* <button className={styles.cancelButton} type="button" onClick={() => setIsSendOpen(false)}>
+                    Cancel
+                  </button> */}
+                </div>
+              </form>
+            </div>
+          </div>}
+        </Modal>
+
+        <Modal isOpen={isReceiveOpen} close={() => setIsReceiveOpen(false)} selector='#send-modal'>
+          <div className={styles.receiveModalContainer}>
+            {app.wallet.id}
+          </div>
+          <button className={styles.copyButton} onClick={()=>handleCopy(app.wallet.id)}>
+
+          </button>
+        </Modal>
+
         <hr className={styles.ruler} />
 
         <ul className={styles.nav}>
@@ -154,15 +214,19 @@ export default function Sidebar() {
         </ul>
       </div>
 
+
+
       <div className={styles.sidebarBottom}>
-        <Button size='large' theme="bolt">
+        <Button size='large' theme="bolt" onClick={() => {
+          setIsSendOpen(true)
+        }}>
           Send
           <figure>
             <Image src="/icons/icon-arrow-right.svg" width="16" height="16" alt="" />
           </figure>
         </Button>
 
-        <Button size='large' theme="bolt">
+        <Button size='large' theme="bolt" onClick={() => setIsReceiveOpen(true)}>
           Receive
           <figure>
             <Image src="/icons/icon-arrow-left.svg" width="16" height="16" alt="" />
