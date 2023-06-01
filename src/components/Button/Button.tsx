@@ -1,51 +1,25 @@
-import React from "react";
-import styles from "./Button.module.scss";
-import PropTypes from "prop-types";
-import clsx from "clsx";
+import React from 'react'
+import styles from './Button.module.scss'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const Button = ({
-  id,
-  name,
   children,
-  onClick,
+  url,
   size,
-  theme = "default",
-  fullWidth,
-  disabled,
-  disableBg,
+  theme
 }) => {
   return (
-    <>
-      <button
-        id={id}
-        type="submit"
-        className={clsx(
-          styles.btn,
-          styles[size],
-          styles[theme],
-          disableBg && styles.transparent,
-          fullWidth && styles.fullWidth
-        )}
-        disabled={disabled}
-        onClick={onClick}
-        name={name}
-      >
-        {children}
-      </button>
-    </>
-  );
-};
+    <Link href={url} className={clsx(styles.btn, styles[size], styles[theme])}>{children}</Link>
+  )
+}
 
 Button.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
   size: PropTypes.string,
-  theme: PropTypes.oneOf(["default", "bolt", "vult", "white"]),
-  fullWidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  disableBg: PropTypes.bool,
-};
+  theme: PropTypes.string
+}
 
 export default Button;

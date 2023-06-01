@@ -4,6 +4,9 @@
 
   .logo {
     transition: box-shadow 100ms ease-in;
+    border: 1px solid rgb(var(--color-border));
+    border-radius: 10px;
+    background-color: #fff;
     width: 50%;
     padding-top: 40%;
     position: relative;
@@ -22,6 +25,10 @@
 
     img {
       height: auto;
+    }
+
+    &:hover {
+      box-shadow: 2px 4px 10px rgba(117,117,117,.12);
     }
   }
 
@@ -62,16 +69,6 @@
   .welcomeWrapper {
     .flex {
       column-gap: 4rem;
-    }
-
-    .logo {
-      border: 1px solid rgb(var(--color-border));
-      border-radius: 10px;
-      background-color: #fff;
-  
-      &:hover {
-        box-shadow: 2px 4px 10px rgba(117,117,117,.12);
-      }
     }
   }
 }

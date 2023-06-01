@@ -12,8 +12,7 @@
   align-items: center;
   column-gap: 0.8rem;
   background: var(--gradient-zus);
-  cursor: pointer;
-  border: 0;
+  min-width: 25rem;
 
   &.vult {
     background: var(--gradient-vult);
@@ -31,12 +30,5 @@
   &.large {
     padding-top: 1.7rem;
     padding-bottom: 1.7rem;
-    font-size: 1.6rem;
   }
-}
-
-
-.fullWidth {
-  display: block;
-  width: 100%;
 }
