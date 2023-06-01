@@ -1,3 +1,3 @@
-import Vult from '@/screens/vult'
+import Vult from "@/screens/vult";
 
-export default Vult
+export default Vult;

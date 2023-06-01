@@ -60,7 +60,8 @@ export const startPlay = async ({
     authTicket,
     lookupHash,
     false,
-    false
+    false,
+    ""
   );
 
   videoElement.src = url;
