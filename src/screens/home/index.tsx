@@ -1,55 +1,36 @@
-import React, { useState, useEffect } from "react";
-import clsx from 'clsx'
+import React, { useState, useEffect, useContext } from "react";
+import Image from "next/image";
+import { setWallet, createWallet } from "@zerochain/zus-sdk";
+
 import Layout from "@/layouts/Layout";
 import styles from "./Home.module.scss"
-
-import Image from "next/image";
 import { InfoBox } from "@/components/InfoBox";
 import { Button } from "@/components/Button";
-import { init, createWallet } from "@zerochain/zus-sdk";
 import { Modal } from "@/components/Modal";
 import { Spinner } from "@/components/Spinner";
+import { AppContext } from "@/components/App/App";
+import { useRouter } from "next/router";
 
 export default function CreateWallet() {
-  const configJson = {
-    chainId: "0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe",
-    signatureScheme: "bls0chain",
-    minConfirmation: 50,
-    minSubmit: 50,
-    confirmationChainLength: 3,
-    blockWorker: "https://dev.zus.network/dns",
-    zboxHost: "https://0box.dev.zus.network",
-    zboxAppType: "vult",
-  };
-
-  const config = [
-    configJson.chainId,
-    configJson.blockWorker,
-    configJson.signatureScheme,
-    configJson.minConfirmation,
-    configJson.minSubmit,
-    configJson.confirmationChainLength,
-    configJson.zboxHost,
-    configJson.zboxAppType,
-  ];
+  const app = useContext(AppContext);
+  const router = useRouter();
 
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
 
-  const initComp = async () => {
-    await init(config);
-  };
-
-  useEffect(() => {
-    initComp();
-  }, []);
-
   const showModal1 = async () => {
     setModal1(true);
     await new Promise((res) => setTimeout(res, 2000));
-    console.log("calling createWallet");
-    const wallet = await createWallet();
-    console.log("Wallet", wallet);
+
+    if(app.wallet) {
+      setWallet(app.wallet.keys.walletId, app.wallet.keys.privateKey, app.wallet.keys.publicKey, app.wallet.mnemonic);
+    } else {
+      const newWallet = await createWallet();
+      console.log("after create wallet", newWallet);
+      app.saveWallet(newWallet);
+      setWallet(newWallet.keys.walletId,newWallet.keys.privateKey,newWallet.keys.publicKey, newWallet.mnemonic);
+    }
+
     setModal1(false);
     setModal2(true);
   };
@@ -74,7 +55,9 @@ export default function CreateWallet() {
               magna nulla duis ullamco cillum dolor.
             </p>
 
-            <button className={clsx('btn', styles.ctaBtn)} onClick={() => showModal1()}>Create Wallet</button>
+            <Button size="large" fullWidth={true} onClick={() => showModal1()}>
+              { app.wallet ? "Set Wallet" : "Create Wallet" }
+            </Button>
           </InfoBox>
         </div>
       </Layout>
@@ -90,9 +73,7 @@ export default function CreateWallet() {
         <Modal title="Success" closeFunc={closeModal2}>
           <Image src="/success-icon.svg" height="72" width="72" alt="" />
           <p>Allocation is created successfully</p>
-          <Button url="/welcome" size="large">
-            Ok
-          </Button>
+          <Button size="large" onClick={() => router.push('/welcome')}>Ok</Button>
         </Modal>
       )}
     </>
