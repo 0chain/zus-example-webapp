@@ -50,7 +50,7 @@ import {
   getMintWZCNPayload,
 } from "@zerochain/zus-sdk";
 
-import { startPlay, stopPlay } from "./player";
+import { startPlay, stopPlay } from "../src/lib/utils/player";
 
 import styles from "../src/styles/Test.module.css";
 
