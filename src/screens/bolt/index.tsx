@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import styles from './Bolt.module.scss'
+import styles from "./Bolt.module.scss";
 import { ContentBox } from "@/components/ContentBox";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -10,7 +10,7 @@ import { Button } from "@/components/Button";
 export default function Bolt() {
   const [page, setPage] = useState(1);
   const perPage = 5;
-  
+
   const transactions = [
     { hash: "169de9f0438b2cc7c8e1467cecbb7634", date: new Date() },
     { hash: "308097ddf0a90fbf48b01913a6986102", date: new Date() },
@@ -21,11 +21,11 @@ export default function Bolt() {
     { hash: "9bb6e70aad0c3a6ef10e776b57011250", date: new Date() },
     { hash: "0b43f263582ed55334b9fe6ca41ac2a6", date: new Date() },
     { hash: "1ee69676e594484030c23f1317a04894", date: new Date() },
-  ]
+  ];
 
   const pages = useMemo(() => {
     return Array.from(Array(Math.ceil(transactions.length / perPage)).keys());
-  }, [transactions.length])
+  }, [transactions.length]);
 
   return (
     <LayoutDashboard>
@@ -38,7 +38,12 @@ export default function Bolt() {
           </h1>
           <small>1 ZCN = 0.193456</small>
 
-          <ProgressBar value="50%" labelLeft="Staked" labelRight="Available" theme="bolt"></ProgressBar>
+          <ProgressBar
+            value="50%"
+            labelLeft="Staked"
+            labelRight="Available"
+            theme="bolt"
+          ></ProgressBar>
 
           <div className={styles.balance}>
             <div>Total Balance</div>
@@ -67,40 +72,59 @@ export default function Bolt() {
             </tr>
           </thead>
           <tbody>
-            {transactions.slice(page * perPage, (page + 1) * perPage).map((e) => (
-              <tr key={e.hash}>
-                <td className={styles.hash}>
-                  {e.hash}
-                  <button onClick={() => {
-                    navigator.clipboard.writeText(e.hash);
-                  }}>
-                    <Image src="/icons/icon-document.svg" height={17} width={17} alt="" />
-                  </button>
-                </td>
-                <td>{e.date.toUTCString()}</td>
-              </tr>
-            ))}
+            {transactions
+              .slice(page * perPage, (page + 1) * perPage)
+              .map((e) => (
+                <tr key={e.hash}>
+                  <td className={styles.hash}>
+                    {e.hash}
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(e.hash);
+                      }}
+                    >
+                      <Image
+                        src="/icons/icon-document.svg"
+                        height={17}
+                        width={17}
+                        alt=""
+                      />
+                    </button>
+                  </td>
+                  <td>{e.date.toUTCString()}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
         <ul className={styles.pagination}>
           <li className={styles.previous}>
             <button>
-              <Image src="/icons/icon-caret-left.svg" height={10} width={10} alt="" />
+              <Image
+                src="/icons/icon-caret-left.svg"
+                height={10}
+                width={10}
+                alt=""
+              />
               Previous
             </button>
           </li>
-          
+
           {pages.map((e) => (
-          <li>
-            <button onClick={() => setPage(e)}>{e+1}</button>
-          </li>
+            <li key={e}>
+              <button onClick={() => setPage(e)}>{e + 1}</button>
+            </li>
           ))}
-          
+
           <li className={styles.next}>
-            <button >
+            <button>
               Next
-              <Image src="/icons/icon-caret-right.svg" height={10} width={10} alt="" />
+              <Image
+                src="/icons/icon-caret-right.svg"
+                height={10}
+                width={10}
+                alt=""
+              />
             </button>
           </li>
         </ul>

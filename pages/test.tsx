@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import Head from "next/head";
 
@@ -50,7 +51,7 @@ import {
   getMintWZCNPayload,
 } from "@zerochain/zus-sdk";
 
-import { startPlay, stopPlay } from "./player";
+import { startPlay, stopPlay } from "../src/lib/utils/player";
 
 import styles from "../src/styles/Test.module.css";
 
@@ -66,7 +67,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [balance, setBalance] = useState(0);
   const [allocationList, setAllocationList] = useState([]);
-  const [selectedAllocation, setSelectedAllocation] = useState();
+  const [selectedAllocation, setSelectedAllocation] = useState({});
   const [allocationDetails, setAllocationDetails] = useState();
   const [filesForUpload, setFilesForUpload] = useState([]);
   const [fileList, setFilesList] = useState([]);
@@ -499,12 +500,12 @@ export default function Home() {
       console.log("downloading using authTicket", authTicket);
 
       //allocationID, remotePath, authTicket, lookupHash string, downloadThumbnailOnly bool, numBlocks int
-      const file = await download("", "", authTicket, "", false, 10);
+      const file = await download("", "", authTicket, "", false, 10, "");
       console.log("downloaded file", file);
 
       const a = document.createElement("a");
       document.body.appendChild(a);
-      a.style = "display: none";
+      a.style.display = "none";
       a.href = file.url;
       a.download = file.fileName;
       a.click();
