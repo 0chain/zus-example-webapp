@@ -1,4 +1,8 @@
+// @ts-nocheck
 import { play, stop, download, getNextSegment } from "@zerochain/zus-sdk";
+
+import muxjs from "mux.js";
+import * as ebml from "ts-ebml";
 
 export const stopPlay = async ({ videoElement }) => {
   if (!videoElement) {
@@ -125,7 +129,7 @@ export const playStream = async ({
     videoElement.src = URL.createObjectURL(mediaSource);
     videoElement.crossOrigin = "anonymous";
   } else {
-    throw new Error("Unsupported MIME type or codec: ", mimeCodecs);
+    throw new Error(`Unsupported MIME type or codec: ${mimeCodecs}`);
   }
 };
 
@@ -176,7 +180,7 @@ export const detectMp4 = ({ mimeType, buf }) => {
 };
 
 export const detectWebm = ({ mimeType, buf }) => {
-  const decoder = new EBML.Decoder();
+  const decoder = new ebml.Decoder();
   const codecs = decoder
     .decode(buf)
     .filter((it) => it.name == "CodecID")

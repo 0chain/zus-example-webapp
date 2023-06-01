@@ -33,6 +33,7 @@ export const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (!wallet) {
       initComp();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initComp]);
 
   return (

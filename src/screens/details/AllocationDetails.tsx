@@ -62,9 +62,9 @@ const AllocationDetails = () => {
             <h6>Details</h6>
 
             <div className={styles.items}>
-              {details.map((item) => {
+              {details.map((item, i) => {
                 return (
-                  <div className={styles.item}>
+                  <div key={i} className={styles.item}>
                     <div className={styles.label}>{item.label}:</div>
                     <div className={styles.value}>{item.value}</div>
                   </div>
@@ -77,9 +77,9 @@ const AllocationDetails = () => {
             <h6>Shards and Challenges</h6>
 
             <div className={styles.items}>
-              {shardDetails.map((item) => {
+              {shardDetails.map((item, i) => {
                 return (
-                  <div className={styles.item}>
+                  <div key={i} className={styles.item}>
                     <div className={styles.label}>{item.label}:</div>
                     <div className={styles.value}>{item.value}</div>
                   </div>
