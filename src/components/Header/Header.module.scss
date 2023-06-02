@@ -1,3 +1,5 @@
+@import "styles/common";
+
 .siteHeader {
   position: fixed;
   top: 0;
@@ -36,14 +38,25 @@
     display: block;
   }
 
-  .active { display: none; }
+  .active {
+    display: none;
+  }
 }
 
 :global(.sidebarActive) {
   .menu {
-    .inactive { display: none; }
-    .active { display: inline-block; }
+    .inactive {
+      display: none;
+    }
+    .active {
+      display: inline-block;
+    }
   }
+}
+
+.right {
+  @extend .flexCenter;
+  gap: 1rem;
 }
 
 .avatar {
@@ -65,6 +78,14 @@
     width: 100%;
     vertical-align: top;
   }
+}
+
+.btn {
+  @extend .clearStdStyles, .flexCenter;
+  color: $white;
+  font-size: 1.5rem;
+  background: $primaryBlue;
+  padding: 1rem;
 }
 
 @media (min-width: 1280px) {
