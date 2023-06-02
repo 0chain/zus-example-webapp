@@ -13,3 +13,17 @@ export type WalletState = {
   };
   activeWalletId: string;
 };
+
+export type Wallet = {
+  id: string;
+  name: string;
+  mnemonic: string;
+  version: string;
+  creationDate: number;
+  keys: {
+    publicEncryptionKey: string;
+    walletId: string;
+    privateKey: string;
+    publicKey: string;
+  };
+};

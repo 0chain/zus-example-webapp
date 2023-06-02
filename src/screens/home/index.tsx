@@ -1,45 +1,33 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
-import { setWallet, createWallet } from "@zerochain/zus-sdk";
+import { useDispatch } from "react-redux";
 
 import Layout from "layouts/Layout";
-import styles from "./Home.module.scss";
 import { InfoBox } from "components/InfoBox";
 import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { Spinner } from "components/Spinner";
 import { AppContext } from "components/App/App";
-import { useRouter } from "next/router";
+
+import { createWalletFunc } from "store/wallet";
+
+import styles from "./Home.module.scss";
 
 export default function CreateWallet() {
   const app = useContext(AppContext);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [loadingMsg, setLoadingMsg] = useState("Creating Wallet...");
 
-  const showModal1 = async () => {
+  const handleCreateAccount = async () => {
     setModal1(true);
-    await new Promise((res) => setTimeout(res, 2000));
 
-    if (app.wallet) {
-      setWallet(
-        app.wallet.keys.walletId,
-        app.wallet.keys.privateKey,
-        app.wallet.keys.publicKey,
-        app.wallet.mnemonic
-      );
-    } else {
-      const newWallet = await createWallet();
-      console.log("after create wallet", newWallet);
-      app.saveWallet(newWallet);
-      setWallet(
-        newWallet.keys.walletId,
-        newWallet.keys.privateKey,
-        newWallet.keys.publicKey,
-        newWallet.mnemonic
-      );
-    }
+    await dispatch(createWalletFunc());
 
     setModal1(false);
     setModal2(true);
@@ -65,7 +53,7 @@ export default function CreateWallet() {
               magna nulla duis ullamco cillum dolor.
             </p>
 
-            <Button size="large" fullWidth={true} onClick={() => showModal1()}>
+            <Button size="large" fullWidth={true} onClick={handleCreateAccount}>
               {app.wallet ? "Set Wallet" : "Create Wallet"}
             </Button>
           </InfoBox>

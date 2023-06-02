@@ -1,5 +1,3 @@
-import { CREATE_WALLET } from "./types";
-
 const initialState = {
   list: [],
   temp: {
@@ -11,10 +9,11 @@ const initialState = {
 
 export function walletReducer(state = initialState, action) {
   switch (action.type) {
-    case CREATE_WALLET:
+    case "CREATE_WALLET_SUCCESS":
       return {
         ...state,
         list: [...state.list, action.payload],
+        activeWalletId: action.payload.id,
       };
 
     default:

@@ -6,6 +6,12 @@ export const requestActionTypes = (actionType) => ({
   error: `${actionType}_ERROR`,
 });
 
+export type RequestActionTypes = {
+  request: string;
+  success: string;
+  error: string;
+};
+
 export const errorTypes = Object.keys(allTypes).reduce((acc, type) => {
   const typeObj = allTypes[type];
   if (typeObj.includes("ERROR")) acc.push(typeObj);
