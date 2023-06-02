@@ -41,7 +41,7 @@ jobs:
       #     username: ${{ secrets.DOCKERHUB_USERNAME }}
       #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build & deploy dev-zus-webapp.zus.network.
+      - name: Build & deploy zus.network/hackathon/sample-webapp.
         run: |
           cd docker.local
           docker-compose -f docker-compose-dev.yaml up -d --build
