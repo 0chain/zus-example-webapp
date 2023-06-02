@@ -1,76 +1,81 @@
-import React, { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "layouts/Layout";
 import { InfoBox } from "components/InfoBox";
 import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { Spinner } from "components/Spinner";
-import { AppContext } from "components/App/App";
 
-import { createWalletFunc } from "store/wallet";
+import { createWalletFunc, selectActiveWallet } from "store/wallet";
 
 import styles from "./Home.module.scss";
 
 export default function CreateWallet() {
-  const app = useContext(AppContext);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [modal1, setModal1] = useState(false);
-  const [modal2, setModal2] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [loadingMsg, setLoadingMsg] = useState("Creating Wallet...");
+  const wallet = useSelector(selectActiveWallet);
+
+  useEffect(() => {
+    if (wallet.id) router.push("/welcome");
+  }, [router, wallet.id]);
+
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState("Creating Wallet...");
 
   const handleCreateAccount = async () => {
-    setModal1(true);
+    setIsLoading(true);
 
     await dispatch(createWalletFunc());
+    setLoadingMsg("Creating Allocation..."); // @todo: implement this
 
-    setModal1(false);
-    setModal2(true);
-  };
-
-  const closeModal2 = async () => {
-    setModal2(false);
+    setShowSuccessDialog(false);
+    setIsLoading(true);
   };
 
   return (
     <>
       <Layout>
-        <div className={styles.createWalletWrapper}>
-          <figure className={styles.logo}>
-            <Image src="/zus-logo.png" width="124" height="45" alt="" />
-          </figure>
+        {!wallet.id && (
+          <div className={styles.createWalletWrapper}>
+            <figure className={styles.logo}>
+              <Image src="/zus-logo.png" width="124" height="45" alt="" />
+            </figure>
 
-          <InfoBox className="createWallet">
-            <h3>Create your wallet to start staking and earning!</h3>
-            <p>
-              Nulla Lorem mollit cupidadat irure. Laborum magna nulla duis
-              ullamco cillum dolor. Nulla Lorem mollit cupidadat irure. Laborum
-              magna nulla duis ullamco cillum dolor.
-            </p>
+            <InfoBox className="createWallet">
+              <h3>Create your wallet to start staking and earning!</h3>
+              <p>
+                You will need to create a wallet to start staking and earning
+                rewards. You can create a wallet by clicking the button below.
+              </p>
 
-            <Button size="large" fullWidth={true} onClick={handleCreateAccount}>
-              {app.wallet ? "Set Wallet" : "Create Wallet"}
-            </Button>
-          </InfoBox>
-        </div>
+              <Button
+                size="large"
+                fullWidth={true}
+                onClick={handleCreateAccount}
+              >
+                Create Wallet
+              </Button>
+            </InfoBox>
+          </div>
+        )}
       </Layout>
 
-      {modal1 && (
+      {isLoading && (
         <Modal>
           <Spinner />
           <h4>
-            <b>Creating Allocation</b>
+            <b>{loadingMsg}</b>
           </h4>
         </Modal>
       )}
 
-      {modal2 && (
-        <Modal title="Success" closeFunc={closeModal2}>
+      {showSuccessDialog && (
+        <Modal title="Success" closeFunc={() => setShowSuccessDialog(false)}>
           <Image src="/success-icon.svg" height="72" width="72" alt="" />
           <p>Allocation is created successfully</p>
           <Button size="large" onClick={() => router.push("/welcome")}>

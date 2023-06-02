@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import clsx from "clsx";
-import { AppContext } from "components/App/App";
+import { useDispatch, useSelector } from "react-redux";
 
 import LayoutDashboard from "layouts/LayoutDashboard";
 import { ContentBox } from "components/ContentBox";
+
+import { selectActiveWallet } from "store/wallet";
+
 import styles from "./Details.module.scss";
 
 const WalletDetails = () => {
-  const app = useContext(AppContext);
-
-  useEffect(() => {
-    if (app.wallet) {
-      console.log("Selected Wallet", app.wallet);
-    }
-  }, [app.wallet]);
+  const wallet = useSelector(selectActiveWallet);
 
   return (
     <LayoutDashboard>
@@ -32,7 +29,7 @@ const WalletDetails = () => {
           <div className={clsx(styles.list, styles.listJSON)}>
             <h6>JSON</h6>
 
-            <pre>{JSON.stringify(app.wallet, null, 2)}</pre>
+            <pre>{JSON.stringify(wallet, null, 2)}</pre>
           </div>
         </div>
       </ContentBox>
