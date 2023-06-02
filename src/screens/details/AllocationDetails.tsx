@@ -1,6 +1,6 @@
 import React from "react";
-import LayoutDashboard from "@/layouts/LayoutDashboard";
-import { ContentBox } from "@/components/ContentBox";
+import LayoutDashboard from "layouts/LayoutDashboard";
+import { ContentBox } from "components/ContentBox";
 import styles from "./Details.module.scss";
 
 const AllocationDetails = () => {

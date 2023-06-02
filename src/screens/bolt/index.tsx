@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from "react";
 import styles from "./Bolt.module.scss";
-import { ContentBox } from "@/components/ContentBox";
-import LayoutDashboard from "@/layouts/LayoutDashboard";
-import { ProgressBar } from "@/components/ProgressBar";
+import { ContentBox } from "components/ContentBox";
+import LayoutDashboard from "layouts/LayoutDashboard";
+import { ProgressBar } from "components/ProgressBar";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/Button";
+// import { Button } from "components/Button";
 
 export default function Bolt() {
   const [page, setPage] = useState(1);

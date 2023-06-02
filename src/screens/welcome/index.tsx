@@ -1,30 +1,30 @@
 import React from "react";
 import Link from "next/link";
-import Layout from "@/layouts/Layout";
-import styles from "./Welcome.module.scss"
+import Layout from "layouts/Layout";
+import styles from "./Welcome.module.scss";
 import Image from "next/image";
-import { IconBox } from "@/components/IconBox";
+import { IconBox } from "components/IconBox";
 
-import { ROUTES } from "@/constant/routes";
+import { ROUTES } from "constant/routes";
 
 export default function Home() {
   const actions = [
     {
       label: "Wallet Details",
       url: ROUTES.walletDetails,
-      icon: "/icons/icon-wallet-solid.svg"
+      icon: "/icons/icon-wallet-solid.svg",
     },
     {
       label: "Allocation Details",
       url: ROUTES.allocationDetails,
       icon: "/icons/icon-piechart-solid.svg",
-      iconSize: "31"
+      iconSize: "31",
     },
     {
       label: "Network Details",
       url: ROUTES.networkDetails,
       icon: "/icons/icon-network-solid.svg",
-      iconSize: "28"
+      iconSize: "28",
     },
   ];
 
@@ -39,7 +39,11 @@ export default function Home() {
           {actions.map((item) => {
             return (
               <div key={item.label}>
-                <IconBox icon={item.icon} url={item.url} iconSize={item.iconSize}>
+                <IconBox
+                  icon={item.icon}
+                  url={item.url}
+                  iconSize={item.iconSize}
+                >
                   {item.label}
                 </IconBox>
               </div>
@@ -62,7 +66,8 @@ export default function Home() {
         </div>
 
         <footer>
-          <span>Powered by</span> <Image src="/zus-logo.svg" height="66" width="66" alt="" />
+          <span>Powered by</span>{" "}
+          <Image src="/zus-logo.svg" height="66" width="66" alt="" />
         </footer>
       </div>
     </Layout>

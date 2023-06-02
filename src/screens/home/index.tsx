@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { setWallet, createWallet } from "@zerochain/zus-sdk";
 
-import Layout from "@/layouts/Layout";
-import styles from "./Home.module.scss"
-import { InfoBox } from "@/components/InfoBox";
-import { Button } from "@/components/Button";
-import { Modal } from "@/components/Modal";
-import { Spinner } from "@/components/Spinner";
-import { AppContext } from "@/components/App/App";
+import Layout from "layouts/Layout";
+import styles from "./Home.module.scss";
+import { InfoBox } from "components/InfoBox";
+import { Button } from "components/Button";
+import { Modal } from "components/Modal";
+import { Spinner } from "components/Spinner";
+import { AppContext } from "components/App/App";
 import { useRouter } from "next/router";
 
 export default function CreateWallet() {
@@ -22,13 +22,23 @@ export default function CreateWallet() {
     setModal1(true);
     await new Promise((res) => setTimeout(res, 2000));
 
-    if(app.wallet) {
-      setWallet(app.wallet.keys.walletId, app.wallet.keys.privateKey, app.wallet.keys.publicKey, app.wallet.mnemonic);
+    if (app.wallet) {
+      setWallet(
+        app.wallet.keys.walletId,
+        app.wallet.keys.privateKey,
+        app.wallet.keys.publicKey,
+        app.wallet.mnemonic
+      );
     } else {
       const newWallet = await createWallet();
       console.log("after create wallet", newWallet);
       app.saveWallet(newWallet);
-      setWallet(newWallet.keys.walletId,newWallet.keys.privateKey,newWallet.keys.publicKey, newWallet.mnemonic);
+      setWallet(
+        newWallet.keys.walletId,
+        newWallet.keys.privateKey,
+        newWallet.keys.publicKey,
+        newWallet.mnemonic
+      );
     }
 
     setModal1(false);
@@ -56,7 +66,7 @@ export default function CreateWallet() {
             </p>
 
             <Button size="large" fullWidth={true} onClick={() => showModal1()}>
-              { app.wallet ? "Set Wallet" : "Create Wallet" }
+              {app.wallet ? "Set Wallet" : "Create Wallet"}
             </Button>
           </InfoBox>
         </div>
@@ -65,7 +75,9 @@ export default function CreateWallet() {
       {modal1 && (
         <Modal>
           <Spinner />
-          <h4><b>Creating Allocation</b></h4>
+          <h4>
+            <b>Creating Allocation</b>
+          </h4>
         </Modal>
       )}
 
@@ -73,7 +85,9 @@ export default function CreateWallet() {
         <Modal title="Success" closeFunc={closeModal2}>
           <Image src="/success-icon.svg" height="72" width="72" alt="" />
           <p>Allocation is created successfully</p>
-          <Button size="large" onClick={() => router.push('/welcome')}>Ok</Button>
+          <Button size="large" onClick={() => router.push("/welcome")}>
+            Ok
+          </Button>
         </Modal>
       )}
     </>
