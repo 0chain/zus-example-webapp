@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import { config } from "@/constant/config";
+import { config } from "constant/config";
 import { init } from "@zerochain/zus-sdk";
 
 export interface AppContextType {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import clsx from "clsx";
-import { AppContext } from "@/components/App/App";
+import { AppContext } from "components/App/App";
 
-import LayoutDashboard from "@/layouts/LayoutDashboard";
-import { ContentBox } from "@/components/ContentBox";
+import LayoutDashboard from "layouts/LayoutDashboard";
+import { ContentBox } from "components/ContentBox";
 import styles from "./Details.module.scss";
 
 const WalletDetails = () => {

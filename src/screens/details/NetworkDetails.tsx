@@ -1,26 +1,28 @@
-import React from 'react'
-import LayoutDashboard from '@/layouts/LayoutDashboard'
-import { ContentBox } from '@/components/ContentBox'
-import styles from './Details.module.scss'
-import { configJson } from '@/constant/config'
+import React from "react";
+import LayoutDashboard from "layouts/LayoutDashboard";
+import { ContentBox } from "components/ContentBox";
+import styles from "./Details.module.scss";
+import { configJson } from "constant/config";
 
 const NetworkDetails = () => {
   const details = [
     {
       label: "Url",
-      value: configJson.blockWorker
+      value: configJson.blockWorker,
     },
     {
       label: "0Box Url",
-      value: configJson.zboxHost
-    }
-  ]
+      value: configJson.zboxHost,
+    },
+  ];
 
   return (
     <LayoutDashboard>
       <ContentBox>
         <div className={styles.wrapper}>
-          <h1><b>Network Details</b></h1>
+          <h1>
+            <b>Network Details</b>
+          </h1>
 
           <div className={styles.list}>
             <h6>Details</h6>
@@ -32,7 +34,7 @@ const NetworkDetails = () => {
                     <div className={styles.label}>{item.label}:</div>
                     <div className={styles.value}>{item.value}</div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -48,7 +50,9 @@ const NetworkDetails = () => {
                     <select defaultValue="demo.zus.network">
                       <option value="demo.zus.network">Demo</option>
                       <option value="dev.zus.network">Dev</option>
-                      <option value="testnet.testnet-0chain.net">Testnet</option>
+                      <option value="testnet.testnet-0chain.net">
+                        Testnet
+                      </option>
                     </select>
                   </form>
                 </div>
@@ -58,7 +62,7 @@ const NetworkDetails = () => {
         </div>
       </ContentBox>
     </LayoutDashboard>
-  )
-}
+  );
+};
 
-export default NetworkDetails
+export default NetworkDetails;
