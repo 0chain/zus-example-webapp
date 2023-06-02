@@ -1,15 +1,29 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import styles from "./LayoutDashboard.module.scss";
-import React from "react";
+import { useSelector } from "react-redux";
+import clsx from "clsx";
+
 import { Header } from "components/Header";
 import { Sidebar } from "components/Sidebar";
 import {
   SidebarContext,
   useSidebarContext,
 } from "components/Sidebar/useSidebarContext";
-import clsx from "clsx";
+
+import { selectActiveWallet } from "store/wallet";
+
+import styles from "./LayoutDashboard.module.scss";
 
 const LayoutDashboard = ({ children }) => {
+  const router = useRouter();
+
+  const wallet = useSelector(selectActiveWallet);
+
+  useEffect(() => {
+    if (!wallet.id) router.push("/");
+  }, [router, wallet.id]);
+
   const { sidebarActive, toggleSidebar } = useSidebarContext();
   return (
     <>

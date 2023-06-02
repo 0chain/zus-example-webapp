@@ -1,0 +1,89 @@
+@import "./colors.scss";
+
+.flex {
+  display: flex;
+}
+
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flexSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexAlignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexCenterBaseline {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.flexCenterCol {
+  @extend .flexCenter;
+  flex-direction: column;
+}
+
+.flexColStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.flexColEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spaceBetweenCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.spaceEvenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.clearStdStyles {
+  background: none;
+  padding: 0;
+  font: inherit;
+  outline: inherit;
+  user-select: none;
+  -moz-user-select: none;
+  box-shadow: none;
+  border: none;
+}

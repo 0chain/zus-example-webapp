@@ -20,3 +20,7 @@ export function walletReducer(state = initialState, action) {
       return state;
   }
 }
+
+export const clearStore = () => ({
+  type: "CLEAR_STORE",
+});
