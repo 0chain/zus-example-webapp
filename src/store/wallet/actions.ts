@@ -32,3 +32,25 @@ export const createWalletFunc = () => async (dispatch) => {
     handleError();
   }
 };
+
+export const getFeesTable = () => async (dispatch, getState) => {
+  const actionTypes = requestActionTypes(types.GET_FEES_TABLE);
+  dispatch({ type: actionTypes.request });
+
+  const { sharders } = getState().zerochain.network;
+  if (!(sharders && sharders.length))
+    return { error: "error getting sharders" };
+
+  const { data, error } = await consensusRequest({
+    endpoint: sharderEndpoints.GET_FEES_TABLE,
+    urls: sharders,
+  });
+
+  return handleResponseDispatch({
+    errMessage: "Error getting fees table",
+    actionTypes,
+    dispatch,
+    error,
+    data,
+  });
+};

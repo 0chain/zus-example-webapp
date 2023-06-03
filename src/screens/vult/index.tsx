@@ -1,11 +1,15 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import styles from "./Vult.module.scss";
 import { ContentBox } from "components/ContentBox";
 import LayoutDashboard from "layouts/LayoutDashboard";
 import { ProgressBar } from "components/ProgressBar";
 import { IconUpload } from "components/IconUpload";
+import { listAllocationsFunc } from "store/allocation";
 
 export default function Vult() {
+  const dispatch = useDispatch();
+
   const [imageFile, setImageFile] = useState<File>();
   const [docFile, setDocFile] = useState<File>();
 
@@ -21,10 +25,16 @@ export default function Vult() {
     return (imageFile?.size || 0) + (docFile?.size || 0);
   }, [imageFile, docFile]);
 
+  const listAlloc = () => dispatch(listAllocationsFunc());
+
+  useEffect(() => {
+    dispatch(listAllocationsFunc());
+  }, [dispatch]);
+
   return (
     <LayoutDashboard>
       <ContentBox>
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={listAlloc}>
           <h1>
             <b>Allocation</b>
           </h1>
