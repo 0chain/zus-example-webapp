@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+import { getBalance, getFaucetToken } from "@zerochain/zus-sdk";
 
 import Layout from "layouts/Layout";
 import { InfoBox } from "components/InfoBox";
@@ -10,6 +11,7 @@ import { Modal } from "components/Modal";
 import { Spinner } from "components/Spinner";
 
 import { createWalletFunc, selectActiveWallet } from "store/wallet";
+import { createAllocationFunc } from "store/allocation";
 
 import styles from "./Home.module.scss";
 
@@ -19,19 +21,23 @@ export default function CreateWallet() {
 
   const wallet = useSelector(selectActiveWallet);
 
-  useEffect(() => {
-    if (wallet.id) router.push("/welcome");
-  }, [router, wallet.id]);
-
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("Creating Wallet...");
 
   const handleCreateAccount = async () => {
     setIsLoading(true);
-
     await dispatch(createWalletFunc());
+
+    const balanceObj = await getBalance(wallet.id);
+    console.log(balanceObj, "balanceObj");
+
     setLoadingMsg("Creating Allocation..."); // @todo: implement this
+    const faucet = await getFaucetToken();
+    console.log(faucet, "faucet");
+    await dispatch(createAllocationFunc());
+    // pull 50 zcn from faucet
+    // call create allocation
 
     setShowSuccessDialog(false);
     setIsLoading(true);
