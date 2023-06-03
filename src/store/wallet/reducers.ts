@@ -1,3 +1,5 @@
+import types from "./types";
+
 const initialState = {
   list: [],
   temp: {
@@ -9,7 +11,7 @@ const initialState = {
 
 export function walletReducer(state = initialState, action) {
   switch (action.type) {
-    case "CREATE_WALLET_SUCCESS":
+    case types.CREATE_WALLET_SUCCESS:
       return {
         ...state,
         list: [...state.list, action.payload],
@@ -20,7 +22,3 @@ export function walletReducer(state = initialState, action) {
       return state;
   }
 }
-
-export const clearStore = () => ({
-  type: "CLEAR_STORE",
-});

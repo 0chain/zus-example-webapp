@@ -1,9 +1,10 @@
 import { createActionTypes } from "lib";
+import { Types } from "store/api-utils";
 
 export const CREATE_WALLET = "CREATE_WALLET";
 export const CLEAR_STORE = "CLEAR_STORE";
 
-export default createActionTypes([CREATE_WALLET, CLEAR_STORE]);
+export const types: Types = createActionTypes([CREATE_WALLET, CLEAR_STORE]);
 
 export type WalletState = {
   list: any[];
@@ -27,3 +28,5 @@ export type Wallet = {
     publicKey: string;
   };
 };
+
+export default types;

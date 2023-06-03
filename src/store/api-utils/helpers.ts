@@ -12,6 +12,10 @@ export type RequestActionTypes = {
   error: string;
 };
 
+export type Types = {
+  [index: string]: string;
+};
+
 export const errorTypes = Object.keys(allTypes).reduce((acc, type) => {
   const typeObj = allTypes[type];
   if (typeObj.includes("ERROR")) acc.push(typeObj);
