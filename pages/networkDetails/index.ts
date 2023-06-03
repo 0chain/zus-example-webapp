@@ -1,3 +1,3 @@
-import NetworkDetails from "screens/details/NetworkDetails";
+import NetworkDetails from 'screens/details/NetworkDetails'
 
-export default NetworkDetails;
+export default NetworkDetails

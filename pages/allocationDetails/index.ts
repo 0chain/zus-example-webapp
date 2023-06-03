@@ -1,3 +1,3 @@
-import { AllocationDetails } from "screens/details";
+import { AllocationDetails } from 'screens/details'
 
-export default AllocationDetails;
+export default AllocationDetails

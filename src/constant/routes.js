@@ -1,8 +1,8 @@
 export const ROUTES = {
-  home: "/",
-  vult: "/vult",
-  bolt: "/bolt",
-  walletDetails: "/walletDetails",
-  allocationDetails: "/allocationDetails",
-  networkDetails: "/networkDetails",
-};
+  home: '/',
+  vult: '/vult',
+  bolt: '/bolt',
+  walletDetails: '/walletDetails',
+  allocationDetails: '/allocationDetails',
+  networkDetails: '/networkDetails',
+}

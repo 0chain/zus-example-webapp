@@ -1,23 +1,23 @@
-import React, { useContext } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useDispatch } from "react-redux";
+import React, { useContext } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useDispatch } from 'react-redux'
 
-import { SidebarContext } from "../Sidebar/useSidebarContext";
-import { Button } from "components/Button";
+import { SidebarContext } from '../Sidebar/useSidebarContext'
+import { Button } from 'components/Button'
 
-import { clearStore } from "store/wallet";
+import { clearStore } from 'store/wallet'
 
-import styles from "./Header.module.scss";
+import styles from './Header.module.scss'
 
 export default function Header() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { toggleSidebar } = useContext(SidebarContext);
+  const { toggleSidebar } = useContext(SidebarContext)
 
   const handleLogout = () => {
-    dispatch(clearStore());
-  };
+    dispatch(clearStore())
+  }
 
   return (
     <nav className={styles.siteHeader}>
@@ -25,9 +25,9 @@ export default function Header() {
         <Link
           href="/"
           className={styles.menu}
-          onClick={(e) => {
-            e.preventDefault();
-            toggleSidebar();
+          onClick={e => {
+            e.preventDefault()
+            toggleSidebar()
           }}
         >
           <svg className={styles.inactive} viewBox="0 0 20 20">
@@ -68,5 +68,5 @@ export default function Header() {
         <Button onClick={handleLogout}>Logout</Button>
       </div>
     </nav>
-  );
+  )
 }

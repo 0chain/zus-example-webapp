@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import { combineReducers } from 'redux'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import {
   persistReducer,
   FLUSH,
@@ -8,39 +8,39 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
+} from 'redux-persist'
 
-import { walletReducer } from "store/wallet";
-import { allocationReducer } from "./allocation";
+import { walletReducer } from 'store/wallet'
+import { allocationReducer } from './allocation'
 
-import { errorTypes, allTypes } from "store/api-utils";
+import { errorTypes, allTypes } from 'store/api-utils'
 
 const appReducer = combineReducers({
   wallet: walletReducer,
   allocation: allocationReducer,
-});
+})
 
 // @ts-ignore
-const { CLEAR_STORE } = allTypes;
+const { CLEAR_STORE } = allTypes
 
 const rootReducer = (state, action) => {
   if ([CLEAR_STORE].includes(action.type)) {
-    storage.removeItem("persist:root");
-    return appReducer(undefined, action);
+    storage.removeItem('persist:root')
+    return appReducer(undefined, action)
   }
 
-  return appReducer(state, action);
-};
+  return appReducer(state, action)
+}
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof rootReducer>
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: storage,
-  whitelist: ["wallet", "allocation"],
-};
+  whitelist: ['wallet', 'allocation'],
+}
 
-const reducer = persistReducer(persistConfig, rootReducer);
+const reducer = persistReducer(persistConfig, rootReducer)
 const ignoredActions = [
   FLUSH,
   REHYDRATE,
@@ -49,6 +49,6 @@ const ignoredActions = [
   PURGE,
   REGISTER,
   ...errorTypes,
-];
+]
 
-export { reducer, ignoredActions };
+export { reducer, ignoredActions }

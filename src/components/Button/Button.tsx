@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./Button.module.scss";
-import PropTypes from "prop-types";
-import clsx from "clsx";
+import React from 'react'
+import styles from './Button.module.scss'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const Button = ({
   id,
@@ -9,7 +9,7 @@ const Button = ({
   children,
   onClick,
   size,
-  theme = "default",
+  theme = 'default',
   fullWidth,
   disabled,
   disableBg,
@@ -33,8 +33,8 @@ const Button = ({
         {children}
       </button>
     </>
-  );
-};
+  )
+}
 
 Button.propTypes = {
   id: PropTypes.string,
@@ -42,10 +42,10 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
   size: PropTypes.string,
-  theme: PropTypes.oneOf(["default", "bolt", "vult", "white"]),
+  theme: PropTypes.oneOf(['default', 'bolt', 'vult', 'white']),
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
   disableBg: PropTypes.bool,
-};
+}
 
-export default Button;
+export default Button

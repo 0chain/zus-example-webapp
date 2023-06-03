@@ -1,3 +1,3 @@
-import Bolt from "screens/bolt";
+import Bolt from 'screens/bolt'
 
-export default Bolt;
+export default Bolt

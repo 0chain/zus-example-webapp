@@ -1,2 +1,2 @@
-export * from "./player";
-export * from "./string";
+export * from './player'
+export * from './string'
