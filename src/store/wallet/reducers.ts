@@ -1,13 +1,13 @@
-import types from "./types";
+import types from './types'
 
 const initialState = {
   list: [],
   temp: {
     keys: {},
-    mnemonic: "",
+    mnemonic: '',
   },
-  activeWalletId: "",
-};
+  activeWalletId: '',
+}
 
 export function walletReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,9 +16,9 @@ export function walletReducer(state = initialState, action) {
         ...state,
         list: [...state.list, action.payload],
         activeWalletId: action.payload.id,
-      };
+      }
 
     default:
-      return state;
+      return state
   }
 }

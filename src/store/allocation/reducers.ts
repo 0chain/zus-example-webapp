@@ -1,9 +1,9 @@
-import types from "./types";
+import types from './types'
 
 const initialState = {
   list: [],
-  activeAllocationId: "",
-};
+  activeAllocationId: '',
+}
 
 export function allocationReducer(state = initialState, action) {
   switch (action.type) {
@@ -12,15 +12,15 @@ export function allocationReducer(state = initialState, action) {
         ...state,
         list: [...state.list, action.payload],
         activeAllocationId: action.payload.id,
-      };
+      }
 
     case types.LIST_ALLOCATIONS_SUCCESS:
       return {
         ...state,
         list: action.payload,
-      };
+      }
 
     default:
-      return state;
+      return state
   }
 }

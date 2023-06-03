@@ -1,3 +1,3 @@
-import IconUpload from "./IconUpload";
+import IconUpload from './IconUpload'
 
 export { IconUpload }

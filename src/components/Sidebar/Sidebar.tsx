@@ -1,69 +1,69 @@
-import React, { useContext } from "react";
-import styles from "./Sidebar.module.scss";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "../Button";
-import clsx from "clsx";
-import { useRouter } from "next/router";
+import React, { useContext } from 'react'
+import styles from './Sidebar.module.scss'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Button } from '../Button'
+import clsx from 'clsx'
+import { useRouter } from 'next/router'
 
-import { ROUTES } from "../../constant/routes";
-import { SidebarContext } from "./useSidebarContext";
+import { ROUTES } from '../../constant/routes'
+import { SidebarContext } from './useSidebarContext'
 
 const siteMenu = [
   {
-    label: "Bolt",
+    label: 'Bolt',
     href: ROUTES.bolt,
-    activeIcon: "/bolt-icon-2.svg",
-    inactiveIcon: "/bolt-icon-1.svg",
+    activeIcon: '/bolt-icon-2.svg',
+    inactiveIcon: '/bolt-icon-1.svg',
     iconWidth: 32,
   },
   {
-    label: "Vult",
+    label: 'Vult',
     href: ROUTES.vult,
-    activeIcon: "/vult-icon-2.svg",
-    inactiveIcon: "/vult-icon-1.svg",
+    activeIcon: '/vult-icon-2.svg',
+    inactiveIcon: '/vult-icon-1.svg',
     iconWidth: 27,
   },
-];
+]
 
 const navMenu = [
   {
-    label: "Wallet Details",
+    label: 'Wallet Details',
     href: ROUTES.walletDetails,
-    inactiveIcon: "/icons/icon-wallet-line.png",
+    inactiveIcon: '/icons/icon-wallet-line.png',
     iconWidth: 18,
   },
   {
-    label: "Allocation Details",
+    label: 'Allocation Details',
     href: ROUTES.allocationDetails,
-    inactiveIcon: "/icons/icon-piechart-line.svg",
+    inactiveIcon: '/icons/icon-piechart-line.svg',
     iconWidth: 20,
   },
 
   {
-    label: "Network Details",
+    label: 'Network Details',
     href: ROUTES.networkDetails,
-    inactiveIcon: "/icons/icon-network-line.svg",
+    inactiveIcon: '/icons/icon-network-line.svg',
     iconWidth: 22,
   },
-];
+]
 
 export default function Sidebar() {
-  const router = useRouter();
-  const { sidebarActive } = useContext(SidebarContext);
+  const router = useRouter()
+  const { sidebarActive } = useContext(SidebarContext)
 
-  const isActive = (path) => router.pathname === path;
+  const isActive = path => router.pathname === path
 
-  console.log(sidebarActive);
+  console.log(sidebarActive)
 
   return (
     <div className={styles.siteSidebar}>
       <div className={styles.sidebarTop}>
         <ul className={clsx(styles.nav, styles.siteNav)}>
-          {siteMenu.map((item) => {
+          {siteMenu.map(item => {
             return (
               <li
-                className={isActive(item.href) ? styles.active : ""}
+                className={isActive(item.href) ? styles.active : ''}
                 key={item.label}
               >
                 <Link href={item.href}>
@@ -83,14 +83,14 @@ export default function Sidebar() {
                   <span>{item.label}</span>
                 </Link>
               </li>
-            );
+            )
           })}
         </ul>
 
         <hr className={styles.ruler} />
 
         <ul className={styles.nav}>
-          {navMenu.map((item) => {
+          {navMenu.map(item => {
             return (
               <li key={item.label}>
                 <Link href={item.href}>
@@ -106,7 +106,7 @@ export default function Sidebar() {
                   <span>{item.label}</span>
                 </Link>
               </li>
-            );
+            )
           })}
         </ul>
       </div>
@@ -144,5 +144,5 @@ export default function Sidebar() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

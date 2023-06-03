@@ -1,28 +1,28 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux'
 
-import LayoutDashboard from "layouts/LayoutDashboard";
-import { ContentBox } from "components/ContentBox";
-import { ProgressBar } from "components/ProgressBar";
-import { IconUpload } from "components/IconUpload";
+import LayoutDashboard from 'layouts/LayoutDashboard'
+import { ContentBox } from 'components/ContentBox'
+import { ProgressBar } from 'components/ProgressBar'
+import { IconUpload } from 'components/IconUpload'
 
-import { selectActiveAllocation } from "store/allocation";
-import { bytesToString } from "lib/utils";
+import { selectActiveAllocation } from 'store/allocation'
+import { bytesToString } from 'lib/utils'
 
-import styles from "./Vult.module.scss";
+import styles from './Vult.module.scss'
 
 export default function Vult() {
-  const allocation = useSelector(selectActiveAllocation);
+  const allocation = useSelector(selectActiveAllocation)
 
-  const totalStorage = allocation?.size;
-  const usedStorage = allocation?.stats?.used_size;
-  const usedPercentage = (usedStorage / totalStorage) * 100;
-  const storageString = bytesToString(totalStorage);
-  const usageString = bytesToString(usedStorage);
+  const totalStorage = allocation?.size
+  const usedStorage = allocation?.stats?.used_size
+  const usedPercentage = (usedStorage / totalStorage) * 100
+  const storageString = bytesToString(totalStorage)
+  const usageString = bytesToString(usedStorage)
 
   const expirationDate = allocation.expiration_date
     ? new Date(allocation?.expiration_date * 1000).toISOString()
-    : new Date().toDateString();
-  const expired = allocation?.expiration_date < new Date().getTime() / 1000;
+    : new Date().toDateString()
+  const expired = allocation?.expiration_date < new Date().getTime() / 1000
 
   return (
     <LayoutDashboard>
@@ -55,5 +55,5 @@ export default function Vult() {
         </div>
       </div>
     </LayoutDashboard>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styles from "./ProgressBar.module.scss";
-import clsx from "clsx";
+import React from 'react'
+import PropTypes from 'prop-types'
+import styles from './ProgressBar.module.scss'
+import clsx from 'clsx'
 
 const ProgressBar = ({ theme, value, labelLeft, labelRight }) => {
   return (
@@ -10,14 +10,14 @@ const ProgressBar = ({ theme, value, labelLeft, labelRight }) => {
       {labelLeft && <span className={styles.labelLeft}>{labelLeft}</span>}
       {labelRight && <span className={styles.labelRight}>{labelRight}</span>}
     </div>
-  );
-};
+  )
+}
 
 ProgressBar.propTypes = {
   value: PropTypes.number.isRequired,
   theme: PropTypes.string,
   labelLeft: PropTypes.string,
   labelRight: PropTypes.string,
-};
+}
 
-export default ProgressBar;
+export default ProgressBar

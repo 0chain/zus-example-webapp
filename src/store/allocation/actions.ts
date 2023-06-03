@@ -1,16 +1,16 @@
-import { getAllocationBlobbers, listAllocations } from "@zerochain/zus-sdk";
-import { CREATE_ALLOCATION, LIST_ALLOCATIONS } from "./types";
+import { getAllocationBlobbers, listAllocations } from '@zerochain/zus-sdk'
+import { CREATE_ALLOCATION, LIST_ALLOCATIONS } from './types'
 
-import { requestActionTypes, RequestActionTypes } from "store/api-utils";
-import { createAllocationWithBlobbers } from "@zerochain/zus-sdk";
+import { requestActionTypes, RequestActionTypes } from 'store/api-utils'
+import { createAllocationWithBlobbers } from '@zerochain/zus-sdk'
 
 const getBlobberListForAllocation = async () => {
-  const expiryDate = new Date();
-  expiryDate.setDate(expiryDate.getDate() + 30);
+  const expiryDate = new Date()
+  expiryDate.setDate(expiryDate.getDate() + 30)
 
   const preferredBlobberURLs = [
-      "https://dev2.zus.network/blobber02",
-      "https://dev1.zus.network/blobber02",
+      'https://dev2.zus.network/blobber02',
+      'https://dev1.zus.network/blobber02',
     ],
     dataShards = 2,
     parityShards = 2,
@@ -19,7 +19,7 @@ const getBlobberListForAllocation = async () => {
     minReadPrice = 0,
     maxReadPrice = 184467440737095516,
     minWritePrice = 0,
-    maxWritePrice = 184467440737095516;
+    maxWritePrice = 184467440737095516
 
   //Call getAllocationBlobbers method
   const blobberList = await getAllocationBlobbers(
@@ -32,18 +32,18 @@ const getBlobberListForAllocation = async () => {
     maxReadPrice,
     minWritePrice,
     maxWritePrice
-  );
-  console.log("blobberList", blobberList);
-  return blobberList;
-};
+  )
+  console.log('blobberList', blobberList)
+  return blobberList
+}
 
-export const createAllocationFunc = () => async (dispatch) => {
-  const actionType: RequestActionTypes = requestActionTypes(CREATE_ALLOCATION);
-  dispatch({ type: actionType.request });
+export const createAllocationFunc = () => async dispatch => {
+  const actionType: RequestActionTypes = requestActionTypes(CREATE_ALLOCATION)
+  dispatch({ type: actionType.request })
 
-  const preferredBlobbers = await getBlobberListForAllocation();
-  const expiry = new Date();
-  expiry.setDate(expiry.getDate() + 30);
+  const preferredBlobbers = await getBlobberListForAllocation()
+  const expiry = new Date()
+  expiry.setDate(expiry.getDate() + 30)
 
   //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
   const config = {
@@ -57,30 +57,30 @@ export const createAllocationFunc = () => async (dispatch) => {
     maxWritePrice: 10000000000,
     lock: 5000000000,
     blobbers: preferredBlobbers,
-  };
+  }
 
   try {
-    const res = await createAllocationWithBlobbers(config);
-    const data = await JSON.parse(res.transaction_output);
-    console.log(data, "data");
+    const res = await createAllocationWithBlobbers(config)
+    const data = await JSON.parse(res.transaction_output)
+    console.log(data, 'data')
 
-    dispatch({ type: actionType.success, payload: data });
+    dispatch({ type: actionType.success, payload: data })
 
-    await dispatch(listAllocationsFunc());
+    await dispatch(listAllocationsFunc())
   } catch (error) {
-    dispatch({ type: actionType.error });
+    dispatch({ type: actionType.error })
   }
-};
+}
 
-export const listAllocationsFunc = () => async (dispatch) => {
-  const actionType: RequestActionTypes = requestActionTypes(LIST_ALLOCATIONS);
-  dispatch({ type: actionType.request });
+export const listAllocationsFunc = () => async dispatch => {
+  const actionType: RequestActionTypes = requestActionTypes(LIST_ALLOCATIONS)
+  dispatch({ type: actionType.request })
 
   try {
-    const list = await listAllocations();
-    console.log("first", list);
-    dispatch({ type: actionType.success, payload: list || [] });
+    const list = await listAllocations()
+    console.log('first', list)
+    dispatch({ type: actionType.success, payload: list || [] })
   } catch (error) {
-    dispatch({ type: actionType.error });
+    dispatch({ type: actionType.error })
   }
-};
+}
