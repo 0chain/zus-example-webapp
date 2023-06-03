@@ -5,5 +5,5 @@ export const selectActiveAllocation = (state: RootState) => {
   const { list = [], activeAllocationId = "" } =
     state.allocation as AllocationState;
 
-  return list.find((wallet) => wallet.id === activeAllocationId) || {};
+  return list.find((allocation) => allocation.id === activeAllocationId) || {};
 };

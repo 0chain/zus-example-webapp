@@ -30,8 +30,12 @@
 
   &::before {
     content: "";
-    opacity: .1;
+    opacity: 0.1;
   }
+}
+
+.progress {
+  max-width: 100%;
 }
 
 .labelLeft,

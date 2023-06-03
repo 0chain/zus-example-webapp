@@ -78,7 +78,8 @@ export const listAllocationsFunc = () => async (dispatch) => {
 
   try {
     const list = await listAllocations();
-    dispatch({ type: actionType.success, payload: list });
+    console.log("first", list);
+    dispatch({ type: actionType.success, payload: list || [] });
   } catch (error) {
     dispatch({ type: actionType.error });
   }

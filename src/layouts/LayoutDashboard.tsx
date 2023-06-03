@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 
 import { Header } from "components/Header";
@@ -12,17 +12,24 @@ import {
 } from "components/Sidebar/useSidebarContext";
 
 import { selectActiveWallet } from "store/wallet";
+import { listAllocationsFunc } from "store/allocation";
 
 import styles from "./LayoutDashboard.module.scss";
 
 const LayoutDashboard = ({ children }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const wallet = useSelector(selectActiveWallet);
 
   useEffect(() => {
-    if (!wallet.id) router.push("/");
-  }, [router, wallet.id]);
+    const loadAllocation = async () => {
+      await dispatch(listAllocationsFunc());
+    };
+
+    if (wallet.id) loadAllocation();
+    else router.push("/");
+  }, [router, dispatch, wallet.id]);
 
   const { sidebarActive, toggleSidebar } = useSidebarContext();
   return (

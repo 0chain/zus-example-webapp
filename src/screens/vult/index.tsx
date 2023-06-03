@@ -1,67 +1,56 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
-import styles from "./Vult.module.scss";
-import { ContentBox } from "components/ContentBox";
+import { useSelector } from "react-redux";
+
 import LayoutDashboard from "layouts/LayoutDashboard";
+import { ContentBox } from "components/ContentBox";
 import { ProgressBar } from "components/ProgressBar";
 import { IconUpload } from "components/IconUpload";
-import { listAllocationsFunc } from "store/allocation";
+
+import { selectActiveAllocation } from "store/allocation";
+import { bytesToString } from "lib/utils";
+
+import styles from "./Vult.module.scss";
 
 export default function Vult() {
-  const dispatch = useDispatch();
+  const allocation = useSelector(selectActiveAllocation);
 
-  const [imageFile, setImageFile] = useState<File>();
-  const [docFile, setDocFile] = useState<File>();
+  const totalStorage = allocation?.size;
+  const usedStorage = allocation?.stats?.used_size;
+  const usedPercentage = (usedStorage / totalStorage) * 100;
+  const storageString = bytesToString(totalStorage);
+  const usageString = bytesToString(usedStorage);
 
-  const onImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.length) setImageFile(e.target.files[0]);
-  };
-
-  const onDocFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.length) setImageFile(e.target.files[0]);
-  };
-
-  const totalFileSize = useMemo(() => {
-    return (imageFile?.size || 0) + (docFile?.size || 0);
-  }, [imageFile, docFile]);
-
-  const listAlloc = () => dispatch(listAllocationsFunc());
-
-  useEffect(() => {
-    dispatch(listAllocationsFunc());
-  }, [dispatch]);
+  const expirationDate = allocation.expiration_date
+    ? new Date(allocation?.expiration_date * 1000).toISOString()
+    : new Date().toDateString();
+  const expired = allocation?.expiration_date < new Date().getTime() / 1000;
 
   return (
     <LayoutDashboard>
       <ContentBox>
-        <div className={styles.wrapper} onClick={listAlloc}>
+        <div className={styles.wrapper}>
           <h1>
             <b>Allocation</b>
           </h1>
           <small>25/04/2023, 4:01 PM</small>
 
           <ProgressBar
-            value="50%"
-            labelLeft="0 KB used of 250mb"
+            value={usedPercentage}
+            labelLeft={`${usageString} KB used of ${storageString}`}
             theme="vult"
-          ></ProgressBar>
+          />
         </div>
       </ContentBox>
 
       <div className={styles.container}>
         <div className={styles.halfCol}>
-          <IconUpload
-            type="image"
-            label="Upload image"
-            changeFunc={(e) => onImageFileChange(e)}
-          />
+          <IconUpload type="image" label="Upload image" changeFunc={() => {}} />
         </div>
 
         <div className={styles.halfCol}>
           <IconUpload
             type="document"
             label="Upload document"
-            changeFunc={(e) => onDocFileChange(e)}
+            changeFunc={() => {}}
           />
         </div>
       </div>
