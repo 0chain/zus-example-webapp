@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { getBalance, getFaucetToken, init } from "@zerochain/zus-sdk";
+import { getFaucetToken, init } from "@zerochain/zus-sdk";
 
 import Layout from "layouts/Layout";
 import { IconBox } from "components/IconBox";
@@ -15,12 +14,10 @@ import { Spinner } from "components/Spinner";
 import { createWalletFunc, selectActiveWallet } from "store/wallet";
 import { createAllocationFunc } from "store/allocation";
 import { ROUTES } from "constant/routes";
-import { config } from "constant/config";
 
 import styles from "./Home.module.scss";
 
 export default function CreateWallet() {
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const wallet = useSelector(selectActiveWallet);
@@ -31,7 +28,6 @@ export default function CreateWallet() {
 
   const handleCreateAccount = async () => {
     setIsLoading(true);
-    await init(config);
     await dispatch(createWalletFunc());
 
     setLoadingMsg("Creating Allocation...");
@@ -144,7 +140,7 @@ export default function CreateWallet() {
         <Modal title="Success" closeFunc={() => setShowSuccessDialog(false)}>
           <Image src="/success-icon.svg" height="72" width="72" alt="" />
           <p>Allocation is created successfully</p>
-          <Button size="large" onClick={() => router.push("/welcome")}>
+          <Button size="large" onClick={() => setShowSuccessDialog(false)}>
             Ok
           </Button>
         </Modal>
