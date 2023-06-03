@@ -331,10 +331,10 @@
     "@typescript-eslint/types" "5.48.0"
     eslint-visitor-keys "^3.3.0"
 
-"@zerochain/zus-sdk@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.npmjs.org/@zerochain/zus-sdk/-/zus-sdk-0.0.33.tgz"
-  integrity sha512-GSSwpSj6JhQt8af2Z2Zw9uHxd9z6qOQ9eTUVecLy4WvxUENsAp1k51V/UKDPp7IKi3Z9g7QLHYqzVy0Avw8eQQ==
+"@zerochain/zus-sdk@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@zerochain/zus-sdk/-/zus-sdk-0.0.35.tgz#1ee0759e75a02b1f2d1723c8f6997d84a6815614"
+  integrity sha512-8KDWd38srLaqCYjeROUAX9LA5V8lPA6OuSNmsdNZYr9Ko7QheqeidC+xNDtv6yPM/vMftbwESkRadlOXOhLCJw==
   dependencies:
     axios "^1.2.0"
     bip39 "^3.1.0"

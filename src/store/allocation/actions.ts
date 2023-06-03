@@ -41,7 +41,7 @@ export const createAllocationFunc = () => async (dispatch) => {
   const actionType: RequestActionTypes = requestActionTypes(CREATE_ALLOCATION);
   dispatch({ type: actionType.request });
 
-  const preferredBlobbers = getBlobberListForAllocation();
+  const preferredBlobbers = await getBlobberListForAllocation();
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + 30);
 
@@ -50,19 +50,26 @@ export const createAllocationFunc = () => async (dispatch) => {
     datashards: 2,
     parityshards: 2,
     size: 2 * 1073741824,
-    expiry: Math.floor(expiry.getTime() / 1000),
+    expiry: Math.round(new Date().getTime() / 1000) + 2628000,
     minReadPrice: 0,
-    maxReadPrice: 184467440737095516,
+    maxReadPrice: 10000000000,
     minWritePrice: 0,
-    maxWritePrice: 184467440737095516,
+    maxWritePrice: 10000000000,
     lock: 5000000000,
     blobbers: preferredBlobbers,
   };
 
-  //Call createAllocation method
-  const allocation = await createAllocationWithBlobbers(config);
-  console.log(allocation, "allocation");
-  await dispatch(listAllocationsFunc());
+  try {
+    const res = await createAllocationWithBlobbers(config);
+    const data = await JSON.parse(res.transaction_output);
+    console.log(data, "data");
+
+    dispatch({ type: actionType.success, payload: data });
+
+    await dispatch(listAllocationsFunc());
+  } catch (error) {
+    dispatch({ type: actionType.error });
+  }
 };
 
 export const listAllocationsFunc = () => async (dispatch) => {

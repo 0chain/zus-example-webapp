@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@next/font": "13.1.1",
-    "@zerochain/zus-sdk": "^0.0.33",
+    "@reduxjs/toolkit": "^1.8.1",
+    "@zerochain/zus-sdk": "^0.0.35",
     "clsx": "^1.2.1",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
@@ -19,11 +20,10 @@
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass": "^1.62.0",
-    "ts-ebml": "^2.0.2",
     "react-redux": "^7.2.8",
     "redux-persist": "^6.0.0",
-    "@reduxjs/toolkit": "^1.8.1"
+    "sass": "^1.62.0",
+    "ts-ebml": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "20.2.5",
