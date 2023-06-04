@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Sidebar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -53,6 +53,23 @@ export default function Sidebar() {
   const { sidebarActive } = useContext(SidebarContext)
 
   const isActive = path => router.pathname === path
+
+  const [walletDetails, setWalletDetails] = useState({})
+
+  // const [isSendTokenDialogOpen, setIsSendTokenDialogOpen] = useState(false)
+  // const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
+
+  // const [isEnterAmountDialogOpen, setIsEnterAmountDialogOpen] = useState(false)
+
+  // const closeSendTokenDialogModal = () => setIsSendTokenDialogOpen(false)
+  // const handleSend = () => setIsSendTokenDialogOpen(true)
+
+  // const onSendTokenDialogNext = (walletDetails, address) => {
+  //   setWalletDetails(walletDetails)
+  //   setSelectedSenderAddress(address)
+  //   setIsSendTokenDialogOpen(false)
+  //   setIsEnterAmountDialogOpen(true)
+  // }
 
   console.log(sidebarActive)
 
@@ -143,6 +160,14 @@ export default function Sidebar() {
           </figure>
         </Button>
       </div>
+
+      {/* <SendTokenDialog
+        isOpen={isSendTokenDialogOpen}
+        close={closeSendTokenDialogModal}
+        next={onSendTokenDialogNext}
+        customClass={styles.sendTokenDialog}
+        id="sendTokenDialog"
+      /> */}
     </div>
   )
 }
