@@ -43,9 +43,9 @@
 @media (prefers-color-scheme: dark) {
 }
 
-@import "font-faces";
-@import "base/mixins";
-@import "base/base";
+@import 'font-faces';
+@import 'base/mixins';
+@import 'base/base';
 
 @media (prefers-color-scheme: dark) {
   html {

@@ -1,0 +1,51 @@
+@import 'styles/common';
+
+.tile {
+  @extend .spaceBetween;
+  width: 100%;
+  padding: 1.6rem;
+  border-radius: 12px;
+  background-color: $white;
+  box-shadow: 0 0 75px $darkGray;
+}
+
+.left,
+.right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.icon {
+  height: 38px;
+
+  svg {
+    filter: drop-shadow(0.5px 0.5px 2px $gray2);
+  }
+}
+
+.fileName {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.size {
+  font-size: 1.2rem;
+  color: $gray3;
+}
+
+.iconBtn {
+  @extend .clearStdStyles, .flexCenter;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $veryPaleBlue;
+
+    svg path {
+      fill: $primaryBlue;
+    }
+  }
+}
