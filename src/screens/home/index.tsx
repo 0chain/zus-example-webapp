@@ -1,62 +1,62 @@
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { getFaucetToken, init } from "@zerochain/zus-sdk";
+import { useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFaucetToken, init } from '@zerochain/zus-sdk'
 
-import Layout from "layouts/Layout";
-import { IconBox } from "components/IconBox";
-import { InfoBox } from "components/InfoBox";
-import { Button } from "components/Button";
-import { Modal } from "components/Modal";
-import { Spinner } from "components/Spinner";
+import Layout from 'layouts/Layout'
+import { IconBox } from 'components/IconBox'
+import { InfoBox } from 'components/InfoBox'
+import { Button } from 'components/Button'
+import { Modal } from 'components/Modal'
+import { Spinner } from 'components/Spinner'
 
-import { createWalletFunc, selectActiveWallet } from "store/wallet";
-import { createAllocationFunc } from "store/allocation";
-import { ROUTES } from "constant/routes";
+import { createWalletFunc, selectActiveWallet } from 'store/wallet'
+import { createAllocationFunc } from 'store/allocation'
+import { ROUTES } from 'constant/routes'
 
-import styles from "./Home.module.scss";
+import styles from './Home.module.scss'
 
 export default function CreateWallet() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const wallet = useSelector(selectActiveWallet);
+  const wallet = useSelector(selectActiveWallet)
 
-  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMsg, setLoadingMsg] = useState("Creating Wallet...");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadingMsg, setLoadingMsg] = useState('Creating Wallet...')
 
   const handleCreateAccount = async () => {
-    setIsLoading(true);
-    await dispatch(createWalletFunc());
+    setIsLoading(true)
+    await dispatch(createWalletFunc())
 
-    setLoadingMsg("Creating Allocation...");
-    await getFaucetToken();
-    await dispatch(createAllocationFunc());
+    setLoadingMsg('Creating Allocation...')
+    await getFaucetToken()
+    await dispatch(createAllocationFunc())
 
-    setIsLoading(false);
-    setShowSuccessDialog(true);
-  };
+    setIsLoading(false)
+    setShowSuccessDialog(true)
+  }
 
   const actions = [
     {
-      label: "Wallet Details",
+      label: 'Wallet Details',
       url: ROUTES.walletDetails,
-      icon: "/icons/icon-wallet-solid.svg",
+      icon: '/icons/icon-wallet-solid.svg',
     },
     {
-      label: "Allocation Details",
+      label: 'Allocation Details',
       url: ROUTES.allocationDetails,
-      icon: "/icons/icon-piechart-solid.svg",
-      iconSize: "31",
+      icon: '/icons/icon-piechart-solid.svg',
+      iconSize: '31',
     },
     {
-      label: "Network Details",
+      label: 'Network Details',
       url: ROUTES.networkDetails,
-      icon: "/icons/icon-network-solid.svg",
-      iconSize: "28",
+      icon: '/icons/icon-network-solid.svg',
+      iconSize: '28',
     },
-  ];
+  ]
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function CreateWallet() {
             </h4>
 
             <div className={styles.flex}>
-              {actions.map((item) => {
+              {actions.map(item => {
                 return (
                   <div key={item.label}>
                     <IconBox
@@ -79,7 +79,7 @@ export default function CreateWallet() {
                       {item.label}
                     </IconBox>
                   </div>
-                );
+                )
               })}
             </div>
 
@@ -98,7 +98,7 @@ export default function CreateWallet() {
             </div>
 
             <footer>
-              <span>Powered by</span>{" "}
+              <span>Powered by</span>{' '}
               <Image src="/zus-logo.svg" height="66" width="66" alt="" />
             </footer>
           </div>
@@ -146,5 +146,5 @@ export default function CreateWallet() {
         </Modal>
       )}
     </>
-  );
+  )
 }

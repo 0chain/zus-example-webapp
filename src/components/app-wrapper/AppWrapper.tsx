@@ -23,7 +23,7 @@ const AppWrapper = ({ children }) => {
     }
 
     initializeApp()
-  }, [wallet])
+  }, [])
 
   return <>{children}</>
 }
