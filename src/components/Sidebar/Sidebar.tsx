@@ -38,13 +38,6 @@ const navMenu = [
     inactiveIcon: '/icons/icon-piechart-line.svg',
     iconWidth: 20,
   },
-
-  {
-    label: 'Network Details',
-    href: ROUTES.networkDetails,
-    inactiveIcon: '/icons/icon-network-line.svg',
-    iconWidth: 22,
-  },
 ]
 
 export default function Sidebar() {
