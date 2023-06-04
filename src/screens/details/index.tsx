@@ -1,5 +1,4 @@
-import WalletDetails from "./WalletDetails";
-import AllocationDetails from "./AllocationDetails";
-import NetworkDetails from "./NetworkDetails";
+import WalletDetails from './WalletDetails'
+import AllocationDetails from './AllocationDetails'
 
-export { WalletDetails, AllocationDetails, NetworkDetails }
+export { WalletDetails, AllocationDetails }
