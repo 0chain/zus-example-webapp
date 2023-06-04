@@ -13,6 +13,7 @@ import {
 
 import { selectActiveWallet } from 'store/wallet'
 import { listAllocationsFunc } from 'store/allocation'
+import { listObjectsFunc } from 'store/object'
 
 import styles from './LayoutDashboard.module.scss'
 
@@ -23,35 +24,34 @@ const LayoutDashboard = ({ children }) => {
   const wallet = useSelector(selectActiveWallet)
 
   useEffect(() => {
-    const loadAllocation = async () => {
+    const loadData = async () => {
       await dispatch(listAllocationsFunc())
+      await dispatch(listObjectsFunc('/'))
     }
 
-    if (wallet.id) loadAllocation()
+    if (wallet.id) loadData()
     else router.push('/')
   }, [router, dispatch, wallet.id])
 
   const { sidebarActive, toggleSidebar } = useSidebarContext()
   return (
-    <>
-      <SidebarContext.Provider value={{ sidebarActive, toggleSidebar }}>
-        <div
-          className={clsx(styles.siteWrapper, {
-            sidebarActive: sidebarActive,
-          })}
-        >
-          <Header />
-          <div className={styles.contentWrapper}>
-            <Sidebar />
+    <SidebarContext.Provider value={{ sidebarActive, toggleSidebar }}>
+      <div
+        className={clsx(styles.siteWrapper, {
+          sidebarActive: sidebarActive,
+        })}
+      >
+        <Header />
+        <div className={styles.contentWrapper}>
+          <Sidebar />
 
-            <main className={styles.mainWrapper}>
-              {sidebarActive} {toggleSidebar}
-              {children}
-            </main>
-          </div>
+          <main className={styles.mainWrapper}>
+            {sidebarActive} {toggleSidebar}
+            {children}
+          </main>
         </div>
-      </SidebarContext.Provider>
-    </>
+      </div>
+    </SidebarContext.Provider>
   )
 }
 

@@ -1,9 +1,10 @@
-import { RootState } from '../reducers'
-import { AllocationState } from './types'
+export const selectFiles = (state, walletId?, allocationId?) => {
+  const { wallets } = state.object
+  const { activeAllocationId } = state.allocation
+  const { activeWalletId } = state.wallet
+  const wallet = wallets[walletId] || wallets[activeWalletId]
+  const allocId = allocationId || activeAllocationId
+  const files = (allocId && wallet && wallet[allocId]) || []
 
-export const selectActiveAllocation = (state: RootState) => {
-  const { list = [], activeAllocationId = '' } =
-    state.allocation as AllocationState
-
-  return list.find(allocation => allocation.id === activeAllocationId) || {}
+  return files
 }

@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
-import { SidebarContext } from './useSidebarContext'
 
 const siteMenu = [
   {
@@ -50,11 +49,8 @@ const navMenu = [
 
 export default function Sidebar() {
   const router = useRouter()
-  const { sidebarActive } = useContext(SidebarContext)
 
   const isActive = path => router.pathname === path
-
-  console.log(sidebarActive)
 
   return (
     <div className={styles.siteSidebar}>
@@ -112,7 +108,7 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.sidebarBottom}>
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Send
           <figure>
             <Image
@@ -124,7 +120,7 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Receive
           <figure>
             <Image
@@ -136,7 +132,7 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Faucet
           <figure>
             <Image src="/icons/icon-faucet.svg" width="20" height="20" alt="" />

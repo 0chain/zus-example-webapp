@@ -12,7 +12,7 @@ const Modal = ({ children, title, closeFunc }) => {
 
           {closeFunc && (
             <div className={styles.headerRight}>
-              <button className={styles.close} onClick={() => closeFunc()}>
+              <button className={styles.close} onClick={closeFunc}>
                 <Image
                   src="icons/icon-close.svg"
                   height="18"
