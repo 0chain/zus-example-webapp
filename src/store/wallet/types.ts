@@ -8,10 +8,6 @@ export const types: Types = createActionTypes([CREATE_WALLET, CLEAR_STORE])
 
 export type WalletState = {
   list: any[]
-  temp: {
-    keys: any
-    mnemonic: string
-  }
   activeWalletId: string
 }
 

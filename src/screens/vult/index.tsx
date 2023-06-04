@@ -11,8 +11,8 @@ import { bytesToString } from 'lib/utils'
 export default function Vult() {
   const allocation = useSelector(selectActiveAllocation)
 
-  const totalStorage = allocation?.size
-  const usedStorage = allocation?.stats?.used_size
+  const totalStorage = allocation?.size || 0
+  const usedStorage = allocation?.stats?.used_size || 0
   const usedPercentage = (usedStorage / totalStorage) * 100
   const storageString = bytesToString(totalStorage)
   const usageString = bytesToString(usedStorage)
