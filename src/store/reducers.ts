@@ -20,7 +20,6 @@ const appReducer = combineReducers({
   allocation: allocationReducer,
 })
 
-// @ts-ignore
 const { CLEAR_STORE } = allTypes
 
 const rootReducer = (state, action) => {

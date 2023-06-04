@@ -12,3 +12,32 @@ export const bytesToString = (bytes, decimals = 2) => {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
 }
+
+export const getParentPath = path => {
+  if (!path) {
+    path = '/'
+  }
+  if (path.endsWith('/')) {
+    path = path.slice(0, -1)
+  }
+
+  const items = path.split('/')
+  //remove last element
+  items.pop()
+
+  return '/' + items.join('/')
+}
+
+export const normalizedPath = path => path?.replace(/\/+/g, '/')
+
+export const generateRandomString = (length = 5) => {
+  let result = ''
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  const charactersLength = characters.length
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+
+  return result
+}
