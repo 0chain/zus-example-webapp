@@ -16,3 +16,13 @@ export const addPropToObject = ({
     [allocationId]: allocationObject,
   }
 }
+
+export const isAllocationDisabled = allocation => {
+  const disabledAllocation =
+    !allocation ||
+    allocation?.canceled ||
+    allocation?.finalized ||
+    allocation?.expiration_date < new Date().getTime() / 1000
+
+  return disabledAllocation
+}

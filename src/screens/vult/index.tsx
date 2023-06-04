@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import LayoutDashboard from 'layouts/LayoutDashboard'
 import { ContentBox } from 'components/ContentBox'
 import { ProgressBar } from 'components/ProgressBar'
-import UploadContainer from 'components/upload-container'
+import Files from 'components/files'
 
 import { selectActiveAllocation } from 'store/allocation'
 import { bytesToString } from 'lib/utils'
@@ -37,7 +37,7 @@ export default function Vult() {
         />
       </ContentBox>
 
-      <UploadContainer />
+      <Files />
     </LayoutDashboard>
   )
 }

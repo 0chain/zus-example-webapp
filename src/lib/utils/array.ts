@@ -21,3 +21,10 @@ export const getArrayDifference = (
 
   return difference
 }
+
+export const getRandomIndex = array => Math.floor(Math.random() * array?.length)
+
+export const getRandomArrayElement = array => {
+  const randomIndex = getRandomIndex(array)
+  return array[randomIndex]
+}

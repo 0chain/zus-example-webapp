@@ -1,6 +1,7 @@
 import { bulkUpload } from '@zerochain/zus-sdk'
 
 import types from '../types'
+import { listObjectsFunc } from './getters'
 
 import { requestActionTypes } from 'store/api-utils'
 import { selectActiveAllocation } from 'store/allocation'
@@ -77,7 +78,7 @@ export const bulkUploadFnc = props => async (dispatch, getState) => {
     //   date: new Date().toISOString(),
     // }
 
-    // await dispatch(listObjects(nP(getParentPath(path))))
+    await dispatch(listObjectsFunc(nP(getParentPath(path))))
     setTimeout(() => {
       dispatch({ type: actionTypes.success })
 
@@ -120,17 +121,17 @@ export const bulkUploadFnc = props => async (dispatch, getState) => {
       return { error: "You don't have enough space to upload files" }
     }
 
-    const toast = {
-      ...tCommon,
-      status: 'error',
-      message: `Uploading ${file.name} failed`,
-    }
+    // const toast = {
+    //   ...tCommon,
+    //   status: 'error',
+    //   message: `Uploading ${file.name} failed`,
+    // }
 
-    const notification = {
-      ...nCommon,
-      type: 'FILE_UPLOAD_FAILED',
-      date: new Date().toISOString(),
-    }
+    // const notification = {
+    //   ...nCommon,
+    //   type: 'FILE_UPLOAD_FAILED',
+    //   date: new Date().toISOString(),
+    // }
 
     // dispatch(
     //   updateAction({
