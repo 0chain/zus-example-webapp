@@ -12,15 +12,15 @@ const AppWrapper = ({ children }) => {
   useEffect(() => {
     const initializeApp = async () => {
       await init(config)
-      await setWallet(
-        wallet.id,
-        wallet.keys.privateKey,
-        wallet.keys.publicKey,
-        wallet.mnemonic
-      )
+      if (wallet.id) {
+        await setWallet(
+          wallet.id,
+          wallet.keys.privateKey,
+          wallet.keys.publicKey,
+          wallet.mnemonic
+        )
+      }
     }
-
-    console.log('hello')
 
     initializeApp()
   }, [wallet])
