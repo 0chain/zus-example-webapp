@@ -10,6 +10,8 @@ import Image from 'next/image'
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 
+import { selectActiveWallet } from 'store/wallet'
+
 // import { Button } from "components/Button";
 
 const tokenToZcn = (token: number = 0): number =>
@@ -35,18 +37,6 @@ export default function Bolt() {
     { hash: '1ee69676e594484030c23f1317a04894', date: new Date() },
   ]
 
-  const selectActiveWallet = state => {
-    const { activeWalletId, list = [], cloudMnemonics = [] } = state.wallet
-    const wallet = list.find(wllt => wllt.id === activeWalletId) || {}
-    const cloudWallet = cloudMnemonics.find(
-      wllt => wllt.client_id === activeWalletId
-    )
-    const activeWallet = { ...cloudWallet, ...wallet }
-
-    // TODO Handle activeWallet not found
-    return activeWallet
-  }
-
   const pages = useMemo(() => {
     return Array.from(Array(Math.ceil(transactions.length / perPage)).keys())
   }, [transactions.length])
@@ -54,9 +44,10 @@ export default function Bolt() {
   const activeWallet = useSelector(selectActiveWallet)
 
   const getSetBalance = async () => {
-    const walletWalance = await getBalance(
+    const walletWalance: typeof activeWallet = await getBalance(
       '615b065dbfa3e6a115efb1a118f645146f1fbcc7b7a3227fcbc1c701c7f15ed5'
     )
+
     //  await  getBalance(activeWallet.id);
     const balance = tokenToZcn(
       walletWalance.balance ? walletWalance.balance : 0
@@ -67,7 +58,8 @@ export default function Bolt() {
   }
 
   const getUsdZcnRate = async () => {
-    // const rate = await getUSDRate('zcn') //here's the problem
+    const rate = await getUSDRate('zcn') //here's the problem
+    console.log(rate, 'rate')
     setZcnUsdRate(0.135)
   }
   useEffect(() => {
