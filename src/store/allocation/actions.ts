@@ -33,7 +33,6 @@ const getBlobberListForAllocation = async () => {
     minWritePrice,
     maxWritePrice
   )
-  console.log('blobberList', blobberList)
   return blobberList
 }
 
@@ -62,7 +61,6 @@ export const createAllocationFunc = () => async dispatch => {
   try {
     const res = await createAllocationWithBlobbers(config)
     const data = await JSON.parse(res.transaction_output)
-    console.log(data, 'data')
 
     dispatch({ type: actionType.success, payload: data })
 
@@ -78,7 +76,6 @@ export const listAllocationsFunc = () => async dispatch => {
 
   try {
     const list = await listAllocations()
-    console.log('first', list)
     dispatch({ type: actionType.success, payload: list || [] })
   } catch (error) {
     dispatch({ type: actionType.error })

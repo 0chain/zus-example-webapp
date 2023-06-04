@@ -34,7 +34,7 @@ const IconUpload = ({ type, changeFunc, label }) => {
       <h6>{label}</h6>
 
       <div className={styles.field}>
-        <input type="file" accept={inputType} onChange={() => changeFunc()} />
+        <input type="file" multiple accept={inputType} onChange={changeFunc} />
 
         <div className={styles.btn}>
           <Image src="icons/icon-upload.svg" height={20} width={20} alt="" />
