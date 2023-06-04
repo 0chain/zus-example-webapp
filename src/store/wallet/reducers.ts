@@ -2,10 +2,6 @@ import types from './types'
 
 const initialState = {
   list: [],
-  temp: {
-    keys: {},
-    mnemonic: '',
-  },
   activeWalletId: '',
 }
 
