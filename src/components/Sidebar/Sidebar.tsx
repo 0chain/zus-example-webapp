@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Sidebar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -132,6 +132,14 @@ export default function Sidebar() {
           </figure>
         </Button>
       </div>
+
+      {/* <SendTokenDialog
+        isOpen={isSendTokenDialogOpen}
+        close={closeSendTokenDialogModal}
+        next={onSendTokenDialogNext}
+        customClass={styles.sendTokenDialog}
+        id="sendTokenDialog"
+      /> */}
     </div>
   )
 }
