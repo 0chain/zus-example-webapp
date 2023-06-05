@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { ROUTES } from '../../constant/routes'
 
 import { SendTokenDialog } from 'components/dialog'
+import { Modal } from 'components/Modal'
 
 const siteMenu = [
   {
@@ -48,6 +49,9 @@ export default function Sidebar() {
   const isActive = path => router.pathname === path
 
   const [isSendTokenOpen, setIsSendTokenOpen] = useState(false)
+
+  const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   return (
     <div className={styles.siteSidebar}>
@@ -141,14 +145,33 @@ export default function Sidebar() {
           </figure>
         </Button>
       </div>
-      {isSendTokenOpen && <SendTokenDialog />}
-      {/* <SendTokenDialog
-        isOpen={isSendTokenDialogOpen}
-        close={closeSendTokenDialogModal}
-        next={onSendTokenDialogNext}
-        customClass={styles.sendTokenDialog}
-        id="sendTokenDialog"
-      /> */}
+      {isSendTokenOpen && (
+        <SendTokenDialog
+          close={() => setIsSendTokenOpen(false)}
+          setIsError={setIsError}
+          setIsSuccess={setIsSuccess}
+        />
+      )}
+
+      {isError && (
+        <Modal title="Error" closeFunc={() => setIsError(false)}>
+          <Image src="/error-icon.svg" height="72" width="72" alt="" />
+          <p>Transactions Failed!</p>
+          <Button theme="bolt" size="large" onClick={() => setIsError(false)}>
+            Ok
+          </Button>
+        </Modal>
+      )}
+
+      {isSuccess && (
+        <Modal title="Success" closeFunc={() => setIsSuccess(false)}>
+          <Image src="/success-icon.svg" height="72" width="72" alt="" />
+          <p>Transaction done successfully!</p>
+          <Button theme="bolt" size="large" onClick={() => setIsSuccess(false)}>
+            Ok
+          </Button>
+        </Modal>
+      )}
     </div>
   )
 }

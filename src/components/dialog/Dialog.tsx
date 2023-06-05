@@ -8,16 +8,13 @@ import DialogHeader from './DialogHeader'
 import stl from './Dialog.module.scss'
 
 function Dialog({
-  isOpen,
   close,
-  closeOnClickAway,
   rounded,
   children,
   id,
   animation = 'bounce',
   theme = 'vult',
   customClass,
-  customModalClass,
 }) {
   return (
     <Modal title="" closeFunc={close}>

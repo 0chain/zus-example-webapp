@@ -43,7 +43,9 @@ const DialogFooter = ({
           customClass={clsx(stl.footerButton, cancelButtonClass)}
         />
       )} */}
-      {cancelButtonOnClick && <button>{cancelButtonLabel}</button>}
+      {cancelButtonOnClick && (
+        <button onClick={cancelButtonOnClick}>{cancelButtonLabel}</button>
+      )}
       {/* {actionButtonOnClick && (
         <Button
           name="action-btn"
@@ -54,7 +56,9 @@ const DialogFooter = ({
           customClass={clsx(stl.footerButton, actionButtonClass)}
         />
       )} */}
-      {actionButtonOnClick && <button>{actionButtonLabel}</button>}
+      {actionButtonOnClick && (
+        <button onClick={actionButtonOnClick}>{actionButtonLabel}</button>
+      )}
     </div>
   </div>
 )

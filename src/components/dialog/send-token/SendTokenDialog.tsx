@@ -8,7 +8,7 @@ import { sendTransaction } from '@zerochain/zus-sdk'
 
 import stl from './SendTokenDialog.module.scss'
 
-const SendTokenDialog = () => {
+const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
   const [amount, setAmount] = useState('')
   const [clientID, setClientID] = useState('')
 
@@ -20,12 +20,22 @@ const SendTokenDialog = () => {
       public_key: wallet?.keys?.publicKey,
       secretKey: wallet?.keys?.privateKey,
     }
-    await sendTransaction(fromWallet, clientID, parseInt(amount), '')
+    try {
+      await sendTransaction(fromWallet, clientID, parseInt(amount), '')
+    } catch (error) {
+      console.log(error)
+      setIsError(true)
+      close()
+      return
+    }
+
+    setIsSuccess(true)
+    close()
   }
 
   return (
-    <Dialog>
-      <Dialog.Header title="Send ZCN"></Dialog.Header>
+    <Dialog theme="bolt" close={close}>
+      <Dialog.Header title="Send ZCN" close={close}></Dialog.Header>
       <input
         id="clientID"
         name="clientID"
