@@ -12,4 +12,27 @@ $gray3: #828282;
 $gray4: #bdbdbd;
 $gray5: #dcdee7;
 
+$grayishBlue: #bebeca;
+$primaryText: #000;
+$veryLightPaleBlue: #f3f5f9;
+$primaryGreen: #03c17d;
+$lightOrange: #ff6b00;
+$slightlyDesaturatedBlue: #384279;
+$primaryPink: #b35291;
+$lightPinkColor: #b35291;
+$semiBlack: rgb(30, 30, 30);
+$lightGreen: #33ce60;
+
+$blimpGradiant: linear-gradient(135deg, #ffb156 0%, #ff4d00 55.52%);
+$chalkPrimaryGradientGreyDark: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.3)
+  ),
+  linear-gradient(135deg, #7781c6 0%, #384279 100%);
+
+  $boltToastGradient: linear-gradient(39.18deg, #004f16 21.01%, #0d005a 139.72%);
+
 $darkGray: rgba(155, 155, 155, 0.15);
+$subTitleGray: rgba(0, 0, 0, 0.6);
+

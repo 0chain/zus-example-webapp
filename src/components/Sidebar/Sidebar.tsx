@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
 
-import { SendTokenDialog } from 'components/dialog'
+import { ReceiveTokenDialog, SendTokenDialog } from 'components/dialog'
 import { Modal } from 'components/Modal'
 
 const siteMenu = [
@@ -49,6 +49,7 @@ export default function Sidebar() {
   const isActive = path => router.pathname === path
 
   const [isSendTokenOpen, setIsSendTokenOpen] = useState(false)
+  const [isReceiveTokenOpen, setIsReceiveTokenOpen] = useState(false)
 
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -126,7 +127,12 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt" onClick={() => {}}>
+        <Button
+          theme="bolt"
+          onClick={() => {
+            setIsReceiveTokenOpen(true)
+          }}
+        >
           Receive
           <figure>
             <Image
@@ -148,6 +154,14 @@ export default function Sidebar() {
       {isSendTokenOpen && (
         <SendTokenDialog
           close={() => setIsSendTokenOpen(false)}
+          setIsError={setIsError}
+          setIsSuccess={setIsSuccess}
+        />
+      )}
+
+      {isReceiveTokenOpen && (
+        <ReceiveTokenDialog
+          close={() => setIsReceiveTokenOpen(false)}
           setIsError={setIsError}
           setIsSuccess={setIsSuccess}
         />
