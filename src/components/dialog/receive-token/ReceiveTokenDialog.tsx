@@ -11,9 +11,6 @@ import { sendTransaction } from '@zerochain/zus-sdk'
 import stl from './ReceiveTokenDialog.module.scss'
 
 const ReceiveTokenDialog = ({ close }) => {
-  const [amount, setAmount] = useState('')
-  const [clientID, setClientID] = useState('')
-
   const wallet = useSelector(selectActiveWallet)
   const walletAddress = wallet?.id
 
