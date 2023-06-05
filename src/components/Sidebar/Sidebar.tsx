@@ -8,7 +8,11 @@ import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
 
-import { ReceiveTokenDialog, SendTokenDialog } from 'components/dialog'
+import {
+  FaucetTokenDialog,
+  SendTokenDialog,
+  ReceiveTokenDialog,
+} from 'components/dialog'
 import { Modal } from 'components/Modal'
 
 const siteMenu = [
@@ -50,6 +54,7 @@ export default function Sidebar() {
 
   const [isSendTokenOpen, setIsSendTokenOpen] = useState(false)
   const [isReceiveTokenOpen, setIsReceiveTokenOpen] = useState(false)
+  const [faucetTokens, setIsFaucetTokens] = useState(false)
 
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -144,7 +149,12 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt" onClick={() => {}}>
+        <Button
+          theme="bolt"
+          onClick={() => {
+            setIsFaucetTokens(true)
+          }}
+        >
           Faucet
           <figure>
             <Image src="/icons/icon-faucet.svg" width="20" height="20" alt="" />
@@ -161,6 +171,14 @@ export default function Sidebar() {
 
       {isReceiveTokenOpen && (
         <ReceiveTokenDialog close={() => setIsReceiveTokenOpen(false)} />
+      )}
+
+      {faucetTokens && (
+        <FaucetTokenDialog
+          close={() => setIsFaucetTokens(false)}
+          setIsError={setIsError}
+          setIsSuccess={setIsSuccess}
+        />
       )}
 
       {isError && (
