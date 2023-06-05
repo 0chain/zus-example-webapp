@@ -1,0 +1,7 @@
+@import 'styles/common';
+
+.filesWrapper {
+  @extend .flexCol;
+  width: 100%;
+  gap: 12px;
+}

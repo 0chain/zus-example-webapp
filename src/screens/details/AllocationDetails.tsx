@@ -1,96 +1,118 @@
-import React from "react";
-import LayoutDashboard from "layouts/LayoutDashboard";
-import { ContentBox } from "components/ContentBox";
-import styles from "./Details.module.scss";
+import { useSelector } from 'react-redux'
+import format from 'date-fns/format'
+
+import LayoutDashboard from 'layouts/LayoutDashboard'
+import { ContentBox } from 'components/ContentBox'
+
+import { selectActiveAllocation } from 'store/allocation'
+import { bytesToString } from 'lib/utils'
+
+import stl from './Details.module.scss'
 
 const AllocationDetails = () => {
+  const allocation = useSelector(selectActiveAllocation)
+  console.log(allocation, 'allocation')
+
+  const expirationDate = allocation.expiration_date
+    ? new Date(allocation?.expiration_date * 1000).toISOString()
+    : new Date().toDateString()
+  const formatedExpDate =
+    format(new Date(expirationDate), 'MMM do, yyyy, h:mm aaa') ?? '-'
+  // const expired = allocation?.expiration_date < new Date().getTime() / 1000
+
   const details = [
     {
-      label: "Allocation ID",
-      value: "5ababb1e99fe08e44b9843a0a365a83",
+      label: 'Allocation ID',
+      value: allocation?.id,
     },
     {
-      label: "Expiration Date",
-      value: "13 May 2023",
+      label: 'Expiration Date',
+      value: formatedExpDate,
     },
     {
-      label: "Size",
-      value: "214.7 MB",
+      label: 'Size',
+      value: bytesToString(allocation?.size),
     },
     {
-      label: "Used Size",
-      value: "Zero KB",
+      label: 'Used Size',
+      value: bytesToString(allocation?.stats?.used_size),
     },
-  ];
+  ]
 
   const shardDetails = [
     {
-      label: "Data Shards",
-      value: "2",
+      label: 'Data Shards',
+      value: allocation?.data_shards,
     },
     {
-      label: "Parity Shards",
-      value: "2",
+      label: 'Parity Shards',
+      value: allocation?.parity_shards,
     },
     {
-      label: "Number of Writes",
-      value: "0",
+      label: 'Number of Writes',
+      value: allocation?.stats?.num_of_writes,
     },
     {
-      label: "Number of Reads",
-      value: "0",
+      label: 'Number of Reads',
+      value: allocation?.stats?.num_of_reads,
     },
     {
-      label: "Number of Failed Challenges",
-      value: "0",
+      label: 'Number of Failed Challenges',
+      value: allocation?.stats?.num_failed_challenges,
     },
     {
-      label: "Latest Closed Challenge",
-      value: "",
+      label: 'Latest Closed Challenge',
+      value: allocation?.stats?.latest_closed_challenge,
     },
-  ];
+  ]
 
   return (
     <LayoutDashboard>
       <ContentBox>
-        <div className={styles.wrapper}>
+        <div className={stl.wrapper}>
           <h1>
             <b>Allocation Details</b>
           </h1>
 
-          <div className={styles.list}>
+          <div className={stl.list}>
             <h6>Details</h6>
 
-            <div className={styles.items}>
-              {details.map((item, i) => {
-                return (
-                  <div key={i} className={styles.item}>
-                    <div className={styles.label}>{item.label}:</div>
-                    <div className={styles.value}>{item.value}</div>
+            <div className={stl.items}>
+              {allocation.id ? (
+                details.map((item, i) => (
+                  <div key={i} className={stl.item}>
+                    <div className={stl.label}>{item.label}:</div>
+                    <div className={stl.value}>{item.value}</div>
                   </div>
-                );
-              })}
+                ))
+              ) : (
+                <div className={stl.label}>No details available</div>
+              )}
             </div>
           </div>
 
-          <div className={styles.list}>
+          <div className={stl.list}>
             <h6>Shards and Challenges</h6>
 
-            <div className={styles.items}>
-              {shardDetails.map((item, i) => {
-                return (
-                  <div key={i} className={styles.item}>
-                    <div className={styles.label}>{item.label}:</div>
-                    <div className={styles.value}>{item.value}</div>
-                  </div>
-                );
-              })}
+            <div className={stl.items}>
+              {allocation.id ? (
+                shardDetails.map((item, i) => {
+                  return (
+                    <div key={i} className={stl.item}>
+                      <div className={stl.label}>{item.label}:</div>
+                      <div className={stl.value}>{item.value}</div>
+                    </div>
+                  )
+                })
+              ) : (
+                <div className={stl.label}>No details available</div>
+              )}
             </div>
           </div>
         </div>
       </ContentBox>
     </LayoutDashboard>
-  );
-};
+  )
+}
 
-export default AllocationDetails;
+export default AllocationDetails

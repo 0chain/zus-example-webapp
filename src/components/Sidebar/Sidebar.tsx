@@ -7,7 +7,6 @@ import clsx from 'clsx'
 import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
-import { SidebarContext } from './useSidebarContext'
 
 const siteMenu = [
   {
@@ -39,39 +38,12 @@ const navMenu = [
     inactiveIcon: '/icons/icon-piechart-line.svg',
     iconWidth: 20,
   },
-
-  {
-    label: 'Network Details',
-    href: ROUTES.networkDetails,
-    inactiveIcon: '/icons/icon-network-line.svg',
-    iconWidth: 22,
-  },
 ]
 
 export default function Sidebar() {
   const router = useRouter()
-  const { sidebarActive } = useContext(SidebarContext)
 
   const isActive = path => router.pathname === path
-
-  const [walletDetails, setWalletDetails] = useState({})
-
-  // const [isSendTokenDialogOpen, setIsSendTokenDialogOpen] = useState(false)
-  // const [selectedSenderAddress, setSelectedSenderAddress] = useState({})
-
-  // const [isEnterAmountDialogOpen, setIsEnterAmountDialogOpen] = useState(false)
-
-  // const closeSendTokenDialogModal = () => setIsSendTokenDialogOpen(false)
-  // const handleSend = () => setIsSendTokenDialogOpen(true)
-
-  // const onSendTokenDialogNext = (walletDetails, address) => {
-  //   setWalletDetails(walletDetails)
-  //   setSelectedSenderAddress(address)
-  //   setIsSendTokenDialogOpen(false)
-  //   setIsEnterAmountDialogOpen(true)
-  // }
-
-  console.log(sidebarActive)
 
   return (
     <div className={styles.siteSidebar}>
@@ -129,7 +101,7 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.sidebarBottom}>
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Send
           <figure>
             <Image
@@ -141,7 +113,7 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Receive
           <figure>
             <Image
@@ -153,7 +125,7 @@ export default function Sidebar() {
           </figure>
         </Button>
 
-        <Button theme="bolt">
+        <Button theme="bolt" onClick={() => {}}>
           Faucet
           <figure>
             <Image src="/icons/icon-faucet.svg" width="20" height="20" alt="" />

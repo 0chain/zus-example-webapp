@@ -1,4 +1,4 @@
-import { CREATE_WALLET, Wallet } from './types'
+import types, { Wallet } from './types'
 
 import { createWallet, setWallet } from '@zerochain/zus-sdk'
 import { requestActionTypes, RequestActionTypes } from 'store/api-utils'
@@ -8,7 +8,7 @@ export const clearStore = () => ({
 })
 
 export const createWalletFunc = () => async dispatch => {
-  const actionType: RequestActionTypes = requestActionTypes(CREATE_WALLET)
+  const actionType: RequestActionTypes = requestActionTypes(types.CREATE_WALLET)
   dispatch({ type: actionType.request })
 
   const handleError = () => {

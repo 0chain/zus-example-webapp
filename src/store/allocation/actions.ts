@@ -1,8 +1,13 @@
-import { getAllocationBlobbers, listAllocations } from '@zerochain/zus-sdk'
-import { CREATE_ALLOCATION, LIST_ALLOCATIONS } from './types'
+import {
+  getAllocation,
+  listAllocations,
+  getAllocationBlobbers,
+  createAllocationWithBlobbers,
+} from '@zerochain/zus-sdk'
+import types from './types'
 
 import { requestActionTypes, RequestActionTypes } from 'store/api-utils'
-import { createAllocationWithBlobbers } from '@zerochain/zus-sdk'
+import { selectActiveWallet } from 'store/wallet'
 
 const getBlobberListForAllocation = async () => {
   const expiryDate = new Date()
@@ -37,7 +42,9 @@ const getBlobberListForAllocation = async () => {
 }
 
 export const createAllocationFunc = () => async dispatch => {
-  const actionType: RequestActionTypes = requestActionTypes(CREATE_ALLOCATION)
+  const actionType: RequestActionTypes = requestActionTypes(
+    types.CREATE_ALLOCATION
+  )
   dispatch({ type: actionType.request })
 
   const preferredBlobbers = await getBlobberListForAllocation()
@@ -71,7 +78,9 @@ export const createAllocationFunc = () => async dispatch => {
 }
 
 export const listAllocationsFunc = () => async dispatch => {
-  const actionType: RequestActionTypes = requestActionTypes(LIST_ALLOCATIONS)
+  const actionType: RequestActionTypes = requestActionTypes(
+    types.LIST_ALLOCATIONS
+  )
   dispatch({ type: actionType.request })
 
   try {
@@ -79,5 +88,26 @@ export const listAllocationsFunc = () => async dispatch => {
     dispatch({ type: actionType.success, payload: list || [] })
   } catch (error) {
     dispatch({ type: actionType.error })
+  }
+}
+
+export const getAllocationInfo = props => async dispatch => {
+  const actionTypes = requestActionTypes(types.GET_ALLOC_INFO)
+  dispatch({ type: actionTypes.request })
+
+  const { id } = props
+
+  try {
+    const data = await getAllocation(id)
+
+    await dispatch({ type: actionTypes.success, payload: data })
+    return { data }
+  } catch (error) {
+    await dispatch({
+      type: actionTypes.error,
+      payload: error,
+      message: error?.message,
+    })
+    return { error }
   }
 }
