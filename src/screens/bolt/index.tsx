@@ -1,18 +1,17 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-
-import styles from './Bolt.module.scss'
-import { ContentBox } from 'components/ContentBox'
-import LayoutDashboard from 'layouts/LayoutDashboard'
-// import { ProgressBar } from "components/ProgressBar";
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
+import { ContentBox } from 'components/ContentBox'
+import LayoutDashboard from 'layouts/LayoutDashboard'
+// import { ProgressBar } from "components/ProgressBar";
+// import { Button } from "components/Button";
 
+import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 
-// import { Button } from "components/Button";
+import styles from './Bolt.module.scss'
 
 const tokenToZcn = (token: number = 0): number =>
   parseFloat((token / Math.pow(10, 10)).toString())
@@ -43,29 +42,26 @@ export default function Bolt() {
 
   const activeWallet = useSelector(selectActiveWallet)
 
-  const getSetBalance = async () => {
-    const walletWalance: typeof activeWallet = await getBalance(
-      '615b065dbfa3e6a115efb1a118f645146f1fbcc7b7a3227fcbc1c701c7f15ed5'
-    )
+  const getSetBalance = useCallback(async () => {
+    const walletWalance: typeof activeWallet = await getBalance(activeWallet.id)
 
-    //  await  getBalance(activeWallet.id);
     const balance = tokenToZcn(
       walletWalance.balance ? walletWalance.balance : 0
     )
     const availableBalance =
       Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)
     setBalance(availableBalance)
-  }
+  }, [])
 
   const getUsdZcnRate = async () => {
-    const rate = await getUSDRate('zcn') //here's the problem
+    const rate = await getUSDRate('zcn')
     console.log(rate, 'rate')
     setZcnUsdRate(0.135)
   }
   useEffect(() => {
     getSetBalance()
     getUsdZcnRate()
-  }, [])
+  }, [getSetBalance])
   return (
     <LayoutDashboard>
       <ContentBox>
