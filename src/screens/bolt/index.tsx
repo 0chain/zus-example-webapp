@@ -19,12 +19,10 @@ const tokenToZcn = (token: number = 0): number =>
   parseFloat((token / Math.pow(10, 10)).toString())
 
 export default function Bolt() {
-  const [page, setPage] = useState(1)
   const [balance, setBalance] = useState(0)
   const [zcnUsdRate, setZcnUsdRate] = useState(0.14)
-  const perPage = 5
 
-  const state = useSelector(state => state)
+  const perPage = 5
 
   const [currentPage, setCurrentPage] = useState(1)
   const [txnsCount, setTxnsCount] = useState(20)
@@ -71,54 +69,30 @@ export default function Bolt() {
     getUsdZcnRate()
   }, [dispatch, getSetBalance])
 
-  const itemsPerPage = 2
+  const itemsPerPage = 5
 
-  const handleSetData = useCallback(
-    async (blockHash, clientId, toClientId) => {
-      const params = {
-        offset: (currentPage - 1) * itemsPerPage,
-        limit: itemsPerPage + 1,
-        sort: 'desc',
-      }
+  const handleSetData = useCallback(async () => {
+    const params = {
+      offset: (currentPage - 1) * itemsPerPage,
+      limit: itemsPerPage + 1,
+      sort: 'desc',
+    }
+    params.to_client_id = activeWallet?.id
 
-      // if (blockHash) {
-      //   params.block_hash = blockHash
-      // }
-
-      // if (clientId) {
-      //   params.client_id = clientId
-      // }
-
-      if (true) {
-        params.to_client_id =
-          'f2c68d880eee5e1ca2f360be30f5f3502d79e58b06390a36ab4b0feb50d66ecd'
-      }
-
-      dispatch(getLatestTxns(params)).then(({ data }) => {
-        console.log('usama data', data)
-        if (!data) {
-          console.log('no txns data')
-          setTransactions([])
+    dispatch(getLatestTxns(params)).then(({ data }) => {
+      if (!data) {
+        setTransactions([])
+      } else {
+        if (data?.length > itemsPerPage) {
+          setTxnsCount(currentPage * itemsPerPage + data?.length)
+          data.pop()
         } else {
-          console.log('txns data: ', data)
-          if (data?.length > itemsPerPage) {
-            setTxnsCount(currentPage * itemsPerPage + data?.length)
-            data.pop()
-          } else {
-            setTxnsCount(currentPage * itemsPerPage)
-          }
-          setTransactions(data)
-          // setFilteredTxn(data)
+          setTxnsCount(currentPage * itemsPerPage)
         }
-      })
-    },
-    [currentPage, dispatch]
-  )
-
-  console.log('count ', txnsCount)
-  console.log('items per page ', itemsPerPage)
-
-  console.log('items shta? ', txnsCount > itemsPerPage)
+        setTransactions(data)
+      }
+    })
+  }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
     handleSetData()
@@ -157,7 +131,7 @@ export default function Bolt() {
           <h6>Recent Transactions</h6>
 
           <div className={styles.right}>
-            <Link href="#">View all</Link>
+            {/* <Link href="#">View all</Link> */}
           </div>
         </div>
 
@@ -212,13 +186,13 @@ export default function Bolt() {
 
           {pages.map(e => (
             <li key={e}>
-              <button onClick={() => setPage(e)}>{currentPage}</button>
+              <button>{currentPage}</button>
             </li>
           ))}
 
           <li className={styles.next}>
             <button
-              disabled={!(txnsCount > itemsPerPage)}
+              disabled={transactions?.length !== itemsPerPage} //can we improve this check? //we don't kmpw the total txns, so using this hack here
               onClick={() => setCurrentPage(value => value + 1)}
             >
               Next
