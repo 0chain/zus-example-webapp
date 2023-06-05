@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Link from 'next/link'
 import Image from 'next/image'
 
 import { ContentBox } from 'components/ContentBox'
@@ -11,9 +10,9 @@ import LayoutDashboard from 'layouts/LayoutDashboard'
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
+import { getNetwork } from 'store/zerochain'
 
 import styles from './Bolt.module.scss'
-import { getNetwork } from 'store/zerochain'
 
 const tokenToZcn = (token: number = 0): number =>
   parseFloat((token / Math.pow(10, 10)).toString())
@@ -29,18 +28,6 @@ export default function Bolt() {
   const [transactions, setTransactions] = useState([])
 
   const dispatch = useDispatch()
-
-  const transactionsX = [
-    { hash: '169de9f0438b2cc7c8e1467cecbb7634', date: new Date() },
-    { hash: '308097ddf0a90fbf48b01913a6986102', date: new Date() },
-    { hash: '4281a4e9f4040ecb6cbcc15ee51a8a7b', date: new Date() },
-    { hash: 'a4619264e742e4d3d36f27cf0fcf2b66', date: new Date() },
-    { hash: '777d016de7b879e4d2742fe9b4b5d2df', date: new Date() },
-    { hash: '5a9edf056804093ed4f5102be9d06ed3', date: new Date() },
-    { hash: '9bb6e70aad0c3a6ef10e776b57011250', date: new Date() },
-    { hash: '0b43f263582ed55334b9fe6ca41ac2a6', date: new Date() },
-    { hash: '1ee69676e594484030c23f1317a04894', date: new Date() },
-  ]
 
   const pages = useMemo(() => {
     return Array.from(Array(Math.ceil(transactions.length / perPage)).keys())
@@ -76,22 +63,22 @@ export default function Bolt() {
       offset: (currentPage - 1) * itemsPerPage,
       limit: itemsPerPage + 1,
       sort: 'desc',
+      to_client_id: activeWallet?.id,
     }
-    params.to_client_id = activeWallet?.id
 
-    dispatch(getLatestTxns(params)).then(({ data }) => {
-      if (!data) {
-        setTransactions([])
+    const { data }: any = await dispatch(getLatestTxns(params))
+
+    if (!data) {
+      setTransactions([])
+    } else {
+      if (data?.length > itemsPerPage) {
+        setTxnsCount(currentPage * itemsPerPage + data?.length)
+        data.pop()
       } else {
-        if (data?.length > itemsPerPage) {
-          setTxnsCount(currentPage * itemsPerPage + data?.length)
-          data.pop()
-        } else {
-          setTxnsCount(currentPage * itemsPerPage)
-        }
-        setTransactions(data)
+        setTxnsCount(currentPage * itemsPerPage)
       }
-    })
+      setTransactions(data)
+    }
   }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
@@ -143,28 +130,30 @@ export default function Bolt() {
             </tr>
           </thead>
           <tbody>
-            {transactions
-              // .slice(page * perPage, (page + 1) * perPage)
-              .map(e => (
-                <tr key={e.hash}>
-                  <td className={styles.hash}>
-                    {e.hash}
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(e.hash)
-                      }}
-                    >
-                      <Image
-                        src="/icons/icon-document.svg"
-                        height={17}
-                        width={17}
-                        alt=""
-                      />
-                    </button>
-                  </td>
-                  <td>{new Date(e?.CreatedAt).toUTCString()}</td>
-                </tr>
-              ))}
+            {transactions?.length > 0
+              ? transactions
+                  // .slice(page * perPage, (page + 1) * perPage)
+                  .map(e => (
+                    <tr key={e.hash}>
+                      <td className={styles.hash}>
+                        {e.hash}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(e.hash)
+                          }}
+                        >
+                          <Image
+                            src="/icons/icon-document.svg"
+                            height={17}
+                            width={17}
+                            alt=""
+                          />
+                        </button>
+                      </td>
+                      <td>{new Date(e?.CreatedAt).toUTCString()}</td>
+                    </tr>
+                  ))
+              : 'fetching..'}
           </tbody>
         </table>
 

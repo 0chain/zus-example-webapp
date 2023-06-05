@@ -12,7 +12,7 @@ console.log('usama', sharders)
 
 
 
-  const { error, data } = await basicReqWithDispatch({
+  const { error, data }: any = await basicReqWithDispatch({
     url: url + sharderEndpoints.GET_TRANSACTIONS,
     baseType: types.GET_LATEST_TXNS,
     params,
