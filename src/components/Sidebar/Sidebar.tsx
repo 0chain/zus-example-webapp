@@ -8,6 +8,8 @@ import { useRouter } from 'next/router'
 
 import { ROUTES } from '../../constant/routes'
 
+import { SendTokenDialog } from 'components/dialog'
+
 const siteMenu = [
   {
     label: 'Bolt',
@@ -44,6 +46,8 @@ export default function Sidebar() {
   const router = useRouter()
 
   const isActive = path => router.pathname === path
+
+  const [isSendTokenOpen, setIsSendTokenOpen] = useState(false)
 
   return (
     <div className={styles.siteSidebar}>
@@ -101,7 +105,12 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.sidebarBottom}>
-        <Button theme="bolt" onClick={() => {}}>
+        <Button
+          theme="bolt"
+          onClick={() => {
+            setIsSendTokenOpen(true)
+          }}
+        >
           Send
           <figure>
             <Image
@@ -132,7 +141,7 @@ export default function Sidebar() {
           </figure>
         </Button>
       </div>
-
+      {isSendTokenOpen && <SendTokenDialog />}
       {/* <SendTokenDialog
         isOpen={isSendTokenDialogOpen}
         close={closeSendTokenDialogModal}
