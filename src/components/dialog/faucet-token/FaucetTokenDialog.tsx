@@ -7,7 +7,7 @@ import { getFaucetToken } from '@zerochain/zus-sdk'
 import stl from './FaucetTokenDialog.module.scss'
 
 const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState(10)
 
   const onFaucet = async () => {
     try {
