@@ -160,11 +160,7 @@ export default function Sidebar() {
       )}
 
       {isReceiveTokenOpen && (
-        <ReceiveTokenDialog
-          close={() => setIsReceiveTokenOpen(false)}
-          setIsError={setIsError}
-          setIsSuccess={setIsSuccess}
-        />
+        <ReceiveTokenDialog close={() => setIsReceiveTokenOpen(false)} />
       )}
 
       {isError && (

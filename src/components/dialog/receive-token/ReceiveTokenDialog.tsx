@@ -10,7 +10,7 @@ import { sendTransaction } from '@zerochain/zus-sdk'
 
 import stl from './ReceiveTokenDialog.module.scss'
 
-const ReceiveTokenDialog = ({ close, setIsSuccess, setIsError }) => {
+const ReceiveTokenDialog = ({ close }) => {
   const [amount, setAmount] = useState('')
   const [clientID, setClientID] = useState('')
 
