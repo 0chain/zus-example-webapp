@@ -51,12 +51,11 @@ export default function Bolt() {
     const availableBalance =
       Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)
     setBalance(availableBalance)
-  }, [])
+  }, [activeWallet.id])
 
   const getUsdZcnRate = async () => {
     const rate = await getUSDRate('zcn')
-    console.log(rate, 'rate')
-    setZcnUsdRate(0.135)
+    setZcnUsdRate(rate)
   }
   useEffect(() => {
     getSetBalance()
