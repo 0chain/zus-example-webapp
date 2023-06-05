@@ -20,7 +20,6 @@ const ReceiveTokenDialog = ({ close }) => {
   const onCopy = async () => {
     const { copyTextValue } = await import('lib/utils')
     copyTextValue(walletAddress)
-    // setShowCopiedToast(true)
   }
 
   return (
