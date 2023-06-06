@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import styles from './Sidebar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '../Button'
+import Button from '../Button'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 

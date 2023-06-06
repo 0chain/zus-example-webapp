@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from 'components/Button'
+import Button from 'components/Button'
 import DownloadIcon from 'assets/svg/download.svg'
 
 import stl from './NoPreview.module.scss'
