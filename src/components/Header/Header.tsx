@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 
 import { SidebarContext } from '../Sidebar/useSidebarContext'
-import { Button } from 'components/Button'
+import Button from 'components/Button'
 
 import { clearStore } from 'store/wallet'
 

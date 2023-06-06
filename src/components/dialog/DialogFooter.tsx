@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { Button } from 'components/button'
+import Button from 'components/Button'
 
 // import PlusIcon from 'assets/svg/vult/plus.svg'
 

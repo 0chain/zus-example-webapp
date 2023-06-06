@@ -11,7 +11,7 @@ const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
 
   const onFaucet = async () => {
     try {
-      await getFaucetToken(amount)
+      await getFaucetToken()
     } catch (error) {
       console.log(error)
       setIsError(true)
@@ -31,7 +31,7 @@ const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
         id="amount"
         name="amount"
         value={amount}
-        onChange={e => setAmount(e.target.value)}
+        onChange={e => setAmount(Number(e.target.value))}
         placeholder="Amount"
         className={stl.textInputBox}
       />

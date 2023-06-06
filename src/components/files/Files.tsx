@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Tile from 'components/tile'
 import UploadContainer from 'components/upload-container'
-import { Button } from 'components/Button'
+import Button from 'components/Button'
 import FilesViewer from 'components/files-viewer'
 
 import ImageIcon from 'assets/svg/image-icon.svg'
