@@ -4,13 +4,14 @@ import Image from 'next/image'
 
 import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
+import { Spinner } from 'components/Spinner'
+import Modal from 'components/Modal'
 // import { ProgressBar } from "components/ProgressBar";
 // import Button from "components/Button";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
-import { getNetwork } from 'store/zerochain'
 
 import styles from './Bolt.module.scss'
 
@@ -26,6 +27,8 @@ export default function Bolt() {
   const [currentPage, setCurrentPage] = useState(1)
   const [txnsCount, setTxnsCount] = useState(20)
   const [transactions, setTransactions] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
 
@@ -36,6 +39,8 @@ export default function Bolt() {
   const activeWallet = useSelector(selectActiveWallet)
 
   const getSetBalance = useCallback(async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting Balance')
     const walletWalance: typeof activeWallet = await getBalance(activeWallet.id)
 
     const balance = tokenToZcn(
@@ -44,14 +49,17 @@ export default function Bolt() {
     const availableBalance =
       Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)
     setBalance(availableBalance)
+    setIsLoading(false)
   }, [activeWallet.id])
 
   const getUsdZcnRate = async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting ZCN Rate')
     const rate = await getUSDRate('zcn')
     setZcnUsdRate(rate)
+    setIsLoading(false)
   }
   useEffect(() => {
-    dispatch(getNetwork())
     getSetBalance()
     getUsdZcnRate()
   }, [dispatch, getSetBalance])
@@ -59,6 +67,8 @@ export default function Bolt() {
   const itemsPerPage = 5
 
   const handleSetData = useCallback(async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting transactions')
     const params = {
       offset: (currentPage - 1) * itemsPerPage,
       limit: itemsPerPage + 1,
@@ -79,6 +89,7 @@ export default function Bolt() {
       }
       setTransactions(data)
     }
+    setIsLoading(false)
   }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
@@ -88,6 +99,14 @@ export default function Bolt() {
   return (
     <LayoutDashboard>
       <ContentBox>
+        {isLoading && (
+          <Modal>
+            <Spinner />
+            <h4>
+              <b>{loadingMsg}</b>
+            </h4>
+          </Modal>
+        )}
         <div className={styles.balanceWrapper}>
           <p>Available Balance</p>
           <h1 className={styles.value}>
@@ -153,7 +172,7 @@ export default function Bolt() {
                       <td>{new Date(e?.CreatedAt).toUTCString()}</td>
                     </tr>
                   ))
-              : 'fetching..'}
+              : 'No records found..'}
           </tbody>
         </table>
 
