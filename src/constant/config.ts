@@ -4,8 +4,8 @@ export const configJson = {
   minConfirmation: 50,
   minSubmit: 50,
   confirmationChainLength: 3,
-  blockWorker: 'https://dev.zus.network/dns',
-  zboxHost: 'https://0box.dev.zus.network',
+  blockWorker: 'https://demo.zus.network/dns',
+  zboxHost: 'https://0box.demo.zus.network',
   zboxAppType: 'vult',
 }
 

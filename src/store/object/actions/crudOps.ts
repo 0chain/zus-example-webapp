@@ -107,7 +107,7 @@ export const downloadObject = props => async (dispatch, getState) => {
       '',
       false,
       100,
-      callbackFuncName
+      ''
     )
 
     await dispatch({ type: actionTypes.success })

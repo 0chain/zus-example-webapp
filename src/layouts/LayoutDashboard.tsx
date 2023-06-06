@@ -25,8 +25,10 @@ const LayoutDashboard = ({ children }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      await dispatch(listAllocationsFunc())
-      await dispatch(listObjectsFunc('/'))
+      setTimeout(async () => {
+        await dispatch(listAllocationsFunc())
+        await dispatch(listObjectsFunc('/'))
+      }, 3000)
     }
 
     if (wallet.id) loadData()

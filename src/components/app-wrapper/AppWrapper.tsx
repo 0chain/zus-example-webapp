@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { init, setWallet } from '@zerochain/zus-sdk'
@@ -8,6 +8,8 @@ import { config } from 'constant/config'
 
 const AppWrapper = ({ children }) => {
   const wallet = useSelector(selectActiveWallet)
+
+  const isMounted = useRef(false)
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -22,7 +24,8 @@ const AppWrapper = ({ children }) => {
       }
     }
 
-    initializeApp()
+    if (isMounted.current) initializeApp()
+    else isMounted.current = true
   }, [])
 
   return <>{children}</>
