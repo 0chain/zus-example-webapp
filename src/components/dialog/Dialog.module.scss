@@ -3,7 +3,9 @@
 .content {
   background-color: $white;
   color: $primaryText;
-  width: 100%;
+  width: 70vw;
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .header {
@@ -416,7 +418,12 @@
   }
 }
 
+
 @media screen and (max-width: 480px) {
+  .content {
+   border-radius: 0;
+   }
+
   .footer {
     flex-direction: column;
     gap: 1rem;
