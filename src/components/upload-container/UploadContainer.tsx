@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { IconUpload } from 'components/IconUpload'
 
 import { bulkUploadFnc } from 'store/object'
-import { generateRandomString } from 'lib/utils'
 
 import stl from './UploadContainer.module.scss'
 
@@ -16,13 +15,7 @@ const UploadContainer = () => {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
-      dispatch(
-        bulkUploadFnc({
-          file,
-          path: `/${file.name}`,
-          fileId: generateRandomString(),
-        })
-      )
+      dispatch(bulkUploadFnc({ file, path: `/${file.name}` }))
     }
   }
 
