@@ -34,18 +34,18 @@
   color: $gray3;
 }
 
-.iconBtn {
+.btn {
   @extend .clearStdStyles, .flexCenter;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  gap: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background-color: $veryPaleBlue;
+  color: $primaryBlue;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    background-color: $veryPaleBlue;
-
-    svg path {
-      fill: $primaryBlue;
-    }
+    opacity: 0.8;
   }
 }
