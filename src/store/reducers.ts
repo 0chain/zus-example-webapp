@@ -13,10 +13,12 @@ import {
 import { walletReducer } from 'store/wallet'
 import { allocationReducer } from './allocation'
 import { objectReducer } from './object'
+import { zerochainReducer } from 'store/zerochain'
 
 import { errorTypes, allTypes } from 'store/api-utils'
 
 const appReducer = combineReducers({
+  zerochain: zerochainReducer,
   wallet: walletReducer,
   allocation: allocationReducer,
   object: objectReducer,
