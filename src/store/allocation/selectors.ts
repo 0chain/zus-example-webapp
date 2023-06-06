@@ -3,3 +3,6 @@ export const selectActiveAllocation = state => {
 
   return list.find(allocation => allocation.id === activeAllocationId) || {}
 }
+
+export const selectActiveAllocationId = state =>
+  state.allocation.activeAllocationId

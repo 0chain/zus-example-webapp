@@ -1,3 +1,5 @@
+import { normalizedPath as nP } from 'lib'
+
 export const selectFiles = (state, walletId?, allocationId?) => {
   const { wallets } = state.object
   const { activeAllocationId } = state.allocation
@@ -8,3 +10,18 @@ export const selectFiles = (state, walletId?, allocationId?) => {
 
   return files
 }
+
+export const getPathUrl =
+  ({
+    path,
+    baseURL = '/',
+    walletId,
+    allocationId,
+  }: { [index: string]: string } = {}) =>
+  state => {
+    const files = selectFiles(state, walletId, allocationId)
+    const fileLookupHash =
+      files.find(it => it.path === nP(path))?.lookup_hash || ''
+
+    return fileLookupHash ? `${baseURL}?folder=${fileLookupHash}` : baseURL
+  }

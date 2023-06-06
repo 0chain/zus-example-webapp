@@ -83,7 +83,7 @@ export const downloadObject = props => async (dispatch, getState) => {
   const actionTypes = requestActionTypes(types.DOWNLOAD_OBJECT)
   dispatch({ type: actionTypes.request })
 
-  const { path = '', fileName = '', lookupHash } = props
+  const { path = '', fileName = '', lookupHash, getDetails } = props
 
   const { activeAllocationId } = getState().allocation
 
@@ -112,9 +112,9 @@ export const downloadObject = props => async (dispatch, getState) => {
 
     await dispatch({ type: actionTypes.success })
     const downloadData = file.fileName === '.' ? { ...file, fileName } : file
-    openSaveFileDialog(downloadData)
+    !getDetails && openSaveFileDialog(downloadData)
 
-    return { data: file }
+    return { data: downloadData }
   } catch (error) {
     console.log(error, 'error')
     dispatch({

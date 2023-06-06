@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
@@ -13,6 +14,7 @@ import { downloadObject } from 'store/object'
 
 const Tile = ({ file, customClass }) => {
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const handleDownload = async () => {
     await dispatch(
@@ -22,6 +24,10 @@ const Tile = ({ file, customClass }) => {
         fileName: file?.name || '',
       })
     )
+  }
+
+  const handleViewFile = () => {
+    router.push({ query: { ...router.query, file: file?.lookup_hash || '' } })
   }
 
   return (
@@ -35,7 +41,7 @@ const Tile = ({ file, customClass }) => {
 
       <div className={stl.right}>
         <span className={stl.size}>{bytesToString(file.size)}</span>
-        <button className={stl.btn}>
+        <button className={stl.btn} onClick={handleViewFile}>
           <ViewFileIcon /> View
         </button>
         <button className={stl.btn} onClick={handleDownload}>

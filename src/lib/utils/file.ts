@@ -9,3 +9,13 @@ export const openSaveFileDialog = file => {
   window.URL.revokeObjectURL(file.url)
   document.body.removeChild(a)
 }
+
+export const checkBlobUrl = async url => {
+  try {
+    const res = await fetch(url)
+    return res.status === 200
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}

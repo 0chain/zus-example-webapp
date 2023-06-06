@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import Dialog from 'components/dialog'
@@ -6,7 +5,6 @@ import Dialog from 'components/dialog'
 import CopyIcon from '../../../../public/copy.svg'
 
 import { selectActiveWallet } from 'store/wallet'
-import { sendTransaction } from '@zerochain/zus-sdk'
 
 import stl from './ReceiveTokenDialog.module.scss'
 
@@ -20,7 +18,7 @@ const ReceiveTokenDialog = ({ close }) => {
   }
 
   return (
-    <Dialog theme="bolt" close={close}>
+    <Dialog theme="bolt" close={close} isOpen>
       <Dialog.Header title="Receive ZCN"></Dialog.Header>
       <div className={stl.walletAddressContainer} data-testid="walletAddress">
         <div className={stl.addressDetailsContainer}>

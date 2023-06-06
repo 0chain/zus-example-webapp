@@ -17,11 +17,6 @@ export default function Vult() {
   const storageString = bytesToString(totalStorage)
   const usageString = bytesToString(usedStorage)
 
-  // const expirationDate = allocation.expiration_date
-  //   ? new Date(allocation?.expiration_date * 1000).toISOString()
-  //   : new Date().toDateString()
-  // const expired = allocation?.expiration_date < new Date().getTime() / 1000
-
   return (
     <LayoutDashboard>
       <ContentBox>

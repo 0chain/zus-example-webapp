@@ -58,6 +58,9 @@ const initialState = {
   },
   effects: [],
   effectedFiles: [],
+  tempImageUrls: {
+    // [fileId]: 'blob:localhost:3000/1234-1234-1234-1234',
+  },
   thumbnails: {
     // [fileId]: 'blob:localhost:3000/1234-1234-1234-1234',
   },

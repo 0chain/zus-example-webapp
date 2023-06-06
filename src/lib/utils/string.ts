@@ -63,3 +63,11 @@ export const copyTextValue = value => {
   document.execCommand('copy')
   textArea.remove()
 }
+
+export const splitFileExtention = fileName => {
+  const split = fileName.split('.')
+  const name = split.slice(0, split.length - 1).join('.')
+  const extension = split[split.length - 1]
+
+  return { name, extension }
+}

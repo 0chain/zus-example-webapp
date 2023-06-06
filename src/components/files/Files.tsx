@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Tile from 'components/tile'
 import UploadContainer from 'components/upload-container'
 import { Button } from 'components/Button'
+import FilesViewer from 'components/files-viewer'
 
 import ImageIcon from 'assets/svg/image-icon.svg'
 import PageIcon from 'assets/svg/page.svg'
@@ -12,9 +14,12 @@ import { bulkUploadFnc } from 'store/object'
 import stl from './Files.module.scss'
 
 const Files = () => {
-  const { allFiles = [] } = useSelector(state => state.object)
-
   const dispatch = useDispatch()
+  const router = useRouter()
+  const { file: fileQuery } = router.query
+
+  // @ts-ignore
+  const { allFiles = [] } = useSelector(state => state.object)
 
   const handleUpload = e => {
     const { files = [] } = e.target
@@ -25,6 +30,10 @@ const Files = () => {
       dispatch(bulkUploadFnc({ file, path: `/${file.name}` }))
     }
   }
+
+  const file =
+    fileQuery &&
+    allFiles.find(file => file.type === 'f' && file.lookup_hash === fileQuery)
 
   return allFiles.length > 0 ? (
     <div className={stl.filesWrapper}>
@@ -72,6 +81,8 @@ const Files = () => {
       {allFiles.map((file, i) => (
         <Tile key={i} file={file} />
       ))}
+
+      <FilesViewer isOpen={!!file} files={allFiles} />
     </div>
   ) : (
     <UploadContainer />
