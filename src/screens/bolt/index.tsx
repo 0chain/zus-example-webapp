@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
 // import { ProgressBar } from "components/ProgressBar";
-// import { Button } from "components/Button";
+// import Button from "components/Button";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
