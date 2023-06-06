@@ -24,7 +24,7 @@ const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
   }
 
   return (
-    <Dialog theme="bolt" close={close}>
+    <Dialog theme="bolt" close={close} isOpen>
       <Dialog.Header title="Faucet Tokens" close={close}></Dialog.Header>
 
       <input

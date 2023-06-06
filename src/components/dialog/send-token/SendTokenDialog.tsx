@@ -34,7 +34,7 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
   }
 
   return (
-    <Dialog theme="bolt" close={close}>
+    <Dialog theme="bolt" close={close} isOpen>
       <Dialog.Header title="Send ZCN"></Dialog.Header>
       <input
         id="clientID"

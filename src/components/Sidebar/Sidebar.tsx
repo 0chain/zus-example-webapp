@@ -13,7 +13,7 @@ import {
   SendTokenDialog,
   ReceiveTokenDialog,
 } from 'components/dialog'
-import { Modal } from 'components/Modal'
+import Modal from 'components/Modal'
 
 const siteMenu = [
   {

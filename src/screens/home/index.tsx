@@ -8,7 +8,7 @@ import Layout from 'layouts/Layout'
 import { IconBox } from 'components/IconBox'
 import { InfoBox } from 'components/InfoBox'
 import { Button } from 'components/Button'
-import { Modal } from 'components/Modal'
+import Modal from 'components/Modal'
 import { Spinner } from 'components/Spinner'
 
 import { createWalletFunc, selectActiveWallet } from 'store/wallet'

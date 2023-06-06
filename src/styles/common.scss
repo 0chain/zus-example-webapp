@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import './colors.scss';
 
 .flex {
   display: flex;
@@ -93,4 +93,40 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.textEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes bounceUp {
+  0% {
+    transform: translateY(100vh);
+  }
+  50% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blowUp {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

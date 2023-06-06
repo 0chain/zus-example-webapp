@@ -254,6 +254,13 @@ export function objectReducer(state: ObjectState = initialState, action) {
       return { ...state, wallets, allFiles }
     }
 
+    case types.ADD_TEMP_IMAGE_URL:
+      return { ...state, tempImageUrls: action.payload }
+    case types.REMOVE_TEMP_IMAGE_URL:
+      return { ...state, tempImageUrls: action.payload }
+    case types.CLEAR_ALL_TEMP_IMAGE_URLS:
+      return { ...state, tempImageUrls: {} }
+
     default:
       return state
   }

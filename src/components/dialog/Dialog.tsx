@@ -1,23 +1,29 @@
-import React from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { Modal } from 'components/Modal'
+import FullModal from 'components/full-modal'
 import DialogFooter from './DialogFooter'
 import DialogHeader from './DialogHeader'
 
 import stl from './Dialog.module.scss'
 
-function Dialog({
+const Dialog = ({
+  isOpen,
   close,
   rounded,
   children,
   id,
   animation = 'bounce',
   theme = 'vult',
+  closeOnClickAway = true,
   customClass,
-}) {
+}) => {
   return (
-    <Modal title="" closeFunc={close}>
+    <FullModal
+      isOpen={isOpen}
+      close={close}
+      closeOnClickAway={closeOnClickAway}
+    >
       <div
         id={id}
         className={clsx(
@@ -30,8 +36,19 @@ function Dialog({
       >
         {children}
       </div>
-    </Modal>
+    </FullModal>
   )
+}
+
+Dialog.propTypes = {
+  close: PropTypes.func,
+  rounded: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  id: PropTypes.string,
+  animation: PropTypes.oneOf(['bounce', 'zoom']),
+  theme: PropTypes.string,
+  closeOnClickAway: PropTypes.bool,
+  customClass: PropTypes.string,
 }
 
 export default Object.assign(Dialog, {
