@@ -36,11 +36,6 @@ const DialogHeader = ({
         <>
           {(backBtnOnClick || backBtnIcon) && (
             <button className={stl.backBtn} onClick={backBtnOnClick}>
-              {/* {backBtnIcon || isMobile ? (
-                <BackButtonIconMobile />
-              ) : (
-                <BackButtonIcon />
-              )} */}
               back
             </button>
           )}
@@ -51,11 +46,6 @@ const DialogHeader = ({
                 className={clsx(stl.closeButton, customIconClass)}
                 onClick={close}
               >
-                {/* {closeIcon || isMobile ? (
-                  <CloseBtnIconBoltMobile />
-                ) : (
-                  <CloseBtnIconBolt />
-                )} */}
                 close
               </button>
             ))}

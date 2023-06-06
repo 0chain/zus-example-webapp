@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-// import Button from 'components/button'
+import { Button } from 'components/button'
 
 // import PlusIcon from 'assets/svg/vult/plus.svg'
 
@@ -18,6 +18,7 @@ const DialogFooter = ({
   leftButtonLabel = 'Create Folder',
   leftButtonClass,
   hideLeftButtonContainer = false,
+  theme = 'vult',
 }) => (
   <div className={clsx(stl.footer, customClass)}>
     {!hideLeftButtonContainer && (
@@ -44,7 +45,9 @@ const DialogFooter = ({
         />
       )} */}
       {cancelButtonOnClick && (
-        <button onClick={cancelButtonOnClick}>{cancelButtonLabel}</button>
+        <Button theme={theme} onClick={cancelButtonOnClick}>
+          {cancelButtonLabel}
+        </Button>
       )}
       {/* {actionButtonOnClick && (
         <Button
@@ -57,7 +60,9 @@ const DialogFooter = ({
         />
       )} */}
       {actionButtonOnClick && (
-        <button onClick={actionButtonOnClick}>{actionButtonLabel}</button>
+        <Button theme={theme} onClick={actionButtonOnClick}>
+          {actionButtonLabel}
+        </Button>
       )}
     </div>
   </div>
@@ -80,6 +85,7 @@ DialogFooter.propTypes = {
   actionButtonClass: PropTypes.string,
   cancelButtonClass: PropTypes.string,
   hideLeftButtonContainer: PropTypes.bool,
+  theme: PropTypes.string,
 }
 
 export default DialogFooter

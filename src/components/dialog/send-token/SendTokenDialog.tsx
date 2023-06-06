@@ -57,6 +57,9 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
       <Dialog.Footer
         actionButtonLabel="Send"
         actionButtonOnClick={sendTransactionClick}
+        cancelButtonOnClick={close}
+        cancelButtonLabel="Cancel"
+        theme="bolt"
       ></Dialog.Footer>
     </Dialog>
   )
