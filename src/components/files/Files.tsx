@@ -8,7 +8,6 @@ import ImageIcon from 'assets/svg/image-icon.svg'
 import PageIcon from 'assets/svg/page.svg'
 
 import { bulkUploadFnc } from 'store/object'
-import { generateRandomString } from 'lib/utils'
 
 import stl from './Files.module.scss'
 
@@ -23,13 +22,7 @@ const Files = () => {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
-      dispatch(
-        bulkUploadFnc({
-          file,
-          path: `/${file.name}`,
-          fileId: generateRandomString(),
-        })
-      )
+      dispatch(bulkUploadFnc({ file, path: `/${file.name}` }))
     }
   }
 
