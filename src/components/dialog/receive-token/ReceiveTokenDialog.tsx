@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { Dialog } from 'components/dialog'
+import Dialog from 'components/dialog'
 
 import CopyIcon from '../../../../public/copy.svg'
 

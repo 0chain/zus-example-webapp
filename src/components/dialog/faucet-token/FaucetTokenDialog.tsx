@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Dialog } from 'components/dialog'
+import Dialog from 'components/dialog'
 
 import { getFaucetToken } from '@zerochain/zus-sdk'
 
