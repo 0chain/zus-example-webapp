@@ -52,3 +52,14 @@ export function hexStringToByte(str) {
 
   return new Uint8Array(a)
 }
+
+export const copyTextValue = value => {
+  const textArea = document.createElement('textarea')
+  textArea.value = value
+
+  document.body.appendChild(textArea)
+  textArea.select()
+
+  document.execCommand('copy')
+  textArea.remove()
+}
