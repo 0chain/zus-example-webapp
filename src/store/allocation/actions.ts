@@ -1,45 +1,8 @@
-import {
-  getAllocation,
-  listAllocations,
-  getAllocationBlobbers,
-  createAllocationWithBlobbers,
-} from '@zerochain/zus-sdk'
+import { getAllocation, listAllocations } from '@zerochain/zus-sdk'
 import types from './types'
 
 import { requestActionTypes, RequestActionTypes } from 'store/api-utils'
-import { selectActiveWallet } from 'store/wallet'
-
-const getBlobberListForAllocation = async () => {
-  const expiryDate = new Date()
-  expiryDate.setDate(expiryDate.getDate() + 30)
-
-  const preferredBlobberURLs = [
-      'https://dev2.zus.network/blobber02',
-      'https://dev1.zus.network/blobber02',
-    ],
-    dataShards = 2,
-    parityShards = 2,
-    size = 2 * 1073741824,
-    expiry = Math.floor(expiryDate.getTime() / 1000),
-    minReadPrice = 0,
-    maxReadPrice = 184467440737095516,
-    minWritePrice = 0,
-    maxWritePrice = 184467440737095516
-
-  //Call getAllocationBlobbers method
-  const blobberList = await getAllocationBlobbers(
-    preferredBlobberURLs,
-    dataShards,
-    parityShards,
-    size,
-    expiry,
-    minReadPrice,
-    maxReadPrice,
-    minWritePrice,
-    maxWritePrice
-  )
-  return blobberList
-}
+import { createAllocation } from '@zerochain/zus-sdk'
 
 export const createAllocationFunc = () => async dispatch => {
   const actionType: RequestActionTypes = requestActionTypes(
@@ -47,7 +10,6 @@ export const createAllocationFunc = () => async dispatch => {
   )
   dispatch({ type: actionType.request })
 
-  const preferredBlobbers = await getBlobberListForAllocation()
   const expiry = new Date()
   expiry.setDate(expiry.getDate() + 30)
 
@@ -55,24 +17,24 @@ export const createAllocationFunc = () => async dispatch => {
   const config = {
     datashards: 2,
     parityshards: 2,
-    size: 2 * 1073741824,
+    size: 1073741824,
     expiry: Math.round(new Date().getTime() / 1000) + 2628000,
     minReadPrice: 0,
     maxReadPrice: 10000000000,
     minWritePrice: 0,
     maxWritePrice: 10000000000,
-    lock: 5000000000,
-    blobbers: preferredBlobbers,
+    lock: 10450000000,
   }
 
   try {
-    const res = await createAllocationWithBlobbers(config)
-    const data = await JSON.parse(res.transaction_output)
+    const res = await createAllocation(config)
+    const data = await JSON.parse(res?.transaction_output)
 
     dispatch({ type: actionType.success, payload: data })
 
     await dispatch(listAllocationsFunc())
   } catch (error) {
+    console.log(error, 'error')
     dispatch({ type: actionType.error })
   }
 }

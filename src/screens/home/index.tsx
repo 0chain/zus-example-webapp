@@ -32,6 +32,7 @@ export default function CreateWallet() {
 
     setLoadingMsg('Creating Allocation...')
     await getFaucetToken()
+    await getFaucetToken()
     await dispatch(createAllocationFunc())
 
     setIsLoading(false)
