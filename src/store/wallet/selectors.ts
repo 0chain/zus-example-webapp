@@ -1,8 +1,5 @@
-import { RootState } from '../reducers'
-import { WalletState } from './types'
-
-export const selectActiveWallet = (state: RootState) => {
-  const { list = [], activeWalletId = '' } = state.wallet as WalletState
+export const selectActiveWallet = state => {
+  const { list = [], activeWalletId = '' } = state.wallet
 
   return list.find(wallet => wallet.id === activeWalletId) || {}
 }

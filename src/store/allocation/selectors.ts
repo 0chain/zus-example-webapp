@@ -1,9 +1,5 @@
-import { RootState } from '../reducers'
-import { AllocationState } from './types'
-
-export const selectActiveAllocation = (state: RootState) => {
-  const { list = [], activeAllocationId = '' } =
-    state.allocation as AllocationState
+export const selectActiveAllocation = state => {
+  const { list = [], activeAllocationId = '' } = state.allocation
 
   return list.find(allocation => allocation.id === activeAllocationId) || {}
 }

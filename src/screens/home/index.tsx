@@ -50,12 +50,6 @@ export default function CreateWallet() {
       icon: '/icons/icon-piechart-solid.svg',
       iconSize: '31',
     },
-    {
-      label: 'Network Details',
-      url: ROUTES.networkDetails,
-      icon: '/icons/icon-network-solid.svg',
-      iconSize: '28',
-    },
   ]
 
   return (

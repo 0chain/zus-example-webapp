@@ -42,7 +42,7 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
   size: PropTypes.string,
-  theme: PropTypes.oneOf(['default', 'bolt', 'vult', 'white']),
+  theme: PropTypes.oneOf(['default', 'bolt', 'vult', 'white', 'outline']),
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
   disableBg: PropTypes.bool,
