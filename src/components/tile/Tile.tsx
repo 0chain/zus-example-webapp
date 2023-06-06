@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import DocumentIcon from 'assets/svg/document.svg'
-import MoreIcon from 'assets/svg/more.svg'
+import ViewFileIcon from 'assets/svg/view-file.svg'
+import DownloadIcon from 'assets/svg/download.svg'
 
 import { bytesToString } from 'lib/utils'
 
@@ -20,7 +21,12 @@ const Tile = ({ file, customClass }) => {
 
       <div className={stl.right}>
         <span className={stl.size}>{bytesToString(file.size)}</span>
-        <button className={stl.iconBtn}>{<MoreIcon />}</button>
+        <button className={stl.btn}>
+          <ViewFileIcon /> View
+        </button>
+        <button className={stl.btn}>
+          <DownloadIcon /> Download
+        </button>
       </div>
     </div>
   )
