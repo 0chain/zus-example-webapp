@@ -4,4 +4,29 @@
   @extend .flexCol;
   width: 100%;
   gap: 12px;
+
+  input {
+    display: none;
+  }
+}
+
+.head {
+  padding: 1rem 0;
+
+  &,
+  .btnsBox {
+    @extend .spaceBetween;
+    gap: 1.6rem;
+
+    button {
+      &:hover {
+        color: $white;
+        background-color: $primaryBlue;
+
+        svg path {
+          fill: $white;
+        }
+      }
+    }
+  }
 }
