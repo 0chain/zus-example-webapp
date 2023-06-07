@@ -40,7 +40,7 @@ export type RootState = ReturnType<typeof rootReducer>
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['wallet', 'allocation', 'object'],
+  whitelist: ['wallet', 'allocation', 'object', 'zerochain'],
 }
 
 const reducer = persistReducer(persistConfig, rootReducer)

@@ -8,7 +8,6 @@ import { Spinner } from 'components/Spinner'
 import Modal from 'components/Modal'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
-// import { ProgressBar } from "components/ProgressBar";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
