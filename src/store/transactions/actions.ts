@@ -24,7 +24,8 @@ export const getLatestTxns = params => async (dispatch, getState) => {
 
 export const getTxnByHash = hash => async (dispatch, getState) => {
   const { sharders } = getState().zerochain.network
-  if (!sharders) return { data: undefined, error: undefined }
+  if (!(sharders && sharders?.length))
+    return { error: 'Unable to get sharders', data: undefined }
 
   const url = getRandomArrayElement(sharders)
 
