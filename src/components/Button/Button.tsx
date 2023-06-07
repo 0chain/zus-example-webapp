@@ -13,6 +13,7 @@ const Button = ({
   fullWidth,
   disabled,
   disableBg,
+  customClass,
 }) => {
   return (
     <>
@@ -24,7 +25,8 @@ const Button = ({
           styles[size],
           styles[theme],
           disableBg && styles.transparent,
-          fullWidth && styles.fullWidth
+          fullWidth && styles.fullWidth,
+          customClass
         )}
         disabled={disabled}
         onClick={onClick}

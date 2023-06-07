@@ -6,17 +6,17 @@ import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
 import { Spinner } from 'components/Spinner'
 import Modal from 'components/Modal'
+import { TransactionConfirmedDialog } from 'components/dialog'
+import Button from 'components/Button'
 // import { ProgressBar } from "components/ProgressBar";
 // import Button from "components/Button";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
+import { tokenToZcn } from 'lib/utils/token'
 
 import styles from './Bolt.module.scss'
-
-const tokenToZcn = (token: number = 0): number =>
-  parseFloat((token / Math.pow(10, 10)).toString())
 
 export default function Bolt() {
   const [balance, setBalance] = useState(0)
@@ -37,6 +37,28 @@ export default function Bolt() {
   }, [transactions.length])
 
   const activeWallet = useSelector(selectActiveWallet)
+
+  const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
+    useState({})
+
+  const [
+    isTransactionConfirmedDialogOpen,
+    setIsTransactionConfirmedDialogOpen,
+  ] = useState(false)
+
+  const closeTransactionConfirmedDialogModal = () =>
+    setIsTransactionConfirmedDialogOpen(false)
+
+  const viewTransaction = txn => {
+    const amount = txn.value ? tokenToZcn(txn.value) : 0
+    setConfirmedTransactionDetails({
+      coinAmount: amount,
+      sendUsdAmount: zcnUsdRate * amount,
+      notes: txn.notes,
+      transactionNumber: txn.hash,
+    })
+    setIsTransactionConfirmedDialogOpen(true)
+  }
 
   const getSetBalance = useCallback(async () => {
     setIsLoading(true)
@@ -169,6 +191,17 @@ export default function Bolt() {
                           />
                         </button>
                       </td>
+                      <td>
+                        {
+                          <Button
+                            theme="bolt"
+                            customClass={styles.viewButton}
+                            onClick={() => viewTransaction(e)}
+                          >
+                            View Details
+                          </Button>
+                        }
+                      </td>
                       <td>{new Date(e?.CreatedAt).toUTCString()}</td>
                     </tr>
                   ))
@@ -214,6 +247,12 @@ export default function Bolt() {
           </li>
         </ul>
       </div>
+      <TransactionConfirmedDialog
+        transactionDetails={confirmedTransactionDetails}
+        isOpen={isTransactionConfirmedDialogOpen}
+        close={closeTransactionConfirmedDialogModal}
+        zcnPrice={zcnUsdRate}
+      />
     </LayoutDashboard>
   )
 }

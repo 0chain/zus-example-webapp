@@ -1,3 +1,5 @@
+import { zcnTxnRequestTypes, zcnContracts } from 'lib/constants/zeroChain'
+
 export const bytesToString = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes'
 
@@ -70,4 +72,69 @@ export const splitFileExtention = fileName => {
   const extension = split[split.length - 1]
 
   return { name, extension }
+}
+
+export function safeParseJSON(str) {
+  if (typeof str !== 'string')
+    return { error: `Provided 'json' data is not a string` }
+
+  try {
+    const json = JSON.parse(str)
+
+    return { json }
+  } catch (error) {
+    console.error(error)
+
+    return { error }
+  }
+}
+
+
+export const getTransactionAmount = txn => {
+  const getTransactionOuput = txn => {
+    if (txn.transaction_output) {
+      const { error, json: transactionOutput } = safeParseJSON(
+        txn.transaction_output
+      )
+
+      if (error) {
+        return 0
+      }
+
+      return transactionOutput && transactionOutput.amount
+        ? transactionOutput.amount
+        : 0
+    } else {
+      return txn.value ? txn.value : txn.transaction_value
+    }
+  }
+
+  if (txn.transaction_type === zcnTxnRequestTypes.SMART_CONTRACT) {
+    const transactionType = JSON.parse(txn.transaction_data)
+    if (txn.to_client_id === zcnContracts.dexMintAddress) {
+      if (transactionType?.input?.amount) {
+        return transactionType?.input?.amount
+      } else {
+        return getTransactionOuput(txn)
+      }
+    } else if (transactionType?.name === 'collect_reward') {
+      return getTransactionOuput(txn)
+    } else {
+      return txn.value ? txn.value : txn.transaction_value
+    }
+  } else {
+    return txn.value ? txn.value : txn.transaction_value
+  }
+}
+
+export const formatUUIDAddress = (value = '', len = 16, flag = true) => {
+  if (value.length <= len) return value
+  if (!flag) {
+    return value.substring(0, len).concat('...')
+  } else {
+    return value
+      .substring(0, 8)
+      .concat('...')
+      .concat(value.substring(value.length - 8))
+  }
 }

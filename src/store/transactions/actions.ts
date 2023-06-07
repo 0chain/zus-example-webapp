@@ -4,7 +4,6 @@ import { sharderEndpoints, basicReqWithDispatch } from 'store/api-utils'
 import { getRandomArrayElement } from 'lib/utils'
 
 export const getLatestTxns = params => async (dispatch, getState) => {
-  console.log('latest txs')
   const { sharders } = getState().zerochain.network
   if (!(sharders && sharders?.length))
     return { error: 'Unable to get sharders', data: undefined }
@@ -19,6 +18,22 @@ export const getLatestTxns = params => async (dispatch, getState) => {
     options: { method: 'GET' },
     dispatch,
   })
-  console.log('latest txs', data)
+  return { error, data }
+}
+
+
+export const getTxnByHash = hash => async (dispatch, getState) => {
+  const { sharders } = getState().zerochain.network
+  if (!sharders) return { data: undefined, error: undefined }
+
+  const url = getRandomArrayElement(sharders)
+
+  const { error, data } = await basicReqWithDispatch({
+    url: url + sharderEndpoints.GET_TXN_BY_HASH,
+    baseType: types.GET_TXN_BY_HASH,
+    params: { transaction_hash: hash },
+    dispatch,
+  })
+
   return { error, data }
 }
