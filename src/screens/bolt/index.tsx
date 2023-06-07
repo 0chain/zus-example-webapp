@@ -9,7 +9,6 @@ import Modal from 'components/Modal'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
 // import { ProgressBar } from "components/ProgressBar";
-// import Button from "components/Button";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
@@ -168,6 +167,7 @@ export default function Bolt() {
             <tr>
               <th>Transaction Hash</th>
               <th>Date (UT)</th>
+              <th>Details</th>
             </tr>
           </thead>
           <tbody>
@@ -191,18 +191,16 @@ export default function Bolt() {
                           />
                         </button>
                       </td>
-                      <td>
-                        {
-                          <Button
-                            theme="bolt"
-                            customClass={styles.viewButton}
-                            onClick={() => viewTransaction(e)}
-                          >
-                            View Details
-                          </Button>
-                        }
-                      </td>
                       <td>{new Date(e?.CreatedAt).toUTCString()}</td>
+                      <td>
+                        <Button
+                          theme="bolt"
+                          customClass={styles.viewButton}
+                          onClick={() => viewTransaction(e)}
+                        >
+                          View Details
+                        </Button>
+                      </td>
                     </tr>
                   ))
               : 'No records found..'}
