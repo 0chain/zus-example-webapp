@@ -48,6 +48,7 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
   disableBg: PropTypes.bool,
+  customClass: PropTypes.string,
 }
 
 export default Button

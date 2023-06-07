@@ -5,16 +5,16 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <script
+          defer
           src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js"
-          async
         />
         <script
+          defer
           src="https://cdn.jsdelivr.net/gh/golang/go@go1.18.5/misc/wasm/wasm_exec.js"
-          async
         />
         <script
+          defer
           src="https://github.com/videojs/mux.js/releases/latest/download/mux.js"
-          async
         />
       </Head>
       <body>
