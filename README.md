@@ -1,8 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Züs Example Webapp
+
+Welcome to the Züs Example Webapp! This web application demonstrates the usage of the [zus-js-sdk](https://www.npmjs.com/package/@zerochain/zus-sdk) to interact with the 0chain blockchain. Follow the steps below to run the webapp.
 
 ## Getting Started
 
-First, run the development server:
+#### Installation
+
+To install the dependencies, run the following command:
+
+```bash
+npm install
+# or
+yarn
+```
+
+#### Running the Development Server
+
+Start the development server using the following command:
 
 ```bash
 npm run dev
@@ -10,93 +24,71 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once the server is running, open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Supported Features
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+This webapp covers demo for two product lines of Zus i.e. bolt and vult.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Bolt
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Bolt is a cryptocurrency wallet for exchanging ZCN ERC-20 and Ethereum tokens. It also supports token staking, allowing users to earn rewards.
 
-The webapp covers demo for two product lines of Zus i.e. bolt and vult.
+#### Vult
 
-## Bolt
+Vult is a decentralized anonymous file-sharing platform. Users can upload files and securely share them with others.
 
-It is a cryptocurrency wallet for exchange of zcn ERC 20 and ethereum tokens. Tokens can also be
-staked and users get rewards for staking.
+Both Bolt and Vult rely on the [zus-js-sdk](https://www.npmjs.com/package/@zerochain/zus-sdk) to interact with the 0chain blockchain.
 
-## Vult
+### Creating a Webapp using Zus JS SDK
 
-Vult is a dencentralised anonymous file sharing platform. Users can upload files and share them with
-other users.
+Follow the step-by-step guide below to create a webapp using the Zus JS SDK:
 
-## SDK
+1. Set up a webapp using [Next.js](https://nextjs.org/) or any other framework of your choice.
+2. Install the Zus JS SDK by running either of the following commands:
 
-Both of the apps rely on the [gosdk](https://github.com/0chain/gosdk) for interacting with the
-0chain blockchain.
+- `npm install @zerochain/zus-sdk`
+- `yarn add @zerochain/zus-sdk`
 
-configJson is the json string which contains the configuration for the sdk.
+3. Import the following scripts in your `pages/_document.js` file:
 
-```json
- {
-  "config": {
-    "signature_scheme": "bls0chain",
-    "block_worker": "https://demo.zus.network/dns",
-    "confirmation_chain_length": 3
-  },
-  "data_shards": 2,
-  "parity_shards": 2,
-  "zbox_url": "https://0box.demo.zus.network/",
-  "block_worker": "https://demo.zus.network",
-  "domain_url": "demo.zus.network",
-  "network_fee_url": "https://demo.zus.network/miner01/v1/block/get/fee_stats",
-  "explorer_url": "https://demo.zus.network/"
-}
+```js
+  <script defer src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js" ></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/golang/go@go1.18.5/misc/wasm/wasm_exec.js" ></script>
 ```
 
-## How to create a wallet.
-To create a wallet you need to call the `Zcncore.createWalletOffline()` function.
-## Some common terms used in our code and blockchain
+4. Initialize the Zus JS SDK by following the [zus-js-sdk documentation:](https://github.com/0chain/zus-js-sdk#get-started)
 
-- `blobber` - A blobber is a storage provider. It is a server that stores files on behalf of users.
-  Blobbers are paid for storing files and for serving files to users. Blobbers are also paid for
-  serving files to other blobbers. Blobbers are paid in ZCN tokens.
-- `allocation` - An allocation is a group of blobbers that are used to store files. An allocation
-  has a set of parameters that define how files are stored and how blobbers are paid. An allocation
-  is paid in ZCN tokens.
-- `miners` - Miners are the nodes that run the 0chain blockchain. Miners are paid in ZCN tokens.
-- `sharders` - Sharders are the nodes that run the 0chain blockchain. Sharders are paid in ZCN
-  tokens.
-- `wallet` - A wallet is a collection of keys that are used to sign transactions. A wallet is used
-  to sign transactions for blobbers, miners, sharders, and users.
-- `ZCN` - ZCN is the token that is used to pay miners, sharders, blobbers, and users.
-- `ERC20` - ERC20 is the token format used by zcn and ethereum.
-- `public key` - A public key is a key that is used to verify a signature. A public key is used to
-  verify a signature for a transaction.
-- `private key` - A private key is a key that is used to sign a transaction. A private key is used
-  to sign a transaction for a blobber, miner, sharder, or user.
-- `signature` - A signature is a string that is used to verify that a transaction was signed by a
-  private key. A signature is used to verify that a transaction was signed by a private key for a
-  blobber, miner, sharder, or user.
-- `mnemonics` - Mnemonics are a set of words that are used to generate a wallet. Mnemonics are used
-  to generate a wallet for a user.
+```js
+import { init } from '@zerochain/zus-sdk'
 
-## Hackathon Discord Link
+const config = {
+  // configuration options
+}
+
+await init(config)
+```
+
+5. Utilize the Zus JS SDK's methods to interact with the 0chain blockchain. Refer to the [zus-js-sdk documentation](https://docs.zus.network/guides/zus-js-sdk/get-started) for detailed information.
+
+#### Common Terms
+
+Here are some common terms used in our code and the 0chain blockchain:
+
+- **Blobber**: A blobber is a storage provider that stores files on behalf of users. Blobbers are paid in ZCN tokens for storing and serving files.
+- **Allocation**: An allocation is a group of blobbers used to store files. It defines storage and payment parameters and is paid in ZCN tokens.
+- **Miners**: Miners are the nodes that run the 0chain blockchain and are rewarded in ZCN tokens.
+- **Sharders**: Sharders are the nodes that run the 0chain blockchain and are rewarded in ZCN tokens.
+- **Wallet**: A wallet is a collection of keys used to sign transactions. It is used for blobbers, miners, sharders, and users.
+- **ZCN**: ZCN is the token used to pay miners, sharders, blobbers, and users.
+- **ERC20**: ERC20 is the token format used by ZCN and Ethereum.
+- **Public Key**: A public key is used to verify a signature and transactions.
+- **Private Key**: A private key is used to sign transactions.
+- **Signature**: A signature verifies that a transaction was signed by a private key.
+- **Mnemonics**: Mnemonics are a set of words used to generate a wallet for a user.
+
+### Hackathon Discord Link
+
+Join our Hackathon Discord community for support and discussions:
+
 https://discord.gg/7JSzwpcK55
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
