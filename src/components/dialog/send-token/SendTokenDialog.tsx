@@ -48,6 +48,7 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
       <input
         id="amount"
         name="amount"
+        type="number"
         value={amount}
         onChange={e => setAmount(e.target.value)}
         placeholder="Amount"
