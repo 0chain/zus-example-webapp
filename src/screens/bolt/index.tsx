@@ -190,17 +190,6 @@ export default function Bolt() {
                           />
                         </button>
                       </td>
-                      <td>
-                        {
-                          <Button
-                            theme="bolt"
-                            customClass={styles.viewButton}
-                            onClick={() => viewTransaction(e)}
-                          >
-                            View Details
-                          </Button>
-                        }
-                      </td>
                       <td>{new Date(e?.CreatedAt).toUTCString()}</td>
                       <td>
                         <Button
