@@ -14,7 +14,7 @@ const IconUpload = ({ type, changeFunc, label }) => {
   application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
   application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-  text/csv`
+  text/csv, text/plain, .csv, .doc, .docx, .pdf, .ppt, .pptx, .txt, .xls, .xlsx`
 
   return (
     <div className={styles.wrapper}>

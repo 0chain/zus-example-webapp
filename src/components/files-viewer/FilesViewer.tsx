@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
+import mime from 'mime'
 
 import FullModal from 'components/full-modal'
 import VideoPlayer from 'components/video-player'
@@ -41,6 +42,7 @@ const FilesViewer = ({
   const [loading, setLoading] = useState(true)
   const [fullScreen, setFullScreen] = useState(false)
   const [isShowRetryButton, setIsShowRetryButton] = useState(false)
+  const [docUrl, setDocUrl] = useState('')
 
   const router = useRouter()
   const dispatch = useDispatch()
@@ -69,6 +71,7 @@ const FilesViewer = ({
 
   const closeViewer = useCallback(async () => {
     setSrc('')
+    setDocUrl('')
     close ? close() : router.push(parentUrl)
     if (isVideo) {
       const video = document.querySelector('video')
@@ -79,6 +82,7 @@ const FilesViewer = ({
 
   const onNext = useCallback(async () => {
     setSrc('')
+    setDocUrl('')
     setLoading(true)
     setResolution([0, 0])
     const nextFile = files[files.indexOf(cFile) + 1]
@@ -96,6 +100,7 @@ const FilesViewer = ({
 
   const onPrev = useCallback(() => {
     setSrc('')
+    setDocUrl('')
     setLoading(true)
     setResolution([0, 0])
     const prevFile = files[files.indexOf(cFile) - 1]
@@ -114,6 +119,7 @@ const FilesViewer = ({
   useEffect(() => {
     if (isOpen) {
       setSrc('')
+      setDocUrl('')
       const handleKeyDown = e =>
         // @ts-ignore
         (e.keyCode === 37 && files.length > 1 && onPrev()) ||
@@ -141,18 +147,36 @@ const FilesViewer = ({
     ? splitFileExtention(cFile?.name)
     : { name: '', extension: '' }
 
-  const handleDownload = useCallback(async () => {
-    if (cFile) {
-      const response = await dispatch(
-        downloadObject({
-          path: cFile?.path,
-          fileName: cFile?.name,
-        })
-      )
+  const handleDownload = useCallback(
+    async getDetails => {
+      if (cFile) {
+        const response = await dispatch(
+          downloadObject({
+            path: cFile?.path,
+            fileName: cFile?.name,
+            getDetails,
+          })
+        )
 
-      console.log('file download response:', response)
+        console.log('file download response:', response)
+        return response
+      }
+    },
+    [cFile, dispatch]
+  )
+
+  const handleDoc = useCallback(async () => {
+    const { data }: any = await handleDownload(true)
+    if (data?.url) {
+      const type = mime.getType(data?.fileName)
+
+      const rawFile = await (await fetch(data?.url)).blob()
+      const blobWithActualType = new Blob([rawFile], { type })
+      const blobUrl = URL.createObjectURL(blobWithActualType)
+
+      setDocUrl(blobUrl || '')
     }
-  }, [cFile, dispatch])
+  }, [handleDownload])
 
   const getImageUrl = useCallback(async () => {
     if (isOpen) {
@@ -207,9 +231,13 @@ const FilesViewer = ({
   }, [isOpen, cFile, tempImageUrls[cFile?.lookup_hash], dispatch])
 
   useEffect(() => {
-    const fetchUrl = async () => await getImageUrl()
+    const fetchUrl = async () => {
+      if (isImage) {
+        await getImageUrl()
+      } else handleDoc()
+    }
     cFile && fetchUrl()
-  }, [cFile, getImageUrl])
+  }, [cFile, getImageUrl, handleDoc, isImage])
 
   const handleZoom = (e, type) => {
     e.stopPropagation()
@@ -315,8 +343,12 @@ const FilesViewer = ({
               />
             )}
 
-            {otherFile && (
-              <NoPreview setLoading={setLoading} onClick={handleDownload} />
+            {otherFile && docUrl && (
+              <iframe
+                src={docUrl}
+                title={cFile?.name}
+                className={clsx(stl.docViewer, fullScreen && stl.fullScreenDoc)}
+              />
             )}
           </div>
 
