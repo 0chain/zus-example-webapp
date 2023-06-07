@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import { Spinner } from 'components/Spinner'
 import { createWalletFunc, selectActiveWallet } from 'store/wallet'
 import { createAllocationFunc } from 'store/allocation'
 import { ROUTES } from 'constant/routes'
+import { getNetwork } from 'store/zerochain'
 
 import styles from './Home.module.scss'
 
@@ -52,6 +53,10 @@ export default function CreateWallet() {
       iconSize: '31',
     },
   ]
+
+  useEffect(() => {
+    dispatch(getNetwork())
+  }, [dispatch])
 
   return (
     <>

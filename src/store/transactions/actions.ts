@@ -18,6 +18,22 @@ export const getLatestTxns = params => async (dispatch, getState) => {
     options: { method: 'GET' },
     dispatch,
   })
+  return { error, data }
+}
+
+
+export const getTxnByHash = hash => async (dispatch, getState) => {
+  const { sharders } = getState().zerochain.network
+  if (!sharders) return { data: undefined, error: undefined }
+
+  const url = getRandomArrayElement(sharders)
+
+  const { error, data } = await basicReqWithDispatch({
+    url: url + sharderEndpoints.GET_TXN_BY_HASH,
+    baseType: types.GET_TXN_BY_HASH,
+    params: { transaction_hash: hash },
+    dispatch,
+  })
 
   return { error, data }
 }

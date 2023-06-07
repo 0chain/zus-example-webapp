@@ -4,18 +4,18 @@ import Image from 'next/image'
 
 import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
+import { Spinner } from 'components/Spinner'
+import Modal from 'components/Modal'
+import { TransactionConfirmedDialog } from 'components/dialog'
+import Button from 'components/Button'
 // import { ProgressBar } from "components/ProgressBar";
-// import Button from "components/Button";
 
 import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
-import { getNetwork } from 'store/zerochain'
+import { tokenToZcn } from 'lib/utils/token'
 
 import styles from './Bolt.module.scss'
-
-const tokenToZcn = (token: number = 0): number =>
-  parseFloat((token / Math.pow(10, 10)).toString())
 
 export default function Bolt() {
   const [balance, setBalance] = useState(0)
@@ -26,6 +26,8 @@ export default function Bolt() {
   const [currentPage, setCurrentPage] = useState(1)
   const [txnsCount, setTxnsCount] = useState(20)
   const [transactions, setTransactions] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
 
@@ -35,7 +37,31 @@ export default function Bolt() {
 
   const activeWallet = useSelector(selectActiveWallet)
 
+  const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
+    useState({})
+
+  const [
+    isTransactionConfirmedDialogOpen,
+    setIsTransactionConfirmedDialogOpen,
+  ] = useState(false)
+
+  const closeTransactionConfirmedDialogModal = () =>
+    setIsTransactionConfirmedDialogOpen(false)
+
+  const viewTransaction = txn => {
+    const amount = txn.value ? tokenToZcn(txn.value) : 0
+    setConfirmedTransactionDetails({
+      coinAmount: amount,
+      sendUsdAmount: zcnUsdRate * amount,
+      notes: txn.notes,
+      transactionNumber: txn.hash,
+    })
+    setIsTransactionConfirmedDialogOpen(true)
+  }
+
   const getSetBalance = useCallback(async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting Balance')
     const walletWalance: typeof activeWallet = await getBalance(activeWallet.id)
 
     const balance = tokenToZcn(
@@ -44,14 +70,17 @@ export default function Bolt() {
     const availableBalance =
       Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)
     setBalance(availableBalance)
+    setIsLoading(false)
   }, [activeWallet.id])
 
   const getUsdZcnRate = async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting ZCN Rate')
     const rate = await getUSDRate('zcn')
     setZcnUsdRate(rate)
+    setIsLoading(false)
   }
   useEffect(() => {
-    dispatch(getNetwork())
     getSetBalance()
     getUsdZcnRate()
   }, [dispatch, getSetBalance])
@@ -59,6 +88,8 @@ export default function Bolt() {
   const itemsPerPage = 5
 
   const handleSetData = useCallback(async () => {
+    setIsLoading(true)
+    setLoadingMsg('Getting transactions')
     const params = {
       offset: (currentPage - 1) * itemsPerPage,
       limit: itemsPerPage + 1,
@@ -79,6 +110,7 @@ export default function Bolt() {
       }
       setTransactions(data)
     }
+    setIsLoading(false)
   }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
@@ -88,6 +120,14 @@ export default function Bolt() {
   return (
     <LayoutDashboard>
       <ContentBox>
+        {isLoading && (
+          <Modal>
+            <Spinner />
+            <h4>
+              <b>{loadingMsg}</b>
+            </h4>
+          </Modal>
+        )}
         <div className={styles.balanceWrapper}>
           <p>Available Balance</p>
           <h1 className={styles.value}>
@@ -127,6 +167,7 @@ export default function Bolt() {
             <tr>
               <th>Transaction Hash</th>
               <th>Date (UT)</th>
+              <th>Details</th>
             </tr>
           </thead>
           <tbody>
@@ -151,9 +192,18 @@ export default function Bolt() {
                         </button>
                       </td>
                       <td>{new Date(e?.CreatedAt).toUTCString()}</td>
+                      <td>
+                        <Button
+                          theme="bolt"
+                          customClass={styles.viewButton}
+                          onClick={() => viewTransaction(e)}
+                        >
+                          View Details
+                        </Button>
+                      </td>
                     </tr>
                   ))
-              : 'fetching..'}
+              : 'No records found..'}
           </tbody>
         </table>
 
@@ -195,6 +245,12 @@ export default function Bolt() {
           </li>
         </ul>
       </div>
+      <TransactionConfirmedDialog
+        transactionDetails={confirmedTransactionDetails}
+        isOpen={isTransactionConfirmedDialogOpen}
+        close={closeTransactionConfirmedDialogModal}
+        zcnPrice={zcnUsdRate}
+      />
     </LayoutDashboard>
   )
 }
