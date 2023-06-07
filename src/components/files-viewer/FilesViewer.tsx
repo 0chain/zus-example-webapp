@@ -143,17 +143,16 @@ const FilesViewer = ({
 
   const handleDownload = useCallback(async () => {
     if (cFile) {
-      const payload = {
-        path: cFile?.path,
-        fileName: name,
-        lookupHash: cFile?.lookup_hash,
-      }
-
-      const response = await dispatch(downloadObject(payload))
+      const response = await dispatch(
+        downloadObject({
+          path: cFile?.path,
+          fileName: cFile?.name,
+        })
+      )
 
       console.log('file download response:', response)
     }
-  }, [cFile, dispatch, name])
+  }, [cFile, dispatch])
 
   const getImageUrl = useCallback(async () => {
     if (isOpen) {
@@ -170,18 +169,19 @@ const FilesViewer = ({
             )
             setLoading(false)
           } else {
-            const image: any = await dispatch(
+            const { data }: any = await dispatch(
               downloadObject({
                 path: cFile?.path,
+                fileName: cFile?.name,
                 getDetails: true,
               })
             )
 
-            if (image.url) {
-              await checkBlobUrl(image.url).then(res => {
+            if (data.url) {
+              await checkBlobUrl(data.url).then(res => {
                 if (res) {
-                  setSrc(image.url)
-                  dispatch(addTempImageUrl(cFile.lookup_hash, image.url))
+                  setSrc(data.url)
+                  dispatch(addTempImageUrl(cFile.lookup_hash, data.url))
                 } else setIsShowRetryButton(true)
               })
             } else setIsShowRetryButton(true)
@@ -352,9 +352,6 @@ const FilesViewer = ({
                     <div className={stl.grayDot} />
                   </>
                 )}
-                <button disabled={isImage && loading} onClick={handleDownload}>
-                  Save File
-                </button>
               </div>
             </div>
           )}
