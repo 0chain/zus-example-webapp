@@ -4,7 +4,6 @@ import { sharderEndpoints, basicReqWithDispatch } from 'store/api-utils'
 import { getRandomArrayElement } from 'lib/utils'
 
 export const getLatestTxns = params => async (dispatch, getState) => {
-  console.log('latest txs')
   const { sharders } = getState().zerochain.network
   if (!(sharders && sharders?.length))
     return { error: 'Unable to get sharders', data: undefined }
