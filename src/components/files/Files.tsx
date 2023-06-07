@@ -55,7 +55,7 @@ const Files = () => {
   application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
   application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-  text/csv`}
+  text/csv, text/plain, .csv, .doc, .docx, .pdf, .ppt, .pptx, .txt, .xls, .xlsx`}
         onChange={handleUpload}
       />
 
