@@ -93,7 +93,9 @@ export default function Bolt() {
       offset: (currentPage - 1) * itemsPerPage,
       limit: itemsPerPage + 1,
       sort: 'desc',
-      to_client_id: activeWallet?.id,
+      // to_client_id: activeWallet?.id,
+      client_id: activeWallet?.id,
+      // block_hash: activeWallet?.id,
     }
 
     const { data }: any = await dispatch(getLatestTxns(params))

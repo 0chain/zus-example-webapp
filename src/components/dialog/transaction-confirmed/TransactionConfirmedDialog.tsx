@@ -41,8 +41,8 @@ const TransactionConfirmedDialog = ({
           setTransactionInfo({
             coinAmount: transactionDetails.coinAmount,
             coinSymbol: 'ZCN',
-            sendAmount: tokenToZcn(transactionAmount),
-            sendUsdAmount: Number(tokenToZcn(transactionAmount) * zcnPrice),
+            sendAmount: transactionAmount,
+            sendUsdAmount: Number(transactionAmount * zcnPrice),
             sendAddress: data.to_client_id,
             clientId: data.client_id,
             notes: transactionDetails.notes,
@@ -128,11 +128,16 @@ const TransactionConfirmedDialog = ({
           </div>
           <div className={stl.subTitle}>Amount</div>
           <div className={stl.coinAmount}>
-            {transactionInfo.sendAmount?.toFixed(2)}{' '}
+            {transactionInfo.sendAmount
+              ? transactionInfo.sendAmount?.toFixed(2)
+              : 0}{' '}
             <div className={stl.coinSymbol}>{transactionInfo.coinSymbol}</div>
           </div>
           <div className={stl.usdAmount}>
-            {transactionInfo.sendUsdAmount?.toFixed(2)} USD
+            {transactionInfo.sendUsdAmount
+              ? transactionInfo.sendUsdAmount?.toFixed(2)
+              : 0}{' '}
+            USD
           </div>
           <Button theme="bolt" customClass={stl.firstButton}>
             <Link
