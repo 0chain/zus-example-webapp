@@ -4,6 +4,8 @@
   border-radius: 50%;
   border: .25rem solid rgb(var(--color-heading), .3);
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
 
   &::after {
     content: "";
