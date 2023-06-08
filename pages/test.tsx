@@ -98,8 +98,8 @@ export default function Home() {
     minConfirmation: 50,
     minSubmit: 50,
     confirmationChainLength: 3,
-    blockWorker: 'https://dev.zus.network/dns',
-    zboxHost: 'https://0box.dev.zus.network',
+    blockWorker: 'https://test1.zus.network/dns',
+    zboxHost: 'https://0box.test1.zus.network',
     zboxAppType: 'vult',
   }
 

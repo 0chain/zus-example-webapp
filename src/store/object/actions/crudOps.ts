@@ -1,4 +1,4 @@
-import { bulkUpload, download } from '@zerochain/zus-sdk'
+import { download, multiUpload } from '@zerochain/zus-sdk'
 
 import types from '../types'
 import { listObjectsFunc } from './getters'
@@ -6,62 +6,24 @@ import { listObjectsFunc } from './getters'
 import { requestActionTypes } from 'store/api-utils'
 import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
-import {
-  getParentPath,
-  getPercentage,
-  normalizedPath as nP,
-  openSaveFileDialog,
-} from 'lib/utils'
+import { getPercentage, openSaveFileDialog, readChunk } from 'lib/utils'
 
-export const bulkUploadFnc = props => async (dispatch, getState) => {
+export const multiUploadFunc = options => async dispatch => {
   const actionTypes = requestActionTypes(types.UPLOAD_OBJECT)
   dispatch({ type: actionTypes.request })
 
-  const { file, path, lookupHash } = props
-  const state = getState()
-
-  const allocation = selectActiveAllocation(state)
-  const allocationId = allocation.id
-
-  const shouldEncrypt = nP(path).startsWith('/Encrypted')
-
-  const uploadProgress = (totalBytes, completedBytes, error) => {
-    if (error) return console.log(error, 'error')
-
-    const progress = getPercentage(completedBytes, totalBytes)
-    dispatch({
-      type: types.SET_UPLOAD_PROGRESS,
-      payload: { progress, lookupHash },
-    })
-  }
-
-  const options = [
-    {
-      allocationId,
-      remotePath: path,
-      file,
-      thumbnailBytes: null,
-      encrypt: shouldEncrypt,
-      webstreaming: true,
-      isUpdate: false,
-      isRepair: false,
-      numBlocks: 100,
-      callback: uploadProgress,
-    },
-  ]
-
   try {
-    const res = await bulkUpload(options)
-    const data = res[0]
-    if (data.error) throw new Error(data.error)
+    const res = await multiUpload(options)
+    if (res.error) throw new Error(res.error)
 
-    await dispatch(listObjectsFunc(nP(getParentPath(path))))
+    await dispatch(listObjectsFunc('/'))
     setTimeout(() => dispatch(listAllocationsFunc()), 2000)
     dispatch({ type: actionTypes.success })
 
-    return data
+    return res
   } catch (error) {
-    if (error.message.includes('Max size reached')) {
+    console.log('uploadObject err:', error)
+    if (typeof error === 'string' && error.includes('Max size reached')) {
       dispatch({
         type: actionTypes.error,
         message: "You don't have enough space to upload files",
@@ -78,6 +40,106 @@ export const bulkUploadFnc = props => async (dispatch, getState) => {
 
     return { error }
   }
+}
+
+const g = global || window || self
+const bridge = g.__zcn_wasm__
+
+export const bulkUpload = options => async dispatch => {
+  const start = bridge.glob.index
+  const opts = options.map(obj => {
+    const i = bridge.glob.index
+    bridge.glob.index++
+    const readChunkFuncName = '__zcn_upload_reader_' + i.toString()
+    const callbackFuncName = '__zcn_upload_callback_' + i.toString()
+    g[readChunkFuncName] = async (offset, chunkSize) => {
+      console.log(
+        'bulk_upload: read chunk remotePath:' +
+          obj.remotePath +
+          ' offset:' +
+          offset +
+          ' chunkSize:' +
+          chunkSize
+      )
+      const chunk = await readChunk(offset, chunkSize, obj.file)
+      return chunk.buffer
+    }
+
+    if (obj.callback) {
+      g[callbackFuncName] = async (totalBytes, completedBytes, error) =>
+        obj.callback(totalBytes, completedBytes, error)
+    }
+
+    return {
+      allocationId: obj.allocationId,
+      remotePath: obj.remotePath,
+      readChunkFuncName: readChunkFuncName,
+      fileSize: obj.file.size,
+      thumbnailBytes: Array.from(obj?.thumbnailBytes || []).toString(),
+      encrypt: obj.encrypt,
+      webstreaming: obj.webstreaming,
+      isUpdate: obj.isUpdate,
+      isRepair: obj.isRepair,
+      numBlocks: obj.numBlocks,
+      callbackFuncName: callbackFuncName,
+    }
+  })
+
+  const end = bridge.glob.index
+
+  const result = await dispatch(multiUploadFunc(JSON.stringify(opts)))
+  for (let i = start; i < end; i++) {
+    g['__zcn_upload_reader_' + i.toString()] = null
+    g['__zcn_upload_callback_' + i.toString()] = null
+  }
+  return result
+}
+
+export const uploadObjects = e => async (dispatch, getState) => {
+  const { files = [] } = e.target
+  if (!files.length) return
+
+  // const uploadProgress = (totalBytes, completedBytes, error) => {
+  //   if (error) return console.log(error, 'error')
+
+  //   const progress = getPercentage(completedBytes, totalBytes)
+  //   dispatch({
+  //     type: types.SET_UPLOAD_PROGRESS,
+  //     payload: { progress, lookupHash },
+  //   })
+  // }
+
+  const state = getState()
+
+  const allocation = selectActiveAllocation(state)
+  if (!allocation.id) return { error: 'Allocation Id required' }
+
+  const commonOps = {
+    allocationId: allocation.id,
+    thumbnailBytes: [].toString(),
+    encrypt: false,
+    webstreaming: true,
+    isUpdate: false,
+    isRepair: false,
+    numBlocks: 100,
+    callback: () => {},
+  }
+
+  const options = []
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]
+
+    // const thumbnailBytes = await getThumbnailBytes(file)
+
+    options.push({
+      ...commonOps,
+      file,
+      remotePath: `/${file.name}`,
+      thumbnailBytes: '', // Array.from(thumbnailBytes || []).toString(),
+    })
+  }
+
+  await dispatch(bulkUpload(options))
 }
 
 export const downloadObject = props => async (dispatch, getState) => {
