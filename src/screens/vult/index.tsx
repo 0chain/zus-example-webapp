@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import format from 'date-fns/format'
 
 import LayoutDashboard from 'layouts/LayoutDashboard'
 import { ContentBox } from 'components/ContentBox'
@@ -17,13 +18,19 @@ export default function Vult() {
   const storageString = bytesToString(totalStorage)
   const usageString = bytesToString(usedStorage)
 
+  const startDate = allocation.start_time
+    ? new Date(allocation?.start_time * 1000).toISOString()
+    : new Date().toDateString()
+  const formatedStartDate =
+    format(new Date(startDate), 'MMM do, yyyy, h:mm aaa') ?? '-'
+
   return (
     <LayoutDashboard>
       <ContentBox>
         <h1>
           <b>Allocation</b>
         </h1>
-        <small>25/04/2023, 4:01 PM</small>
+        <small>{formatedStartDate}</small>
 
         <ProgressBar
           value={usedPercentage}
