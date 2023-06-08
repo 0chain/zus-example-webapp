@@ -114,53 +114,61 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      <div className={styles.sidebarBottom}>
-        <Button
-          theme="bolt"
-          onClick={() => {
-            setIsSendTokenOpen(true)
-          }}
-        >
-          Send
-          <figure>
-            <Image
-              src="/icons/icon-arrow-right.svg"
-              width="16"
-              height="16"
-              alt=""
-            />
-          </figure>
-        </Button>
+      {router.pathname === ROUTES.bolt && (
+        <div className={styles.sidebarBottom}>
+          <Button
+            theme="bolt"
+            onClick={() => {
+              setIsSendTokenOpen(true)
+            }}
+          >
+            Send
+            <figure>
+              <Image
+                src="/icons/icon-arrow-right.svg"
+                width="16"
+                height="16"
+                alt=""
+              />
+            </figure>
+          </Button>
 
-        <Button
-          theme="bolt"
-          onClick={() => {
-            setIsReceiveTokenOpen(true)
-          }}
-        >
-          Receive
-          <figure>
-            <Image
-              src="/icons/icon-arrow-left.svg"
-              width="16"
-              height="16"
-              alt=""
-            />
-          </figure>
-        </Button>
+          <Button
+            theme="bolt"
+            onClick={() => {
+              setIsReceiveTokenOpen(true)
+            }}
+          >
+            Receive
+            <figure>
+              <Image
+                src="/icons/icon-arrow-left.svg"
+                width="16"
+                height="16"
+                alt=""
+              />
+            </figure>
+          </Button>
 
-        <Button
-          theme="bolt"
-          onClick={() => {
-            setIsFaucetTokens(true)
-          }}
-        >
-          Faucet
-          <figure>
-            <Image src="/icons/icon-faucet.svg" width="20" height="20" alt="" />
-          </figure>
-        </Button>
-      </div>
+          <Button
+            theme="bolt"
+            onClick={() => {
+              setIsFaucetTokens(true)
+            }}
+          >
+            Faucet
+            <figure>
+              <Image
+                src="/icons/icon-faucet.svg"
+                width="20"
+                height="20"
+                alt=""
+              />
+            </figure>
+          </Button>
+        </div>
+      )}
+
       {isSendTokenOpen && (
         <SendTokenDialog
           close={() => setIsSendTokenOpen(false)}
