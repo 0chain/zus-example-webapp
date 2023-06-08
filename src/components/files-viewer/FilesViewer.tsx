@@ -7,7 +7,6 @@ import mime from 'mime'
 
 import FullModal from 'components/full-modal'
 import VideoPlayer from 'components/video-player'
-import NoPreview from './NoPreview'
 import BackwardArrowIcon from 'assets/svg/backward-arrow.svg'
 import ForwardArrowIcon from 'assets/svg/forward-arrow.svg'
 import EnterFullScreenIcon from 'assets/svg/enter-full-screen.svg'
@@ -43,6 +42,7 @@ const FilesViewer = ({
   const [fullScreen, setFullScreen] = useState(false)
   const [isShowRetryButton, setIsShowRetryButton] = useState(false)
   const [docUrl, setDocUrl] = useState('')
+  const [docUrls, setDocUrls] = useState([])
 
   const router = useRouter()
   const dispatch = useDispatch()
@@ -119,7 +119,6 @@ const FilesViewer = ({
   useEffect(() => {
     if (isOpen) {
       setSrc('')
-      setDocUrl('')
       const handleKeyDown = e =>
         // @ts-ignore
         (e.keyCode === 37 && files.length > 1 && onPrev()) ||
@@ -166,17 +165,25 @@ const FilesViewer = ({
   )
 
   const handleDoc = useCallback(async () => {
-    const { data }: any = await handleDownload(true)
-    if (data?.url) {
-      const type = mime.getType(data?.fileName)
+    const cachedDocUrl = docUrls.find(doc => doc[cFile?.lookup_hash])
 
-      const rawFile = await (await fetch(data?.url)).blob()
-      const blobWithActualType = new Blob([rawFile], { type })
-      const blobUrl = URL.createObjectURL(blobWithActualType)
+    if (cachedDocUrl) {
+      setDocUrl(cachedDocUrl[cFile?.lookup_hash])
+    } else {
+      const { data }: any = await handleDownload(true)
+      if (data?.url) {
+        const type = mime.getType(data?.fileName)
 
-      setDocUrl(blobUrl || '')
+        const rawFile = await (await fetch(data?.url)).blob()
+        const blobWithActualType = new Blob([rawFile], { type })
+        const blobUrl = URL.createObjectURL(blobWithActualType)
+
+        setDocUrl(blobUrl || '')
+        setDocUrls([...docUrls, { [cFile?.lookup_hash]: blobUrl }])
+      }
     }
-  }, [handleDownload])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, cFile, dispatch, handleDownload])
 
   const getImageUrl = useCallback(async () => {
     if (isOpen) {
