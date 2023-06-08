@@ -1,4 +1,4 @@
-import { DNS_NETWORK } from './types'
+import types from './types'
 
 import { basicReqWithDispatch } from 'store/api-utils'
 
@@ -9,9 +9,14 @@ export const getNetwork = () => async (dispatch, getState) => {
     url: domain.startsWith('http')
       ? `${domain}/network`
       : `https://${domain}/dns/network`,
-    baseType: DNS_NETWORK,
+    baseType: types.DNS_NETWORK,
     options: { method: 'GET' },
     dispatch,
   })
   return { error, data }
 }
+
+export const setWasmInitStatus = status => ({
+  type: types.SET_WASM_INIT_STATUS,
+  payload: status,
+})

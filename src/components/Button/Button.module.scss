@@ -17,6 +17,11 @@
   cursor: pointer;
   border: 0;
 
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &.vult {
     background: var(--gradient-vult);
   }

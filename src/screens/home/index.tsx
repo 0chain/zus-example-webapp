@@ -15,13 +15,16 @@ import { createWalletFunc, selectActiveWallet } from 'store/wallet'
 import { createAllocationFunc } from 'store/allocation'
 import { ROUTES } from 'constant/routes'
 import { getNetwork } from 'store/zerochain'
+import { useBls } from 'lib/hooks'
 
 import styles from './Home.module.scss'
 
 export default function CreateWallet() {
   const dispatch = useDispatch()
+  const { blsLoaded } = useBls()
 
   const wallet = useSelector(selectActiveWallet)
+  const { isWasmInitializing } = useSelector(state => state.zerochain)
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -119,6 +122,7 @@ export default function CreateWallet() {
                 size="large"
                 fullWidth={true}
                 onClick={handleCreateAccount}
+                disabled={!blsLoaded || isWasmInitializing}
               >
                 Create Wallet
               </Button>
