@@ -3,6 +3,7 @@ import types from './types'
 const initialState = {
   list: [],
   activeWalletId: '',
+  balance: 0,
 }
 
 export function walletReducer(state = initialState, action) {
@@ -13,6 +14,9 @@ export function walletReducer(state = initialState, action) {
         list: [...state.list, action.payload],
         activeWalletId: action.payload.id,
       }
+
+    case types.GET_BALANCE_SUCCESS:
+      return { ...state, balance: action.payload }
 
     default:
       return state

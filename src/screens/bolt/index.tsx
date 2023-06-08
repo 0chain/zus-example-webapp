@@ -9,15 +9,20 @@ import { Spinner } from 'components/Spinner'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
 
-import { getBalanceWasm, getUSDRate } from '@zerochain/zus-sdk'
-import { selectActiveWallet } from 'store/wallet'
+import { getUSDRate } from '@zerochain/zus-sdk'
+import {
+  getBalanceFunc,
+  selectActiveWallet,
+  selectWalletBalance,
+} from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
 import { tokenToZcn } from 'lib/utils/token'
 
 import styles from './Bolt.module.scss'
 
 export default function Bolt() {
-  const [balance, setBalance] = useState(0)
+  const { usd, zcn } = useSelector(selectWalletBalance)
+
   const [zcnUsdRate, setZcnUsdRate] = useState(0.14)
 
   const perPage = 5
@@ -58,22 +63,6 @@ export default function Bolt() {
     setIsTransactionConfirmedDialogOpen(true)
   }
 
-  const getSetBalance = useCallback(async () => {
-    setIsLoading(true)
-    setLoadingMsg('Getting Balance')
-    const walletWalance: typeof activeWallet = await getBalanceWasm(
-      activeWallet.id
-    )
-
-    const balance = tokenToZcn(
-      walletWalance.balance ? walletWalance.balance : 0
-    )
-    const availableBalance =
-      Math.floor(balance * Math.pow(10, 3)) / Math.pow(10, 3)
-    setBalance(availableBalance)
-    setIsLoading(false)
-  }, [activeWallet.id])
-
   const getUsdZcnRate = async () => {
     setIsLoading(true)
     setLoadingMsg('Getting ZCN Rate')
@@ -82,9 +71,9 @@ export default function Bolt() {
     setIsLoading(false)
   }
   useEffect(() => {
-    getSetBalance()
+    dispatch(getBalanceFunc())
     getUsdZcnRate()
-  }, [dispatch, getSetBalance])
+  }, [dispatch])
 
   const itemsPerPage = 5
 
@@ -132,10 +121,10 @@ export default function Bolt() {
         <div className={styles.balanceWrapper}>
           <p>Available Balance</p>
           <h1 className={styles.value}>
-            <b>{balance}</b>
+            <b>{zcn}</b>
             <small className={styles.unit}>ZCN</small>
           </h1>
-          <small>1 ZCN = {zcnUsdRate}</small>
+          <small>1 ZCN = ${zcnUsdRate}</small>
 
           {/* <ProgressBar
             value="50%"
@@ -148,7 +137,7 @@ export default function Bolt() {
             <div>Total Balance</div>
             <div className={styles.total}>
               <span className={styles.currency}>$</span>
-              {(balance * zcnUsdRate).toFixed(5)}
+              {usd.toFixed(4)}
             </div>
           </div>
         </div>

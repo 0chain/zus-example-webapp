@@ -1,6 +1,7 @@
-import types, { Wallet } from './types'
+import types, { WalletType } from './types'
+import { selectActiveWallet } from './selectors'
 
-import { createWallet, setWallet } from '@zerochain/zus-sdk'
+import { createWallet, getBalanceWasm, setWallet } from '@zerochain/zus-sdk'
 import { requestActionTypes, RequestActionTypes } from 'store/api-utils'
 
 export const clearStore = () => ({
@@ -17,7 +18,7 @@ export const createWalletFunc = () => async dispatch => {
   }
 
   try {
-    const wallet: Wallet = await createWallet()
+    const wallet: WalletType = await createWallet()
     if (wallet.id) {
       await setWallet(
         wallet.id,
@@ -30,5 +31,21 @@ export const createWalletFunc = () => async dispatch => {
     } else handleError()
   } catch (error) {
     handleError()
+  }
+}
+
+export const getBalanceFunc = () => async (dispatch, getState) => {
+  const actionType: RequestActionTypes = requestActionTypes(types.GET_BALANCE)
+  dispatch({ type: actionType.request })
+
+  const wallet = selectActiveWallet(getState())
+
+  try {
+    const balance = await getBalanceWasm(wallet.id)
+    dispatch({ type: actionType.success, payload: balance })
+    return balance
+  } catch (error) {
+    dispatch({ type: actionType.error })
+    return { error: 'Error getting balance' }
   }
 }
