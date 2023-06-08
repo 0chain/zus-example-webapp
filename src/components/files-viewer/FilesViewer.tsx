@@ -17,7 +17,7 @@ import ZoomOutIcon from 'assets/svg/zoom-out.svg'
 import RetryIcon from 'assets/svg/refresh.svg'
 import CrossIcon from 'assets/svg/close-button.svg'
 
-import { checkBlobUrl, removeDuplicates, splitFileExtention } from 'lib/utils'
+import { checkBlobUrl, removeDuplicates } from 'lib/utils'
 
 import {
   downloadObject,
@@ -140,10 +140,6 @@ const FilesViewer = ({
       return () => document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, closeViewer, fullScreen])
-
-  const { name, extension } = cFile
-    ? splitFileExtention(cFile?.name)
-    : { name: '', extension: '' }
 
   const handleDownload = useCallback(
     async getDetails => {
@@ -380,7 +376,7 @@ const FilesViewer = ({
         </section>
 
         <footer className={stl.footer}>
-          <h3>{name}</h3>
+          <h3>{cFile?.name}</h3>
           <div className={stl.spaceBetween}>
             {isImage && <p>Image may subject to copyright</p>}
             {cFile?.senderName && (
@@ -394,10 +390,7 @@ const FilesViewer = ({
               <div className={stl.meta}>
                 {isImage && (
                   <>
-                    <span>
-                      {`${resolution[0]} x ${resolution[1]}`} {extension}
-                    </span>
-                    <div className={stl.grayDot} />
+                    <span>{`${resolution[0]} x ${resolution[1]}`}</span>
                   </>
                 )}
               </div>
