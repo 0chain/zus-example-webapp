@@ -354,7 +354,7 @@ export default function Home() {
 
   const getFaucetTokenClick = async () => {
     console.log('calling getFaucetToken')
-    await getFaucetToken()
+    await getFaucetToken(1)
   }
 
   const sendTransactionClick = async () => {

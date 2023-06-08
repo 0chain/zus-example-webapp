@@ -24,6 +24,7 @@ export default function CreateWallet() {
   const { blsLoaded } = useBls()
 
   const wallet = useSelector(selectActiveWallet)
+  // @ts-ignore
   const { isWasmInitializing } = useSelector(state => state.zerochain)
 
   const [showSuccessDialog, setShowSuccessDialog] = useState(false)
@@ -35,8 +36,7 @@ export default function CreateWallet() {
     await dispatch(createWalletFunc())
 
     setLoadingMsg('Creating Allocation...')
-    await getFaucetToken()
-    await getFaucetToken()
+    await getFaucetToken(10)
     await dispatch(createAllocationFunc())
 
     setIsLoading(false)
