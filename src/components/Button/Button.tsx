@@ -13,8 +13,12 @@ const Button = ({
   fullWidth,
   disabled,
   disableBg,
+  color = 'blue',
   customClass,
 }) => {
+  const colorClasses = {
+    [styles.boltOutline]: color === 'boltOutline',
+  }
   return (
     <>
       <button
@@ -22,6 +26,7 @@ const Button = ({
         type="submit"
         className={clsx(
           styles.btn,
+          colorClasses,
           styles[size],
           styles[theme],
           disableBg && styles.transparent,

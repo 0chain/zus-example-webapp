@@ -45,7 +45,7 @@ const DialogFooter = ({
         />
       )} */}
       {cancelButtonOnClick && (
-        <Button theme={theme} onClick={cancelButtonOnClick}>
+        <Button theme={theme} onClick={cancelButtonOnClick} color="boltOutline">
           {cancelButtonLabel}
         </Button>
       )}
