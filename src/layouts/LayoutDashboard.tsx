@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
@@ -43,6 +44,10 @@ const LayoutDashboard = ({ children }) => {
           sidebarActive: sidebarActive,
         })}
       >
+        <Head>
+          <title>Züs Example Webapp</title>
+        </Head>
+
         <Header />
         <div className={styles.contentWrapper}>
           <Sidebar />
