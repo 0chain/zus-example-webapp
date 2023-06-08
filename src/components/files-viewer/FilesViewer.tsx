@@ -118,7 +118,6 @@ const FilesViewer = ({
 
   useEffect(() => {
     if (isOpen) {
-      setSrc('')
       const handleKeyDown = e =>
         // @ts-ignore
         (e.keyCode === 37 && files.length > 1 && onPrev()) ||
@@ -169,6 +168,7 @@ const FilesViewer = ({
 
     if (cachedDocUrl) {
       setDocUrl(cachedDocUrl[cFile?.lookup_hash])
+      setLoading(false)
     } else {
       const { data }: any = await handleDownload(true)
       if (data?.url) {
@@ -180,6 +180,7 @@ const FilesViewer = ({
 
         setDocUrl(blobUrl || '')
         setDocUrls([...docUrls, { [cFile?.lookup_hash]: blobUrl }])
+        setLoading(false)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -350,13 +351,21 @@ const FilesViewer = ({
               />
             )}
 
-            {otherFile && docUrl && (
-              <iframe
-                src={docUrl}
-                title={cFile?.name}
-                className={clsx(stl.docViewer, fullScreen && stl.fullScreenDoc)}
-              />
-            )}
+            {otherFile &&
+              (loading ? (
+                <div className={stl.miniSpinner} />
+              ) : (
+                docUrl && (
+                  <iframe
+                    src={docUrl}
+                    title={cFile?.name}
+                    className={clsx(
+                      stl.docViewer,
+                      fullScreen && stl.fullScreenDoc
+                    )}
+                  />
+                )
+              ))}
           </div>
 
           <button
