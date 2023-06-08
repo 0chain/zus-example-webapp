@@ -74,10 +74,10 @@ export default function Bolt() {
     setIsLoading(false)
   }
   useEffect(() => {
-    if (!blsLoaded || isWasmInitializing) return
-
-    dispatch(getBalanceFunc())
-    getUsdZcnRate()
+    if (blsLoaded && !isWasmInitializing) {
+      dispatch(getBalanceFunc())
+      getUsdZcnRate()
+    }
   }, [blsLoaded, dispatch, isWasmInitializing])
 
   const itemsPerPage = 5
@@ -109,8 +109,7 @@ export default function Bolt() {
   }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
-    if (!blsLoaded || isWasmInitializing) return
-    handleSetData()
+    if (blsLoaded && !isWasmInitializing) handleSetData()
   }, [blsLoaded, handleSetData, isWasmInitializing, zcn])
 
   return (
