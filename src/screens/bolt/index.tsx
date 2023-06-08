@@ -17,6 +17,7 @@ import {
 } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
 import { tokenToZcn } from 'lib/utils/token'
+import { useBls } from 'lib/hooks'
 
 import styles from './Bolt.module.scss'
 
@@ -34,12 +35,14 @@ export default function Bolt() {
   const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
+  const { blsLoaded } = useBls()
 
   const pages = useMemo(() => {
     return Array.from(Array(Math.ceil(transactions.length / perPage)).keys())
   }, [transactions.length])
 
   const activeWallet = useSelector(selectActiveWallet)
+  const { isWasmInitializing } = useSelector(state => state.zerochain)
 
   const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
     useState({})
@@ -71,9 +74,11 @@ export default function Bolt() {
     setIsLoading(false)
   }
   useEffect(() => {
-    dispatch(getBalanceFunc())
-    getUsdZcnRate()
-  }, [dispatch])
+    if (blsLoaded && !isWasmInitializing) {
+      dispatch(getBalanceFunc())
+      getUsdZcnRate()
+    }
+  }, [blsLoaded, dispatch, isWasmInitializing])
 
   const itemsPerPage = 5
 
@@ -104,8 +109,8 @@ export default function Bolt() {
   }, [activeWallet?.id, currentPage, dispatch])
 
   useEffect(() => {
-    handleSetData()
-  }, [handleSetData, zcn])
+    if (blsLoaded && !isWasmInitializing) handleSetData()
+  }, [blsLoaded, handleSetData, isWasmInitializing, zcn])
 
   return (
     <LayoutDashboard>
