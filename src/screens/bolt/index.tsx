@@ -4,8 +4,8 @@ import Image from 'next/image'
 
 import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
+import FullModal from 'components/full-modal'
 import { Spinner } from 'components/Spinner'
-import Modal from 'components/Modal'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
 
@@ -122,12 +122,12 @@ export default function Bolt() {
     <LayoutDashboard>
       <ContentBox>
         {isLoading && (
-          <Modal>
+          <FullModal isOpen={isLoading} closeOnClickAway={false}>
             <Spinner />
             <h4>
               <b>{loadingMsg}</b>
             </h4>
-          </Modal>
+          </FullModal>
         )}
         <div className={styles.balanceWrapper}>
           <p>Available Balance</p>

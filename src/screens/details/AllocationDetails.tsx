@@ -11,14 +11,12 @@ import stl from './Details.module.scss'
 
 const AllocationDetails = () => {
   const allocation = useSelector(selectActiveAllocation)
-  console.log(allocation, 'allocation')
 
   const expirationDate = allocation.expiration_date
     ? new Date(allocation?.expiration_date * 1000).toISOString()
     : new Date().toDateString()
   const formatedExpDate =
     format(new Date(expirationDate), 'MMM do, yyyy, h:mm aaa') ?? '-'
-  // const expired = allocation?.expiration_date < new Date().getTime() / 1000
 
   const details = [
     {
@@ -60,11 +58,11 @@ const AllocationDetails = () => {
       label: 'Number of Failed Challenges',
       value: allocation?.stats?.num_failed_challenges,
     },
-    {
+    allocation?.stats?.latest_closed_challenge && {
       label: 'Latest Closed Challenge',
       value: allocation?.stats?.latest_closed_challenge,
     },
-  ]
+  ].filter(Boolean)
 
   return (
     <LayoutDashboard>
