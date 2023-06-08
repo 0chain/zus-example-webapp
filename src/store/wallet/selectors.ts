@@ -3,3 +3,5 @@ export const selectActiveWallet = state => {
 
   return list.find(wallet => wallet.id === activeWalletId) || {}
 }
+
+export const selectWalletBalance = state => state.wallet?.balance || {}

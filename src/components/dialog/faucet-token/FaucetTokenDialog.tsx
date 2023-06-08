@@ -1,22 +1,22 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import Dialog from 'components/dialog'
 
-import { getBalanceWasm, getFaucetToken } from '@zerochain/zus-sdk'
-import { selectActiveWallet } from 'store/wallet'
+import { getFaucetToken } from '@zerochain/zus-sdk'
+import { getBalanceFunc } from 'store/wallet'
 
 import stl from './FaucetTokenDialog.module.scss'
 
 const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
-  const wallet = useSelector(selectActiveWallet)
+  const dispatch = useDispatch()
 
   const [amount, setAmount] = useState(10)
 
   const onFaucet = async () => {
     try {
       await getFaucetToken(amount)
-      await getBalanceWasm(wallet.id)
+      await dispatch(getBalanceFunc())
     } catch (error) {
       console.log(error)
       setIsError(true)
