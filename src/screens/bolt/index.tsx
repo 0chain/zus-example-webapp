@@ -9,7 +9,7 @@ import Modal from 'components/Modal'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
 
-import { getBalance, getUSDRate } from '@zerochain/zus-sdk'
+import { getBalanceWasm, getUSDRate } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { getLatestTxns } from 'store/transactions'
 import { tokenToZcn } from 'lib/utils/token'
@@ -61,7 +61,9 @@ export default function Bolt() {
   const getSetBalance = useCallback(async () => {
     setIsLoading(true)
     setLoadingMsg('Getting Balance')
-    const walletWalance: typeof activeWallet = await getBalance(activeWallet.id)
+    const walletWalance: typeof activeWallet = await getBalanceWasm(
+      activeWallet.id
+    )
 
     const balance = tokenToZcn(
       walletWalance.balance ? walletWalance.balance : 0
