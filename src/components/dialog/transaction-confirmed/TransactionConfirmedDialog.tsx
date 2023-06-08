@@ -153,7 +153,12 @@ const TransactionConfirmedDialog = ({
               {/* </a> */}
             </Link>
           </Button>
-          <Button theme="bolt" customClass={stl.firstButton} onClick={onClose}>
+          <Button
+            theme="bolt"
+            color="boltOutline"
+            customClass={stl.firstButton}
+            onClick={onClose}
+          >
             Close
           </Button>
         </div>
