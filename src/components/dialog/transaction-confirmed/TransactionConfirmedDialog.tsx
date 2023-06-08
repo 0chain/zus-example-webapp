@@ -29,7 +29,7 @@ const TransactionConfirmedDialog = ({
   const [transactionInfo, setTransactionInfo] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const txnHash = transactionDetails?.transactionNumber
-  const atlusUrl = `https://demo.atlus.cloud`
+  const atlusUrl = `https://dev.atlus.cloud`
 
   useEffect(() => {
     const loadData = async () => {
