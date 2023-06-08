@@ -11,7 +11,6 @@ export const useBls = (props = {}) => {
 
   const dispatch = useDispatch()
   const [blsLoaded, setBlsLoaded] = useState(false)
-  console.log(blsLoaded, 'blsLoaded')
 
   useEffect(() => {
     let interval

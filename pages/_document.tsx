@@ -10,7 +10,7 @@ export default function Document() {
         />
         <script
           defer
-          src="https://cdn.jsdelivr.net/gh/golang/go@go1.18.5/misc/wasm/wasm_exec.js"
+          src="https://cdn.jsdelivr.net/gh/golang/go@go1.20.4/misc/wasm/wasm_exec.js"
         />
         <script
           defer

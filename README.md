@@ -54,7 +54,7 @@ Follow the step-by-step guide below to create a webapp using the Zus JS SDK:
 
 ```js
   <script defer src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js" ></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/golang/go@go1.18.5/misc/wasm/wasm_exec.js" ></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/golang/go@go1.20.4/misc/wasm/wasm_exec.js" ></script>
 ```
 
 4. Initialize the Zus JS SDK by following the [zus-js-sdk documentation:](https://github.com/0chain/zus-js-sdk#get-started)
