@@ -105,7 +105,7 @@ export default function Bolt() {
 
   useEffect(() => {
     handleSetData()
-  }, [handleSetData])
+  }, [handleSetData, zcn])
 
   return (
     <LayoutDashboard>
