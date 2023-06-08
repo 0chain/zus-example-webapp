@@ -4,7 +4,7 @@ import types from '../types'
 import { listObjectsFunc } from './getters'
 
 import { requestActionTypes } from 'store/api-utils'
-import { selectActiveAllocation } from 'store/allocation'
+import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
 import {
   getParentPath,
@@ -56,6 +56,7 @@ export const bulkUploadFnc = props => async (dispatch, getState) => {
     if (data.error) throw new Error(data.error)
 
     await dispatch(listObjectsFunc(nP(getParentPath(path))))
+    setTimeout(() => dispatch(listAllocationsFunc()), 2000)
     dispatch({ type: actionTypes.success })
 
     return data
