@@ -137,7 +137,7 @@ export default function Bolt() {
             <div>Total Balance</div>
             <div className={styles.total}>
               <span className={styles.currency}>$</span>
-              {usd.toFixed(4)}
+              {usd?.toFixed(4)}
             </div>
           </div>
         </div>
