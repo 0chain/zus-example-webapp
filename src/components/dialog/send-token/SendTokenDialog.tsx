@@ -35,17 +35,20 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
         zcnToToken(Number(amount)),
         ''
       )
-      await dispatch(getBalanceFunc())
+      setTimeout(async () => {
+        await dispatch(getBalanceFunc())
+        setIsLoading(false)
+        setIsSuccess(true)
+        close()
+      }, 5000)
     } catch (error) {
       console.log(error)
       setIsError(true)
       setIsLoading(false)
+      setIsSuccess(false)
       close()
       return
     }
-    setIsLoading(false)
-    setIsSuccess(true)
-    close()
   }
 
   return (
