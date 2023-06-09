@@ -41,8 +41,8 @@ const TransactionConfirmedDialog = ({
           setTransactionInfo({
             coinAmount: transactionDetails.coinAmount,
             coinSymbol: 'ZCN',
-            sendAmount: transactionAmount,
-            sendUsdAmount: Number(transactionAmount * zcnPrice),
+            sendAmount: tokenToZcn(transactionAmount),
+            sendUsdAmount: Number(tokenToZcn(transactionAmount) * zcnPrice),
             sendAddress: data.to_client_id,
             clientId: data.client_id,
             notes: transactionDetails.notes,

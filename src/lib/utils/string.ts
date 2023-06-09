@@ -1,5 +1,4 @@
 import { zcnTxnRequestTypes, zcnContracts } from 'lib/constants/zeroChain'
-import { tokenToZcn } from './token'
 
 export const bytesToString = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes'
@@ -101,8 +100,9 @@ export const getTransactionAmount = txn => {
       if (error) {
         return 0
       }
+
       return transactionOutput && transactionOutput.amount
-        ? tokenToZcn( transactionOutput.amount)
+        ? transactionOutput.amount
         : 0
     } else {
       return txn.value ? txn.value : txn.transaction_value
@@ -117,12 +117,10 @@ export const getTransactionAmount = txn => {
       } else {
         return getTransactionOuput(txn)
       }
-    } 
-    else if (transactionType?.name === 'new_allocation_request') {
-     return txn.value ? tokenToZcn(txn.value) : txn.transaction_value
-    }
-    else {
+    } else if (transactionType?.name === 'collect_reward') {
       return getTransactionOuput(txn)
+    } else {
+      return txn.value ? txn.value : txn.transaction_value
     }
   } else {
     return txn.value ? txn.value : txn.transaction_value
