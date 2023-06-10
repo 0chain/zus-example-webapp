@@ -34,6 +34,7 @@ export default function Bolt() {
   const [txnsCount, setTxnsCount] = useState(20)
   const [transactions, setTransactions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(true)
   const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
@@ -115,6 +116,12 @@ export default function Bolt() {
     if (blsLoaded && !isWasmInitializing) handleSetData()
   }, [blsLoaded, handleSetData, isWasmInitializing, zcn])
 
+  const refreshBalance = () => {
+    setIsRefreshing(true)
+    dispatch(getBalanceFunc())
+    setTimeout(() => setIsRefreshing(false), 2000)
+  }
+
   return (
     <LayoutDashboard>
       <ContentBox>
@@ -132,10 +139,10 @@ export default function Bolt() {
             <b>{zcn}</b>
             <small className={styles.unit}>ZCN</small>
             <RefreshIcon
-              onClick={() => dispatch(getBalanceFunc())}
+              onClick={refreshBalance}
               className={clsx(
                 styles.refreshIcon,
-                isLoading && styles.refreshing
+                isRefreshing && styles.refreshing
               )}
             />
           </h1>
