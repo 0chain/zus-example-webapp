@@ -34,7 +34,7 @@ export default function Bolt() {
   const [txnsCount, setTxnsCount] = useState(20)
   const [transactions, setTransactions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isRefreshing, setIsRefreshing] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
