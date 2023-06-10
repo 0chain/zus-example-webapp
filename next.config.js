@@ -1,6 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      '/': { page: '/' },
+      '/vult': { page: '/vult' },
+      '/bolt': { page: '/bolt' },
+      '/walletDetails': { page: '/walletDetails' },
+      '/allocationDetails': { page: '/allocationDetails' },
+    }
+  },
+
   webpack(config, { webpack }) {
     config.module.rules.push({
       test: /\.svg$/,
