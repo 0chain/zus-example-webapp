@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
+import clsx from 'clsx'
 
 import { ContentBox } from 'components/ContentBox'
 import LayoutDashboard from 'layouts/LayoutDashboard'
@@ -8,6 +9,7 @@ import FullModal from 'components/full-modal'
 import { Spinner } from 'components/Spinner'
 import { TransactionConfirmedDialog } from 'components/dialog'
 import Button from 'components/Button'
+import RefreshIcon from 'assets/svg/bolt/refresh.svg'
 
 import { getUSDRate } from '@zerochain/zus-sdk'
 import {
@@ -32,6 +34,7 @@ export default function Bolt() {
   const [txnsCount, setTxnsCount] = useState(20)
   const [transactions, setTransactions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(true)
   const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
 
   const dispatch = useDispatch()
@@ -90,6 +93,7 @@ export default function Bolt() {
       limit: itemsPerPage + 1,
       sort: 'desc',
       client_id: activeWallet?.id,
+      // to_client_id: activeWallet?.id,
     }
 
     const { data }: any = await dispatch(getLatestTxns(params))
@@ -112,6 +116,12 @@ export default function Bolt() {
     if (blsLoaded && !isWasmInitializing) handleSetData()
   }, [blsLoaded, handleSetData, isWasmInitializing, zcn])
 
+  const refreshBalance = () => {
+    setIsRefreshing(true)
+    dispatch(getBalanceFunc())
+    setTimeout(() => setIsRefreshing(false), 2000)
+  }
+
   return (
     <LayoutDashboard>
       <ContentBox>
@@ -128,6 +138,13 @@ export default function Bolt() {
           <h1 className={styles.value}>
             <b>{zcn}</b>
             <small className={styles.unit}>ZCN</small>
+            <RefreshIcon
+              onClick={refreshBalance}
+              className={clsx(
+                styles.refreshIcon,
+                isRefreshing && styles.refreshing
+              )}
+            />
           </h1>
           <small>1 ZCN = ${zcnUsdRate}</small>
 

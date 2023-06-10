@@ -1,3 +1,5 @@
+@import 'styles/common';
+
 .value {
   b {
     margin-right: 1rem;
@@ -41,15 +43,17 @@
   width: 100%;
   text-align: center;
 
-  &, th, td {
-    border: 1px solid rgba(139,139,139,.3);
+  &,
+  th,
+  td {
+    border: 1px solid rgba(139, 139, 139, 0.3);
     border-collapse: collapse;
   }
 
   th {
     color: #000;
-    border-bottom-color: rgba(139,139,139,.6);
-    padding: .6rem 1.5rem;
+    border-bottom-color: rgba(139, 139, 139, 0.6);
+    padding: 0.6rem 1.5rem;
   }
 
   td {
@@ -98,13 +102,26 @@
     flex-grow: 1;
     text-align: left;
 
-    img { margin-right: 1rem; }
+    img {
+      margin-right: 1rem;
+    }
   }
 
   .next {
     flex-grow: 1;
     text-align: right;
 
-    img { margin-left: 1rem; }
+    img {
+      margin-left: 1rem;
+    }
   }
+}
+
+.refreshIcon {
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.refreshing {
+  animation: rotate 1s linear infinite;
 }
