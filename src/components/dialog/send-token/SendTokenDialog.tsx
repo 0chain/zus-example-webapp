@@ -8,6 +8,7 @@ import { Spinner } from 'components/Spinner'
 import { selectActiveWallet } from 'store/wallet'
 import { sendTransaction } from '@zerochain/zus-sdk'
 import { getBalanceFunc } from 'store/wallet'
+import { zcnToToken } from 'lib/utils/token'
 
 import stl from './SendTokenDialog.module.scss'
 
@@ -28,18 +29,26 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
       secretKey: wallet?.keys?.privateKey,
     }
     try {
-      await sendTransaction(fromWallet, clientID, parseInt(amount), '')
-      await dispatch(getBalanceFunc())
+      await sendTransaction(
+        fromWallet,
+        clientID,
+        zcnToToken(Number(amount)),
+        ''
+      )
+      setTimeout(async () => {
+        await dispatch(getBalanceFunc())
+        setIsLoading(false)
+        setIsSuccess(true)
+        close()
+      }, 5000)
     } catch (error) {
       console.log(error)
       setIsError(true)
       setIsLoading(false)
+      setIsSuccess(false)
       close()
       return
     }
-    setIsLoading(false)
-    setIsSuccess(true)
-    close()
   }
 
   return (
