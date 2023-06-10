@@ -31,7 +31,13 @@ const AppWrapper = ({ children }) => {
 
     if (isMounted.current) initializeApp()
     else isMounted.current = true
-  }, [])
+  }, [
+    dispatch,
+    wallet.id,
+    wallet.keys.privateKey,
+    wallet.keys.publicKey,
+    wallet.mnemonic,
+  ])
 
   return <>{children}</>
 }
