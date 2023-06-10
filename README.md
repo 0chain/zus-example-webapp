@@ -7,6 +7,15 @@ Welcome to the Züs Example Webapp! This web application demonstrates the usage 
   - [Getting Started](#getting-started)
   - [Hackathon Discord Link](#hackathon-discord-link)
 
+
+### Preview
+
+<div align="center">
+  
+  https://www.loom.com/share/423667e8aa444ca6b0c8183a5eceb20f
+  
+</div>
+
 ## Züs Overview
 
 [Züs](https://zus.network/) is a high-performance cloud on a fast blockchain offering privacy and configurable uptime. It is an alternative to traditional cloud S3 and has shown better performance on a test network due to its parallel data architecture. The technology uses erasure code to distribute the data between data and parity servers. Züs storage is configurable to provide flexibility for IT managers to design for desired security and uptime, and can design a hybrid or a multi-cloud architecture with a few clicks using [Blimp's](https://blimp.software/) workflow, and can change redundancy and providers on the fly.
