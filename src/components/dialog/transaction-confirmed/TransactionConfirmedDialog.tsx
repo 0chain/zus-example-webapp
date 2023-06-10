@@ -141,17 +141,16 @@ const TransactionConfirmedDialog = ({
           </div>
           <Button theme="bolt" customClass={stl.firstButton}>
             <Link
-              legacyBehavior
+              target="_blank"
+              rel="noreferrer"
               href={`${atlusUrl}/transaction-details/${transactionDetails.transactionNumber}`}
             >
-              <a target="_blank" rel="noreferrer">
-                <div className={stl.flexCenter}>
-                  <div className={stl.buttonIcon}>
-                    <LinkingIcon height={18} />
-                  </div>
-                  <div>View On Explorer</div>
+              <div className={stl.flexCenter}>
+                <div className={stl.buttonIcon}>
+                  <LinkingIcon height={18} />
                 </div>
-              </a>
+                <div>View On Explorer</div>
+              </div>
             </Link>
           </Button>
           <Button
