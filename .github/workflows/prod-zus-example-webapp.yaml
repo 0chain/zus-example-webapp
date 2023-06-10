@@ -44,7 +44,7 @@ jobs:
       - name: Build & deploy zus.network/hackathon/sample-webapp.
         run: |
           cd docker.local
-          docker-compose -f docker-compose-dev.yaml up -d --build
+          docker-compose -f docker-compose-prod.yaml up -d --build
 
       # - name: Build & Push Docker Image.
       #   id: docker_build
