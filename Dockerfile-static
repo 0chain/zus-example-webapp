@@ -15,7 +15,8 @@ FROM nginx:1.23.3-alpine
 COPY --from=builder /usr/src/app/out /var/www
 #use this when our build env is disabled
 #COPY ./build /var/www
-COPY ./config/nginx.conf /etc/nginx/nginx.conf
+COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
 # COPY public/explorer-settings.json /var/www
 EXPOSE 80
+
 ENTRYPOINT ["nginx","-g","daemon off;"]
