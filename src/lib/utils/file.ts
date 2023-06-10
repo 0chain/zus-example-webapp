@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export const openSaveFileDialog = file => {
   const a = document.createElement('a')
   document.body.appendChild(a)

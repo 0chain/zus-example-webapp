@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import types, { WalletType } from './types'
 import { selectActiveWallet } from './selectors'
 

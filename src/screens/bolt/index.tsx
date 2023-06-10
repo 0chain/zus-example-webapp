@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'

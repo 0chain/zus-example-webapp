@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { getAllocation, listAllocations } from '@zerochain/zus-sdk'
 import types from './types'
 

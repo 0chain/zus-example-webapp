@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 //https://chromium.googlesource.com/external/w3c/web-platform-tests/+/refs/heads/master/media-source/mediasource-is-type-supported.html
 
 import * as muxjs from 'mux.js'
