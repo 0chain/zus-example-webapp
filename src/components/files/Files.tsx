@@ -9,7 +9,7 @@ import FilesViewer from 'components/files-viewer'
 import ImageIcon from 'assets/svg/image-icon.svg'
 import PageIcon from 'assets/svg/page.svg'
 
-import { bulkUploadFnc } from 'store/object'
+import { uploadObjects } from 'store/object'
 
 import stl from './Files.module.scss'
 
@@ -20,16 +20,6 @@ const Files = () => {
 
   // @ts-ignore
   const { allFiles = [] } = useSelector(state => state.object)
-
-  const handleUpload = e => {
-    const { files = [] } = e.target
-    if (!files.length) return
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      dispatch(bulkUploadFnc({ file, path: `/${file.name}` }))
-    }
-  }
 
   const file =
     fileQuery &&
@@ -42,7 +32,7 @@ const Files = () => {
         id="image-upload"
         multiple
         accept="image/*"
-        onChange={handleUpload}
+        onChange={e => dispatch(uploadObjects(e))}
       />
       <input
         type="file"
@@ -56,7 +46,7 @@ const Files = () => {
   application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document,
   text/csv, text/plain, .csv, .doc, .docx, .pdf, .ppt, .pptx, .txt, .xls, .xlsx`}
-        onChange={handleUpload}
+        onChange={e => dispatch(uploadObjects(e))}
       />
 
       <div className={stl.head}>

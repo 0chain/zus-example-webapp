@@ -2,22 +2,12 @@ import { useDispatch } from 'react-redux'
 
 import { IconUpload } from 'components/IconUpload'
 
-import { bulkUploadFnc } from 'store/object'
+import { uploadObjects } from 'store/object'
 
 import stl from './UploadContainer.module.scss'
 
 const UploadContainer = () => {
   const dispatch = useDispatch()
-
-  const handleUpload = e => {
-    const { files = [] } = e.target
-    if (!files.length) return
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      dispatch(bulkUploadFnc({ file, path: `/${file.name}` }))
-    }
-  }
 
   return (
     <div className={stl.container}>
@@ -25,7 +15,7 @@ const UploadContainer = () => {
         <IconUpload
           type="image"
           label="Upload image"
-          changeFunc={handleUpload}
+          changeFunc={e => dispatch(uploadObjects(e))}
         />
       </div>
 
@@ -33,7 +23,7 @@ const UploadContainer = () => {
         <IconUpload
           type="document"
           label="Upload document"
-          changeFunc={handleUpload}
+          changeFunc={e => dispatch(uploadObjects(e))}
         />
       </div>
     </div>

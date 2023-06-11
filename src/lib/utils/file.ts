@@ -3,6 +3,7 @@
 export const openSaveFileDialog = file => {
   const a = document.createElement('a')
   document.body.appendChild(a)
+  // @ts-ignore
   a.style = 'display: none'
 
   a.href = file.url
@@ -21,3 +22,25 @@ export const checkBlobUrl = async url => {
     return false
   }
 }
+
+export const arrayBufToFile = (arrayBuf, fileName, mimeType) =>
+  new File([arrayBuf], fileName, { type: mimeType })
+
+export const readChunk = (offset, chunkSize, file) =>
+  new Promise((res, rej) => {
+    const fileReader = new FileReader()
+    const blob = file.slice(offset, chunkSize + offset)
+    fileReader.onload = e => {
+      const t = e.target
+      if (t.error == null) {
+        res({
+          size: t.result.byteLength,
+          buffer: new Uint8Array(t.result),
+        })
+      } else {
+        rej(t.error)
+      }
+    }
+
+    fileReader.readAsArrayBuffer(blob)
+  })
