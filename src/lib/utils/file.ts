@@ -1,4 +1,4 @@
-// @ts-nocheck
+import { splitFileExtention } from './string'
 
 export const openSaveFileDialog = file => {
   const a = document.createElement('a')
@@ -34,7 +34,9 @@ export const readChunk = (offset, chunkSize, file) =>
       const t = e.target
       if (t.error == null) {
         res({
+          // @ts-ignore
           size: t.result.byteLength,
+          // @ts-ignore
           buffer: new Uint8Array(t.result),
         })
       } else {
@@ -44,3 +46,27 @@ export const readChunk = (offset, chunkSize, file) =>
 
     fileReader.readAsArrayBuffer(blob)
   })
+
+const checkPathExists = (allFiles, path = '/') =>
+  allFiles.find(f => f.path === path) !== undefined
+
+export const getNewFile = (file, allFiles = []) => {
+  const { name, extension = '' } = splitFileExtention(file.name)
+
+  const getNewName = () => {
+    if (checkPathExists(allFiles, `/${file.name}`)) {
+      let i = 0
+      while (
+        checkPathExists(
+          allFiles,
+          `/${name} (copy)${i ? ` (${i})` : ''}.${extension}`
+        )
+      )
+        i === 0 ? (i = 2) : i++
+
+      return `${name} (copy)${i ? ` (${i})` : ''}.${extension || ''}`
+    } else return file.name
+  }
+
+  return new File([file], getNewName(), { type: file.type })
+}

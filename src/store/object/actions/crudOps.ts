@@ -6,7 +6,12 @@ import { listObjectsFunc } from './getters'
 import { requestActionTypes } from 'store/api-utils'
 import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
-import { getPercentage, openSaveFileDialog, readChunk } from 'lib/utils'
+import {
+  getNewFile,
+  getPercentage,
+  openSaveFileDialog,
+  readChunk,
+} from 'lib/utils'
 
 export const multiUploadFunc = options => async dispatch => {
   const actionTypes = requestActionTypes(types.UPLOAD_OBJECT)
@@ -110,6 +115,7 @@ export const uploadObjects = e => async (dispatch, getState) => {
   // }
 
   const state = getState()
+  const { allFiles = [] } = state.object
 
   const allocation = selectActiveAllocation(state)
   if (!allocation.id) return { error: 'Allocation Id required' }
@@ -127,7 +133,7 @@ export const uploadObjects = e => async (dispatch, getState) => {
 
   const options = []
   for (let i = 0; i < files.length; i++) {
-    const file = files[i]
+    const file = getNewFile(files[i], allFiles)
 
     // const thumbnailBytes = await getThumbnailBytes(file)
 
