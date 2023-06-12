@@ -1,19 +1,28 @@
+import { getMinersAndSharders } from '@zerochain/zus-sdk'
+
 import types from './types'
 
-import { basicReqWithDispatch } from 'store/api-utils'
+import { RequestActionTypes, requestActionTypes } from 'store/api-utils'
 
-export const getNetwork = () => async (dispatch, getState) => {
-  // const { domain } = getState().user
-  const domain = 'test1.zus.network'
-  const { error, data }: any = await basicReqWithDispatch({
-    url: domain.startsWith('http')
-      ? `${domain}/network`
-      : `https://${domain}/dns/network`,
-    baseType: types.DNS_NETWORK,
-    options: { method: 'GET' },
-    dispatch,
-  })
-  return { error, data }
+export const getNetwork = () => async dispatch => {
+  const actionTypes: RequestActionTypes = requestActionTypes(types.DNS_NETWORK)
+
+  const handleErr = error => {
+    dispatch({ type: actionTypes.error })
+    return { error }
+  }
+
+  try {
+    const { error, data }: any = await getMinersAndSharders()
+
+    if (error || !data) handleErr(error)
+    else {
+      dispatch({ type: actionTypes.success, payload: data })
+      return { data }
+    }
+  } catch (error) {
+    handleErr(error)
+  }
 }
 
 export const setWasmInitStatus = status => ({
