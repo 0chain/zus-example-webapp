@@ -85,11 +85,11 @@ Follow the step-by-step guide below to create a webapp using the Zus JS SDK:
 
 3. Download the wasm file from [gosdk](https://github.com/0chain/gosdk/) and save it in your apps public folder. [How to download wasm?](https://www.loom.com/share/46490db9803c41228eeea54f5ae8c990?sid=4e559a14-df8c-4f6a-924b-c839e96a479b)
 
-4. Add these two scripts to the `head` of your entrypoint html file. These are required by wasm for it's operations.
+4. Add these two scripts to the `head` of your entrypoint html file. These scripts are required by wasm for it's operations.
 
 ```js
-  <script defer src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js" ></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/golang/go@go1.20.4/misc/wasm/wasm_exec.js" ></script>
+  <script src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/golang/go@go1.20.4/misc/wasm/wasm_exec.js"></script>
 ```
 
 5. Initialize the Zus JS SDK by following the [zus-js-sdk documentation:](https://github.com/0chain/zus-js-sdk#get-started)
@@ -171,6 +171,8 @@ const allocation = await createAllocation(config)
 // save the allocation in local storage by using Redux or any other state management library
 ```
 
+Explore this demo webapp's source code to learn more about how to use the Zus JS SDK.
+
 #### Common Terms
 
 Here are some common terms used in our code and the 0chain blockchain:
@@ -192,11 +194,3 @@ Here are some common terms used in our code and the 0chain blockchain:
 Join our Hackathon Discord community for support and discussions:
 
 https://discord.gg/7JSzwpcK55
-
-```
-
-```
-
-```
-
-```
