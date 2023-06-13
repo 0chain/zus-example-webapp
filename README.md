@@ -83,7 +83,8 @@ Follow the step-by-step guide below to create a webapp using the Zus JS SDK:
 - `npm install @zerochain/zus-sdk`
 - `yarn add @zerochain/zus-sdk`
 
-3. Download the wasm file from [gosdk](https://github.com/0chain/gosdk/) and save it in your apps public folder. [How to download wasm?](https://www.loom.com/share/46490db9803c41228eeea54f5ae8c990?sid=4e559a14-df8c-4f6a-924b-c839e96a479b)
+3. Download the latest build of wasm(goSdk), and place it in the same dicrectory as your app's entrypoint. In most cases it would be the public or dist directory. You can get the latest build of wasm from the first action on [this page](https://github.com/0chain/gosdk/actions/workflows/sdk-release.yml?query=branch%3Astaging).
+   [How to download wasm?](https://www.loom.com/share/46490db9803c41228eeea54f5ae8c990?sid=4e559a14-df8c-4f6a-924b-c839e96a479b)
 
 4. Add these two scripts to the `head` of your entrypoint html file. These scripts are required by wasm for it's operations.
 
