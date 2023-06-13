@@ -1,12 +1,11 @@
 # Züs Example Webapp
 
-Welcome to the Züs Example Webapp! This web application demonstrates the usage of the [zus-js-sdk](https://www.npmjs.com/package/@zerochain/zus-sdk) to interact with the 0chain blockchain. 
+Welcome to the Züs Example Webapp! This web application demonstrates the usage of the [zus-js-sdk](https://www.npmjs.com/package/@zerochain/zus-sdk) to interact with the 0chain blockchain.
 
 - [Züs Example Webapp]()
   - [Züs Overview](#züs-overview)
   - [Getting Started](#getting-started)
   - [Hackathon Discord Link](#hackathon-discord-link)
-
 
 ### Preview
 
@@ -84,26 +83,93 @@ Follow the step-by-step guide below to create a webapp using the Zus JS SDK:
 - `npm install @zerochain/zus-sdk`
 - `yarn add @zerochain/zus-sdk`
 
-3. Import the following scripts in your `pages/_document.js` file:
+3. Download the wasm file from [gosdk](https://github.com/0chain/gosdk/) and save it in your apps public folder. [How to download wasm?](https://www.loom.com/share/46490db9803c41228eeea54f5ae8c990?sid=4e559a14-df8c-4f6a-924b-c839e96a479b)
+
+4. Add these two scripts to the `head` of your entrypoint html file. These are required by wasm for it's operations.
 
 ```js
   <script defer src="https://cdn.jsdelivr.net/gh/herumi/bls-wasm@v1.0.0/browser/bls.js" ></script>
   <script defer src="https://cdn.jsdelivr.net/gh/golang/go@go1.20.4/misc/wasm/wasm_exec.js" ></script>
 ```
 
-4. Initialize the Zus JS SDK by following the [zus-js-sdk documentation:](https://github.com/0chain/zus-js-sdk#get-started)
+5. Initialize the Zus JS SDK by following the [zus-js-sdk documentation:](https://github.com/0chain/zus-js-sdk#get-started)
 
 ```js
 import { init } from '@zerochain/zus-sdk'
 
-const config = {
-  // configuration options
+// default config
+const configJson = {
+  chainId: '0afc093ffb509f059c55478bc1a60351cef7b4e9c008a53a6cc8241ca8617dfe',
+  signatureScheme: 'bls0chain',
+  minConfirmation: 50,
+  minSubmit: 50,
+  confirmationChainLength: 3,
+  blockWorker: 'https://demo.zus.network/dns',
+  zboxHost: 'https://0box.demo.zus.network',
 }
+
+const config = [
+  configJson.chainId,
+  configJson.blockWorker,
+  configJson.signatureScheme,
+  configJson.minConfirmation,
+  configJson.minSubmit,
+  configJson.confirmationChainLength,
+  configJson.zboxHost,
+  configJson.zboxAppType,
+]
 
 await init(config)
 ```
 
-5. Utilize the Zus JS SDK's methods to interact with the 0chain blockchain. Refer to the [zus-js-sdk documentation](https://docs.zus.network/guides/zus-js-sdk/get-started) for detailed information.
+6. Utilize the Zus JS SDK's methods to interact with the 0chain blockchain. Refer to the [zus-js-sdk documentation](https://docs.zus.network/guides/zus-js-sdk/get-started) for detailed information.
+
+7. Create a wallet using the Zus JS SDK's `createWallet` method. This method returns a wallet object containing the public and private keys.
+
+```js
+import { createWallet } from '@zerochain/zus-sdk'
+
+const wallet = await createWallet()
+// save the wallet in local storage by using Redux or any other state management library
+```
+
+8. Set your wallet in the Zus JS SDK by using the `setWallet` method. This method takes the walletId, privateKey, publicKey, and mnemonic as parameters.
+
+```js
+import { setWallet } from '@zerochain/zus-sdk'
+
+await setWallet(walletId, privateKey, publicKey, mnemonic)
+```
+
+9. Use the Zus JS SDK's `getBalance` method to get the balance of your wallet. This method takes the walletId as a parameter.
+
+```js
+import { getBalance } from '@zerochain/zus-sdk'
+
+const balance = await getBalance(walletId)
+```
+
+10. Use the Zus JS SDK's `createAllocation` method to create an allocation. This method takes the allocation config object as a parameter.
+
+```js
+import { createAllocation } from '@zerochain/zus-sdk'
+
+// default config
+const config = {
+  datashards: 2,
+  parityshards: 2,
+  size: 1073741824,
+  expiry: Math.round(new Date().getTime() / 1000) + 2628000,
+  minReadPrice: 0,
+  maxReadPrice: 10000000000,
+  minWritePrice: 0,
+  maxWritePrice: 10000000000,
+  lock: 10450000000,
+}
+
+const allocation = await createAllocation(config)
+// save the allocation in local storage by using Redux or any other state management library
+```
 
 #### Common Terms
 
@@ -126,3 +192,11 @@ Here are some common terms used in our code and the 0chain blockchain:
 Join our Hackathon Discord community for support and discussions:
 
 https://discord.gg/7JSzwpcK55
+
+```
+
+```
+
+```
+
+```
