@@ -67,6 +67,7 @@ export const bulkUpload = options => async dispatch => {
           chunkSize
       )
       const chunk = await readChunk(offset, chunkSize, obj.file)
+      // @ts-ignore
       return chunk.buffer
     }
 
@@ -152,7 +153,13 @@ export const downloadObject = props => async (dispatch, getState) => {
   const actionTypes = requestActionTypes(types.DOWNLOAD_OBJECT)
   dispatch({ type: actionTypes.request })
 
-  const { path = '', fileName = '', lookupHash, getDetails } = props
+  const {
+    path = '',
+    fileName = '',
+    lookupHash,
+    getDetails,
+    isFinal = true,
+  } = props
 
   const { activeAllocationId } = getState().allocation
 
@@ -176,7 +183,8 @@ export const downloadObject = props => async (dispatch, getState) => {
       '',
       false,
       100,
-      ''
+      callbackFuncName,
+      isFinal
     )
 
     await dispatch({ type: actionTypes.success })
