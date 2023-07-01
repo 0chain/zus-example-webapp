@@ -6,6 +6,7 @@ import UploadContainer from 'components/upload-container'
 import Button from 'components/Button'
 import FilesViewer from 'components/files-viewer'
 import CheckBox from 'components/checkbox'
+import MultiOperationBar from 'components/multi-operation-bar'
 
 import ImageIcon from 'assets/svg/image-icon.svg'
 import PageIcon from 'assets/svg/page.svg'
@@ -61,7 +62,7 @@ const Files = () => {
             isChecked={multiSelectionEnabled}
             onClick={() => dispatch(setMultiSelection(!multiSelectionEnabled))}
           />
-          <h2>Files</h2>
+          <h2>All Files</h2>
         </div>
 
         <div className={stl.btnsBox}>
@@ -87,6 +88,8 @@ const Files = () => {
       </div>
 
       <FilesViewer isOpen={!!file} files={allFiles} />
+
+      <MultiOperationBar files={allFiles} />
     </div>
   ) : (
     <UploadContainer />

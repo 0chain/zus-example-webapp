@@ -6,6 +6,7 @@ import { init, setWallet } from '@zerochain/zus-sdk'
 import { selectActiveWallet } from 'store/wallet'
 import { config } from 'constant/config'
 import { setWasmInitStatus } from 'store/zerochain'
+import { clearSelectedFiles } from 'store/object'
 
 const AppWrapper = ({ children }) => {
   const wallet = useSelector(selectActiveWallet)
@@ -15,6 +16,8 @@ const AppWrapper = ({ children }) => {
 
   useEffect(() => {
     const initializeApp = async () => {
+      dispatch(clearSelectedFiles(false))
+
       dispatch(setWasmInitStatus(true))
       await init(config)
       dispatch(setWasmInitStatus(false))
@@ -31,7 +34,8 @@ const AppWrapper = ({ children }) => {
 
     if (isMounted.current) initializeApp()
     else isMounted.current = true
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch])
 
   return <>{children}</>
 }
