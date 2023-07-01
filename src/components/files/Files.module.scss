@@ -32,3 +32,14 @@
     }
   }
 }
+
+.heading {
+  @extend .flexStart;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filesContainer {
+  @extend .flexCol;
+  gap: 1.6rem;
+}

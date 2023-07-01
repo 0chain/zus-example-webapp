@@ -25,3 +25,13 @@ export const getPathUrl =
 
     return fileLookupHash ? `${baseURL}?folder=${fileLookupHash}` : baseURL
   }
+
+export const selectMultiFiles = state => {
+  const { multiSelectionEnabled } = state.object.multiSelect
+  return multiSelectionEnabled
+}
+
+export const selectMultiFilesList = state => {
+  const { multiSelectionEnabled, selectedFiles = [] } = state.object.multiSelect
+  return multiSelectionEnabled ? selectedFiles : []
+}

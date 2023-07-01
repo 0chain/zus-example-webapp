@@ -1,20 +1,35 @@
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import clsx from 'clsx'
+
+import CheckBox from 'components/checkbox'
 
 import DocumentIcon from 'assets/svg/document.svg'
 import ViewFileIcon from 'assets/svg/view-file.svg'
 import DownloadIcon from 'assets/svg/download.svg'
 
 import { bytesToString } from 'lib/utils'
+import { handleShiftKeySelection } from './index'
+
+import {
+  downloadObject,
+  selectMultiFiles,
+  selectMultiFilesList,
+  addSelectedFiles,
+  setMultiSelection,
+  removeSelectedFiles,
+} from 'store/object'
 
 import stl from './Tile.module.scss'
-import { downloadObject } from 'store/object'
 
 const Tile = ({ file, customClass }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+
+  const multiSelectionEnabled = useSelector(selectMultiFiles)
+  const selectedFiles = useSelector(selectMultiFilesList)
+  const isSelected = selectedFiles.includes(file.lookup_hash)
 
   const handleDownload = async () => {
     await dispatch(
@@ -26,13 +41,49 @@ const Tile = ({ file, customClass }) => {
     )
   }
 
-  const handleViewFile = () => {
+  const handleViewFile = () =>
     router.push({ query: { ...router.query, file: file?.lookup_hash || '' } })
+
+  const handleMultiSelection = (e, select) => {
+    const modalNotOpened = !document.getElementById('modal').hasChildNodes()
+
+    if (modalNotOpened) {
+      if (e.ctrlKey || e.metaKey || (select && !isSelected))
+        dispatch(setMultiSelection(true)) &&
+          dispatch(addSelectedFiles(file.lookup_hash))
+    }
+
+    if (e.shiftKey)
+      multiSelectionEnabled &&
+        handleShiftKeySelection(
+          file.lookup_hash,
+          selectedFiles,
+          dispatch,
+          addSelectedFiles,
+          removeSelectedFiles
+        )
+
+    if (multiSelectionEnabled)
+      isSelected
+        ? dispatch(removeSelectedFiles(file.lookup_hash))
+        : dispatch(addSelectedFiles(file.lookup_hash))
+    else () => {}
   }
 
   return (
-    <div className={clsx(stl.tile, customClass)}>
+    <div
+      className={clsx(
+        stl.tile,
+        multiSelectionEnabled && stl.selectable,
+        customClass
+      )}
+      // @ts-ignore
+      onClick={handleMultiSelection}
+    >
       <div className={stl.left}>
+        {multiSelectionEnabled && (
+          <CheckBox isChecked={isSelected} customClass={stl.checkBox} />
+        )}
         <div className={stl.icon}>
           <DocumentIcon />
         </div>

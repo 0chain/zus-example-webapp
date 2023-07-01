@@ -5,11 +5,16 @@ import Tile from 'components/tile'
 import UploadContainer from 'components/upload-container'
 import Button from 'components/Button'
 import FilesViewer from 'components/files-viewer'
+import CheckBox from 'components/checkbox'
 
 import ImageIcon from 'assets/svg/image-icon.svg'
 import PageIcon from 'assets/svg/page.svg'
 
-import { uploadObjects } from 'store/object'
+import {
+  uploadObjects,
+  selectMultiFiles,
+  setMultiSelection,
+} from 'store/object'
 
 import stl from './Files.module.scss'
 
@@ -20,6 +25,7 @@ const Files = () => {
 
   // @ts-ignore
   const { allFiles = [] } = useSelector(state => state.object)
+  const multiSelectionEnabled = useSelector(selectMultiFiles)
 
   const file =
     fileQuery &&
@@ -50,7 +56,13 @@ const Files = () => {
       />
 
       <div className={stl.head}>
-        <h2>Files</h2>
+        <div className={stl.heading}>
+          <CheckBox
+            isChecked={multiSelectionEnabled}
+            onClick={() => dispatch(setMultiSelection(!multiSelectionEnabled))}
+          />
+          <h2>Files</h2>
+        </div>
 
         <div className={stl.btnsBox}>
           <Button
@@ -68,9 +80,11 @@ const Files = () => {
         </div>
       </div>
 
-      {allFiles.map((file, i) => (
-        <Tile key={i} file={file} />
-      ))}
+      <div className={stl.filesContainer} id="filesContainer">
+        {allFiles.map((file, i) => (
+          <Tile key={i} file={file} />
+        ))}
+      </div>
 
       <FilesViewer isOpen={!!file} files={allFiles} />
     </div>
