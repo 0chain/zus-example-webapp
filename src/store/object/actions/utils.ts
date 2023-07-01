@@ -72,3 +72,66 @@ export const clearSelectedFiles = selection => async dispatch =>
     type: types.CLEAR_MULTI_SELECTION_LIST,
     payload: { multiSelectionEnabled: selection, selectedFiles: [] },
   })
+
+export const addFileOperation = fileOp => async (dispatch, getState) => {
+  const { filesOps = [] } = getState().object || {}
+  const newFilesOps = filesOps.filter(op => op.fileId !== fileOp.fileId)
+
+  dispatch({
+    type: types.ADD_FILE_OPERATION,
+    payload: [...newFilesOps, fileOp],
+  })
+}
+
+export const updateFileOperation = bulkOp => async (dispatch, getState) => {
+  const { filesOps = [] } = getState().object || {}
+  const newFilesOps = filesOps.filter(op => op.fileId !== bulkOp.fileId)
+
+  dispatch({
+    type: types.ADD_FILE_OPERATION,
+    payload: [bulkOp, ...newFilesOps],
+  })
+}
+
+export const removeFileOperation = fileId => async (dispatch, getState) => {
+  const { object = {} } = getState() || {}
+  const filesOps = object.filesOps?.filter(
+    fileOp => (fileOp.fileId || fileOp.id) !== fileId
+  )
+
+  dispatch({ type: types.REMOVE_FILE_OPERATION, payload: filesOps })
+}
+
+export const clearFileOperations = () => async dispatch =>
+  dispatch({ type: types.CLEAR_FILE_OPERATIONS })
+
+export const addDownloadLoading = props => async (dispatch, getState) => {
+  const { fileId, progress, isDownloading } = props || {}
+
+  const { downloadLoadings = [] } = getState().object || {}
+
+  const newDownloadLoadings = downloadLoadings.filter(
+    loading => loading.fileId !== fileId
+  )
+
+  const payload = [...newDownloadLoadings, { fileId, progress, isDownloading }]
+
+  dispatch({ type: types.ADD_DOWNLOAD_LOADING, payload })
+}
+
+export const removeDownloadLoading = fileId => async (dispatch, getState) => {
+  const { downloadLoadings = [] } = getState().object || {}
+
+  const newDownloadLoadings = downloadLoadings.filter(
+    loading => loading.fileId !== fileId
+  )
+
+  dispatch({
+    type: types.REMOVE_DOWNLOAD_LOADING,
+    payload: newDownloadLoadings,
+  })
+}
+
+export const clearAllDownloadLoadings = () => ({
+  type: types.CLEAR_ALL_DOWNLOAD_LOADINGS,
+})

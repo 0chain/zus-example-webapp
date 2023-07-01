@@ -3,10 +3,15 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { init, setWallet } from '@zerochain/zus-sdk'
 
-import { selectActiveWallet } from 'store/wallet'
 import { config } from 'constant/config'
+
+import { selectActiveWallet } from 'store/wallet'
 import { setWasmInitStatus } from 'store/zerochain'
-import { clearSelectedFiles } from 'store/object'
+import {
+  clearSelectedFiles,
+  clearFileOperations,
+  clearAllDownloadLoadings,
+} from 'store/object'
 
 const AppWrapper = ({ children }) => {
   const wallet = useSelector(selectActiveWallet)
@@ -17,6 +22,8 @@ const AppWrapper = ({ children }) => {
   useEffect(() => {
     const initializeApp = async () => {
       dispatch(clearSelectedFiles(false))
+      dispatch(clearFileOperations())
+      dispatch(clearAllDownloadLoadings())
 
       dispatch(setWasmInitStatus(true))
       await init(config)
