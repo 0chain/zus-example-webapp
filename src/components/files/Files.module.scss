@@ -25,8 +25,12 @@
         color: $white;
         background-color: $primaryBlue;
 
-        svg path {
+        &:first-of-type svg path {
           fill: $white;
+        }
+
+        &:last-of-type svg path {
+          stroke: $white;
         }
       }
     }

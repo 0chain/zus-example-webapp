@@ -72,6 +72,7 @@ const Tile = ({ file, customClass }) => {
 
   return (
     <div
+      id={file.lookup_hash}
       className={clsx(
         stl.tile,
         multiSelectionEnabled && stl.selectable,
