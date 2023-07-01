@@ -9,6 +9,8 @@ import CrossIcon from 'assets/svg/cross.svg'
 import DeleteIcon from 'assets/svg/delete.svg'
 import DownloadIcon from 'assets/svg/download.svg'
 
+import { useDownloadObjects } from 'lib/hooks'
+
 import {
   selectMultiFiles,
   selectMultiFilesList,
@@ -42,6 +44,12 @@ const MultiOperationBar = ({ files = [], customClass }) => {
     else filesIds.map(id => dispatch(removeSelectedFiles(id)))
   }
 
+  const actionFiles = files.filter(item =>
+    selectedFiles.includes(item.lookup_hash)
+  )
+
+  const { handleDownload } = useDownloadObjects({ files: actionFiles })
+
   return (
     <FullModal
       isOpen={multiSelectionEnabled}
@@ -63,7 +71,7 @@ const MultiOperationBar = ({ files = [], customClass }) => {
 
           <Button
             theme="outline"
-            onClick={() => console.log('clicked...')}
+            onClick={handleDownload}
             disabled={!selectedFiles.length}
           >
             <DownloadIcon />

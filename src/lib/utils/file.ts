@@ -1,3 +1,5 @@
+import JSZip from 'jszip'
+
 import { splitFileExtention } from './string'
 
 export const openSaveFileDialog = file => {
@@ -21,6 +23,25 @@ export const checkBlobUrl = async url => {
     console.log(e)
     return false
   }
+}
+
+export const downloadMultipleFiles = async files => {
+  const zip = new JSZip()
+  const promises = []
+  for (const file of files)
+    promises.push(
+      fetch(file.url)
+        .then(res => res.blob())
+        .then(blob => {
+          zip.file(file.fileName, blob)
+        })
+    )
+
+  await Promise.all(promises)
+  const content = await zip.generateAsync({ type: 'blob' })
+  const url = URL.createObjectURL(content)
+  const fileName = 'files.zip'
+  openSaveFileDialog({ url, fileName })
 }
 
 export const arrayBufToFile = (arrayBuf, fileName, mimeType) =>

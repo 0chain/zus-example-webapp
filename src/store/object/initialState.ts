@@ -71,14 +71,13 @@ const initialState = {
   allPrivateSharedFiles: [],
   publicSharedFiles: [],
   allPublicSharedFiles: [],
-  progress: {
-    upload: {
-      // [fileId]: 0
-    },
-    download: {
-      // [fileId]: 0
-    },
-  },
+  downloadLoadings: [
+    // {
+    //   fileId: '',
+    //   isDownloading: false,
+    //   progress: 0,
+    // },
+  ],
 }
 
 export default initialState

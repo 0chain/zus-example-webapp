@@ -213,36 +213,6 @@ export function objectReducer(state: ObjectState = initialState, action) {
     case types.CLEAR_ALL_PUBLIC_SHARED_FILES:
       return { ...state, allPublicSharedFiles: [], publicSharedFiles: [] }
 
-    case types.SET_UPLOAD_PROGRESS: {
-      const { progress, lookupHash } = action.payload
-      if (!progress || !lookupHash) return state
-      const { upload = {} } = state?.progress || {}
-
-      return {
-        ...state,
-        progress: {
-          ...state.progress,
-          upload: { ...upload, [lookupHash]: progress },
-        },
-      }
-    }
-    case types.SET_DOWNLOAD_PROGRESS: {
-      const { progress, lookupHash } = action.payload
-      if (!progress || !lookupHash) return state
-      const { download = {} } = state?.progress || {}
-
-      return {
-        ...state,
-        progress: {
-          ...state.progress,
-          download: { ...download, [lookupHash]: progress },
-        },
-      }
-    }
-    case types.CLEAR_ALL_PROGRESS: {
-      return { ...state, progress: { upload: {}, download: {} } }
-    }
-
     case types.LIST_ALL_FILES_SUCCESS: {
       const { allFiles = [], walletId, allocationId } = action.payload
 
@@ -260,6 +230,13 @@ export function objectReducer(state: ObjectState = initialState, action) {
       return { ...state, tempImageUrls: action.payload }
     case types.CLEAR_ALL_TEMP_IMAGE_URLS:
       return { ...state, tempImageUrls: {} }
+
+    case types.ADD_DOWNLOAD_LOADING:
+      return { ...state, downloadLoadings: action.payload }
+    case types.REMOVE_DOWNLOAD_LOADING:
+      return { ...state, downloadLoadings: action.payload }
+    case types.CLEAR_ALL_DOWNLOAD_LOADINGS:
+      return { ...state, downloadLoadings: [] }
 
     default:
       return state

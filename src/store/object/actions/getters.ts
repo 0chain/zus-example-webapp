@@ -1,4 +1,4 @@
-import { listObjects } from '@zerochain/zus-sdk'
+import { listObjects, multiDownload } from '@zerochain/zus-sdk'
 
 import types from '../types'
 import { isAllocationDisabled } from '../helpers'
@@ -10,6 +10,7 @@ import {
   blobberEndpoints,
   getTxnSignature,
   basicReqWithDispatch,
+  RequestActionTypes,
 } from 'store/api-utils'
 import { getAllocationInfo, selectActiveAllocation } from 'store/allocation'
 import { selectActiveWallet } from 'store/wallet'
@@ -131,4 +132,37 @@ export const listFiles = props => async (dispatch, getState) => {
   const params = { path }
 
   await dispatch(getFilesFromPath({ payload, params }))
+}
+
+export const handleMultiDownload = props => async (dispatch, getState) => {
+  const actionTypes = requestActionTypes(types.MULTI_DOWNLOAD)
+  dispatch({ type: actionTypes.request })
+
+  const {
+    allocationId = '',
+    files = '',
+    authTicket = '',
+    callbackFuncName = '',
+  } = props
+
+  const state = getState()
+  const { activeAllocationId } = state.allocation
+
+  try {
+    const data = await multiDownload(
+      allocationId || activeAllocationId,
+      files,
+      authTicket,
+      callbackFuncName
+    )
+    await dispatch({ type: actionTypes.success })
+
+    return data
+  } catch (error) {
+    dispatch({
+      type: actionTypes.error,
+      message: 'Error getting files, please try again in a few moments',
+      payload: error,
+    })
+  }
 }
