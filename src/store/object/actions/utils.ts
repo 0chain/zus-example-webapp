@@ -29,3 +29,46 @@ export const removeTempImageUrl = id => async (dispatch, getState) => {
 
 export const clearTempImageUrls = () => async dispatch =>
   dispatch({ type: types.CLEAR_ALL_TEMP_IMAGE_URLS })
+
+export const setMultiSelection = isEnabled => async (dispatch, getState) => {
+  const { multiSelect } = getState().object || {}
+
+  dispatch({
+    type: types.SET_MULTI_SELECTION,
+    payload: { ...multiSelect, multiSelectionEnabled: isEnabled },
+  })
+}
+
+export const addSelectedFiles = id => async (dispatch, getState) => {
+  const { multiSelect } = getState().object || {}
+  const { selectedFiles } = multiSelect
+
+  dispatch({
+    type: types.ADD_TO_MULTI_SELECTION,
+    payload: {
+      ...multiSelect,
+      selectedFiles:
+        id === undefined || selectedFiles.includes(id)
+          ? selectedFiles
+          : [...selectedFiles, id],
+    },
+  })
+}
+
+export const removeSelectedFiles = id => async (dispatch, getState) => {
+  const { multiSelect } = getState().object || {}
+
+  dispatch({
+    type: types.REMOVE_FROM_MULTI_SELECTION,
+    payload: {
+      ...multiSelect,
+      selectedFiles: multiSelect.selectedFiles.filter(f => f !== id),
+    },
+  })
+}
+
+export const clearSelectedFiles = selection => async dispatch =>
+  dispatch({
+    type: types.CLEAR_MULTI_SELECTION_LIST,
+    payload: { multiSelectionEnabled: selection, selectedFiles: [] },
+  })
