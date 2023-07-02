@@ -28,6 +28,7 @@ export const ADD_DOWNLOAD_LOADING = 'ADD_DOWNLOAD_LOADING'
 export const REMOVE_DOWNLOAD_LOADING = 'REMOVE_DOWNLOAD_LOADING'
 export const CLEAR_ALL_DOWNLOAD_LOADINGS = 'CLEAR_ALL_DOWNLOAD_LOADINGS'
 export const MULTI_DOWNLOAD = 'MULTI_DOWNLOAD'
+export const MULTI_OPERATION = 'MULTI_OPERATION'
 
 export const types: Types = createActionTypes([
   UPLOAD_OBJECT,
@@ -54,6 +55,7 @@ export const types: Types = createActionTypes([
   REMOVE_DOWNLOAD_LOADING,
   CLEAR_ALL_DOWNLOAD_LOADINGS,
   MULTI_DOWNLOAD,
+  MULTI_OPERATION,
 ])
 
 export type ObjectState = typeof initialState

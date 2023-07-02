@@ -18,6 +18,10 @@ export function allocationReducer(state = initialState, action) {
       return {
         ...state,
         list: action.payload,
+        activeAllocationId:
+          action.payload.length === 1
+            ? action.payload[0].id
+            : state.activeAllocationId,
       }
 
     default:

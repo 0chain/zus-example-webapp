@@ -1,17 +1,23 @@
-import { download, multiUpload } from '@zerochain/zus-sdk'
+import {
+  download,
+  listObjects,
+  multiOperation,
+  multiUpload,
+} from '@zerochain/zus-sdk'
 
 import types from '../types'
-import { listObjectsFunc } from './getters'
-
-import { requestActionTypes } from 'store/api-utils'
-import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
 import {
   getNewFile,
+  getParentPath,
   getPercentage,
   openSaveFileDialog,
   readChunk,
 } from 'lib/utils'
+
+import { requestActionTypes } from 'store/api-utils'
+import { listObjectsFunc } from './getters'
+import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
 export const multiUploadFunc = options => async dispatch => {
   const actionTypes = requestActionTypes(types.UPLOAD_OBJECT)
@@ -197,6 +203,34 @@ export const downloadObject = props => async (dispatch, getState) => {
     dispatch({
       type: actionTypes.error,
       message: 'Error downloading file, please try again in a few moments',
+      payload: error,
+    })
+
+    return { error }
+  }
+}
+
+export const handleMultiOperation = options => async (dispatch, getState) => {
+  const actionTypes = requestActionTypes(types.MULTI_OPERATION)
+  dispatch({ type: actionTypes.request })
+
+  const { activeAllocationId } = getState().allocation
+
+  try {
+    const res = await multiOperation(activeAllocationId, options)
+    if (res?.error) throw new Error(res.error)
+
+    setTimeout(() => dispatch(listAllocationsFunc()), 2000)
+    dispatch(listObjectsFunc(getParentPath(JSON.parse(options)[0]?.remotePath)))
+    dispatch({ type: actionTypes.success })
+
+    return res
+  } catch (error) {
+    console.log('multiOperation err:', error)
+
+    dispatch({
+      type: actionTypes.error,
+      message: 'Error with multiOperation, please try again in a few moments',
       payload: error,
     })
 

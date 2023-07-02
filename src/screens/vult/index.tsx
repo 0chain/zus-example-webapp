@@ -34,7 +34,7 @@ export default function Vult() {
 
         <ProgressBar
           value={usedPercentage}
-          labelLeft={`${usageString} KB used of ${storageString}`}
+          labelLeft={`${usageString} used of ${storageString}`}
           theme="vult"
         />
       </ContentBox>

@@ -41,7 +41,7 @@
   padding-right: 20px;
   color: $primaryText;
   font-weight: 600;
-  font-size: 15px !important;
+  font-size: 15px;
   line-height: 28px;
   top: -0.5px;
 }
@@ -126,10 +126,19 @@
 
 .vultTheme {
   .header {
-    padding: 1rem 0;
+    padding: 2rem 0;
 
-    button:hover svg path {
-      fill: $primaryBlue !important;
+    .title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    button {
+      right: 0;
+
+      &:hover svg path {
+        fill: $primaryBlue !important;
+      }
     }
   }
 
@@ -418,11 +427,10 @@
   }
 }
 
-
 @media screen and (max-width: 480px) {
   .content {
-   border-radius: 0;
-   }
+    border-radius: 0;
+  }
 
   .footer {
     flex-direction: column;

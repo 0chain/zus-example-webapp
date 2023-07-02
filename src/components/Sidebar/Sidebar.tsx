@@ -34,14 +34,14 @@ const siteMenu = [
 
 const navMenu = [
   {
-    label: 'Wallet Details',
-    href: ROUTES.walletDetails,
+    label: 'Wallet',
+    href: ROUTES.wallet,
     inactiveIcon: '/icons/icon-wallet-line.png',
     iconWidth: 18,
   },
   {
-    label: 'Allocation Details',
-    href: ROUTES.allocationDetails,
+    label: 'Allocation',
+    href: ROUTES.allocation,
     inactiveIcon: '/icons/icon-piechart-line.svg',
     iconWidth: 20,
   },
