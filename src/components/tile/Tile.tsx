@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import clsx from 'clsx'
 
 import CheckBox from 'components/checkbox'
+import ProgressCircle from 'components/progress-circle'
 
 import DocumentIcon from 'assets/svg/document.svg'
 import ViewFileIcon from 'assets/svg/view-file.svg'
@@ -30,6 +31,10 @@ const Tile = ({ file, customClass }) => {
   const multiSelectionEnabled = useSelector(selectMultiFiles)
   const selectedFiles = useSelector(selectMultiFilesList)
   const isSelected = selectedFiles.includes(file.lookup_hash)
+  // @ts-ignore
+  const { downloadLoadings = [] } = useSelector(state => state.object)
+  const downloadInfo =
+    downloadLoadings.find(item => item.fileId === file.lookup_hash) || {}
 
   const handleDownload = async () => {
     await dispatch(
@@ -86,7 +91,21 @@ const Tile = ({ file, customClass }) => {
           <CheckBox isChecked={isSelected} customClass={stl.checkBox} />
         )}
         <div className={stl.icon}>
-          <DocumentIcon />
+          {downloadInfo.isDownloading ? (
+            <div className={stl.downloadIndicator}>
+              <ProgressCircle
+                size={30}
+                strokeWidth={4}
+                progress={downloadInfo.progress || 0}
+                loading={!downloadInfo.progress}
+                color="blue"
+                rotate={90}
+              />
+              <DownloadIcon className={stl.downloadIcon} />
+            </div>
+          ) : (
+            <DocumentIcon />
+          )}
         </div>
         <p className={stl.fileName}>{file.name}</p>
       </div>

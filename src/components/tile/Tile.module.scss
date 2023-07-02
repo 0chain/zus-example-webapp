@@ -66,3 +66,19 @@
     opacity: 0.8;
   }
 }
+
+.downloadIndicator {
+  @extend .flexCenter;
+  background-color: $zusWhitelight;
+  border-radius: 50%;
+  z-index: 1;
+  position: relative;
+}
+
+.downloadIcon {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  translate: -50% 0;
+  animation: fadeIn 1s infinite;
+}
