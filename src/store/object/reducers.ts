@@ -2,7 +2,7 @@ import types, { ObjectState } from './types'
 import initialState from './initialState'
 import { addPropToObject } from './helpers'
 
-import { getArrayDifference, normalizedPath } from 'lib/utils'
+import { getArrayDifference, getParentPath, normalizedPath } from 'lib/utils'
 
 export function objectReducer(state: ObjectState = initialState, action) {
   switch (action.type) {
@@ -61,17 +61,17 @@ export function objectReducer(state: ObjectState = initialState, action) {
 
       const { path, list } = data
       const oldFiles = [...(allocations[allocationId] || [])].filter(
-        it => normalizedPath(it.parent_path) !== normalizedPath(path)
+        it => getParentPath(normalizedPath(it.path)) !== normalizedPath(path)
       )
 
-      let newList = list?.map(item => ({
+      const newList = list?.map(item => ({
         ...item,
         parent_path: normalizedPath(item.parent_path),
       }))
 
-      newList = getArrayDifference(newList, oldFiles, 'lookup_hash')
+      const newFilesList = getArrayDifference(newList, oldFiles, 'lookup_hash')
 
-      allocations[allocationId] = [...oldFiles, ...newList]
+      allocations[allocationId] = [...oldFiles, ...newFilesList]
       wallets[walletId] = allocations
 
       return { ...state, wallets }

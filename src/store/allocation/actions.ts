@@ -17,7 +17,7 @@ export const createAllocationFunc = () => async dispatch => {
 
   //datashards, parityshards int, size, expiry int64,minReadPrice, maxReadPrice, minWritePrice, maxWritePrice int64, lock int64,preferredBlobberIds []string
   const config = {
-    datashards: 2,
+    datashards: 4,
     parityshards: 2,
     size: 1073741824,
     expiry: Math.round(new Date().getTime() / 1000) + 2628000,

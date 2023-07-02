@@ -46,12 +46,12 @@ export default function CreateWallet() {
   const actions = [
     {
       label: 'Wallet Details',
-      url: ROUTES.walletDetails,
+      url: ROUTES.wallet,
       icon: '/icons/icon-wallet-solid.svg',
     },
     {
       label: 'Allocation Details',
-      url: ROUTES.allocationDetails,
+      url: ROUTES.allocation,
       icon: '/icons/icon-piechart-solid.svg',
       iconSize: '31',
     },

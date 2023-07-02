@@ -17,8 +17,8 @@ const DialogFooter = ({
   leftButtonIcon,
   leftButtonLabel = 'Create Folder',
   leftButtonClass,
+  cancelButtonColor = 'boltOutline',
   hideLeftButtonContainer = false,
-  theme = 'vult',
 }) => (
   <div className={clsx(stl.footer, customClass)}>
     {!hideLeftButtonContainer && (
@@ -45,7 +45,11 @@ const DialogFooter = ({
         />
       )} */}
       {cancelButtonOnClick && (
-        <Button theme={theme} onClick={cancelButtonOnClick} color="boltOutline">
+        <Button
+          onClick={cancelButtonOnClick}
+          theme="outline"
+          color={cancelButtonColor}
+        >
           {cancelButtonLabel}
         </Button>
       )}
@@ -60,9 +64,7 @@ const DialogFooter = ({
         />
       )} */}
       {actionButtonOnClick && (
-        <Button theme={theme} onClick={actionButtonOnClick}>
-          {actionButtonLabel}
-        </Button>
+        <Button onClick={actionButtonOnClick}>{actionButtonLabel}</Button>
       )}
     </div>
   </div>
@@ -85,7 +87,6 @@ DialogFooter.propTypes = {
   actionButtonClass: PropTypes.string,
   cancelButtonClass: PropTypes.string,
   hideLeftButtonContainer: PropTypes.bool,
-  theme: PropTypes.string,
 }
 
 export default DialogFooter

@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-// import CloseBtnIconBolt from 'assets/svg/bolt/close-button.svg'
-// import BackButtonIcon from 'assets/svg/general/arrow-left.svg'
-// import CloseBtnIconBoltMobile from 'assets/svg/bolt/close-button-mobile.svg'
-// import BackButtonIconMobile from 'assets/svg/general/arrow-left-mobile.svg'
+import CrossIcon from 'assets/svg/cross.svg'
 
 import stl from './Dialog.module.scss'
 
@@ -46,7 +43,7 @@ const DialogHeader = ({
                 className={clsx(stl.closeButton, customIconClass)}
                 onClick={close}
               >
-                close
+                <CrossIcon />
               </button>
             ))}
 

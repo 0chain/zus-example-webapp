@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
 
 import FullModal from 'components/full-modal'
 import Button from 'components/Button'
+import { DeleteDialog } from 'components/dialog'
 
 import CrossIcon from 'assets/svg/cross.svg'
 import DeleteIcon from 'assets/svg/delete.svg'
@@ -22,6 +24,8 @@ import {
 import stl from './MultiOperationBar.module.scss'
 
 const MultiOperationBar = ({ files = [], customClass }) => {
+  const [isDeleteFileModalOpen, setIsDeleteFileModalOpen] = useState(false)
+
   const dispatch = useDispatch()
 
   const multiSelectionEnabled = useSelector(selectMultiFiles)
@@ -51,53 +55,63 @@ const MultiOperationBar = ({ files = [], customClass }) => {
   const { handleDownload } = useDownloadObjects({ files: actionFiles })
 
   return (
-    <FullModal
-      isOpen={multiSelectionEnabled}
-      close={close}
-      customClass={stl.wrapper}
-    >
-      <div className={clsx(stl.operationBar, customClass)}>
-        <div className={clsx(stl.section, stl.status)}>
-          <span>
-            {selectedFiles.length === 1
-              ? '1 File Selected'
-              : `${selectedFiles.length} Files Selected`}
-          </span>
-        </div>
-        <div className={clsx(stl.section, stl.btnContainer)}>
-          <Button theme="outline" onClick={handleFileSelection}>
-            <span>{selectionButtonText}</span>
-          </Button>
+    <>
+      <FullModal
+        isOpen={multiSelectionEnabled}
+        close={close}
+        customClass={stl.wrapper}
+      >
+        <div className={clsx(stl.operationBar, customClass)}>
+          <div className={clsx(stl.section, stl.status)}>
+            <span>
+              {selectedFiles.length === 1
+                ? '1 File Selected'
+                : `${selectedFiles.length} Files Selected`}
+            </span>
+          </div>
+          <div className={clsx(stl.section, stl.btnContainer)}>
+            <Button theme="outline" onClick={handleFileSelection}>
+              <span>{selectionButtonText}</span>
+            </Button>
 
-          <Button
-            theme="outline"
-            onClick={handleDownload}
-            disabled={!selectedFiles.length}
-          >
-            <DownloadIcon />
-            <span>Download</span>
-          </Button>
+            <Button
+              theme="outline"
+              onClick={handleDownload}
+              disabled={!selectedFiles.length}
+            >
+              <DownloadIcon />
+              <span>Download</span>
+            </Button>
 
-          <Button
-            theme="outline"
-            onClick={() => console.log('clicked...')}
-            disabled={!selectedFiles.length}
-          >
-            <DeleteIcon />
-            <span>Delete</span>
-          </Button>
+            <Button
+              theme="outline"
+              onClick={() => setIsDeleteFileModalOpen(true)}
+              disabled={!selectedFiles.length}
+            >
+              <DeleteIcon />
+              <span>Delete</span>
+            </Button>
+          </div>
+
+          <div className={stl.section}>
+            <button
+              className={stl.closeBtn}
+              onClick={() =>
+                dispatch(clearSelectedFiles(!!selectedFiles.length))
+              }
+            >
+              <CrossIcon width={14} height={14} />
+            </button>
+          </div>
         </div>
 
-        <div className={stl.section}>
-          <button
-            className={stl.closeBtn}
-            onClick={() => dispatch(clearSelectedFiles(!!selectedFiles.length))}
-          >
-            <CrossIcon width={14} height={14} />
-          </button>
-        </div>
-      </div>
-    </FullModal>
+        <DeleteDialog
+          isOpen={isDeleteFileModalOpen}
+          close={() => setIsDeleteFileModalOpen(false)}
+          actionFiles={actionFiles}
+        />
+      </FullModal>
+    </>
   )
 }
 
