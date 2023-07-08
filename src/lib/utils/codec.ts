@@ -6,7 +6,7 @@ import * as muxjs from 'mux.js'
 import * as ebml from 'ts-ebml'
 
 const detectMp4 = ({ mimeType, buf }) => {
-  console.log(mimeType, buf)
+  // console.log(mimeType, buf)
   const isFragmented =
     buf && muxjs.mp4.probe.findBox(buf, ['moov', 'mvex']).length > 0
       ? true

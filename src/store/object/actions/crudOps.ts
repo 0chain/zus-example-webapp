@@ -1,9 +1,4 @@
-import {
-  download,
-  listObjects,
-  multiOperation,
-  multiUpload,
-} from '@zerochain/zus-sdk'
+import { download, multiOperation, multiUpload } from '@zerochain/zus-sdk'
 
 import types from '../types'
 
@@ -19,6 +14,8 @@ import { requestActionTypes } from 'store/api-utils'
 import { listObjectsFunc } from './getters'
 import { listAllocationsFunc, selectActiveAllocation } from 'store/allocation'
 
+const shouldShowLogs = process.env.NODE_ENV === 'development'
+
 export const multiUploadFunc = options => async dispatch => {
   const actionTypes = requestActionTypes(types.UPLOAD_OBJECT)
   dispatch({ type: actionTypes.request })
@@ -33,7 +30,7 @@ export const multiUploadFunc = options => async dispatch => {
 
     return res
   } catch (error) {
-    console.log('uploadObject err:', error)
+    shouldShowLogs && console.log('uploadObject err:', error)
     if (typeof error === 'string' && error.includes('Max size reached')) {
       dispatch({
         type: actionTypes.error,
@@ -64,14 +61,16 @@ export const bulkUpload = options => async dispatch => {
     const readChunkFuncName = '__zcn_upload_reader_' + i.toString()
     const callbackFuncName = '__zcn_upload_callback_' + i.toString()
     g[readChunkFuncName] = async (offset, chunkSize) => {
-      console.log(
-        'bulk_upload: read chunk remotePath:' +
-          obj.remotePath +
-          ' offset:' +
-          offset +
-          ' chunkSize:' +
-          chunkSize
-      )
+      shouldShowLogs &&
+        console.log(
+          'bulk_upload: read chunk remotePath:' +
+            obj.remotePath +
+            ' offset:' +
+            offset +
+            ' chunkSize:' +
+            chunkSize
+        )
+
       const chunk = await readChunk(offset, chunkSize, obj.file)
       // @ts-ignore
       return chunk.buffer
@@ -199,7 +198,7 @@ export const downloadObject = props => async (dispatch, getState) => {
 
     return { data: downloadData }
   } catch (error) {
-    console.log(error, 'error')
+    shouldShowLogs && console.log(error, 'error')
     dispatch({
       type: actionTypes.error,
       message: 'Error downloading file, please try again in a few moments',
@@ -226,7 +225,7 @@ export const handleMultiOperation = options => async (dispatch, getState) => {
 
     return res
   } catch (error) {
-    console.log('multiOperation err:', error)
+    shouldShowLogs && console.log('multiOperation err:', error)
 
     dispatch({
       type: actionTypes.error,

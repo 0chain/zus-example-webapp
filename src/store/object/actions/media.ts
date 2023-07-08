@@ -57,7 +57,7 @@ export const startPlay = props => async (dispatch, getState) => {
       promise
         .catch(err => {
           // Auto-play was prevented
-          console.log(err, 'err from videoPlayer')
+          // console.log(err, 'err from videoPlayer')
           while (videoElement.lastElementChild) {
             videoElement.removeChild(videoElement.lastElementChild)
           }
