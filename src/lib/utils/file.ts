@@ -20,7 +20,7 @@ export const checkBlobUrl = async url => {
     const res = await fetch(url)
     return res.status === 200
   } catch (e) {
-    console.log(e)
+    process.env.NODE_ENV === 'development' && console.log(e)
     return false
   }
 }

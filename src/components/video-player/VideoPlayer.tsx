@@ -126,7 +126,8 @@ const VideoPlayer = ({
             dispatch(addTempImageUrl(id || lookupHash, data.url))
           }
         } catch (error) {
-          console.log(error, 'from getThumbnail')
+          process.env.NODE_ENV === 'development' &&
+            console.log(error, 'from getThumbnail')
         }
       }
     }

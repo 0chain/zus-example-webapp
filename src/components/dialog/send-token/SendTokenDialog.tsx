@@ -42,7 +42,7 @@ const SendTokenDialog = ({ close, setIsSuccess, setIsError }) => {
         close()
       }, 5000)
     } catch (error) {
-      console.log(error)
+      process.env.NODE_ENV === 'development' && console.log(error)
       setIsError(true)
       setIsLoading(false)
       setIsSuccess(false)

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { init, setWallet } from '@zerochain/zus-sdk'
+import { init, setWallet, showLogs } from '@zerochain/zus-sdk'
 
 import { config } from 'constant/config'
 
@@ -27,6 +27,7 @@ const AppWrapper = ({ children }) => {
 
       dispatch(setWasmInitStatus(true))
       await init(config)
+      process.env.NODE_ENV === 'development' && (await showLogs())
       dispatch(setWasmInitStatus(false))
 
       if (wallet.id) {

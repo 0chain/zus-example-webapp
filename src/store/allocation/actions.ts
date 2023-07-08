@@ -36,7 +36,7 @@ export const createAllocationFunc = () => async dispatch => {
 
     await dispatch(listAllocationsFunc())
   } catch (error) {
-    console.log(error, 'error')
+    process.env.NODE_ENV === 'development' && console.log(error, 'error')
     dispatch({ type: actionType.error })
   }
 }

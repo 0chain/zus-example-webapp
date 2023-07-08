@@ -152,7 +152,8 @@ const FilesViewer = ({
           })
         )
 
-        console.log('file download response:', response)
+        process.env.NODE_ENV === 'development' &&
+          console.log('file download response:', response)
         return response
       }
     },
@@ -227,7 +228,7 @@ const FilesViewer = ({
           }, 100)
         } catch (error) {
           setLoading(false)
-          console.log(error)
+          process.env.NODE_ENV === 'development' && console.log(error)
         }
       }
     }

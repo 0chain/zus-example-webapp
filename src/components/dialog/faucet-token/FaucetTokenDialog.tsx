@@ -22,7 +22,7 @@ const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
       await getFaucetToken(amount)
       await dispatch(getBalanceFunc())
     } catch (error) {
-      console.log(error)
+      process.env.NODE_ENV === 'development' && console.log(error)
       setIsError(true)
       setIsLoading(false)
       close()
