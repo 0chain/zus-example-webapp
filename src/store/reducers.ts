@@ -14,6 +14,7 @@ import { walletReducer } from 'store/wallet'
 import { allocationReducer } from './allocation'
 import { objectReducer } from './object'
 import { zerochainReducer } from 'store/zerochain'
+import { transactionsReducer } from './transactions'
 
 import { errorTypes, allTypes } from 'store/api-utils'
 
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   wallet: walletReducer,
   allocation: allocationReducer,
   object: objectReducer,
+  transactions: transactionsReducer,
 })
 
 const { CLEAR_STORE } = allTypes
@@ -40,7 +42,7 @@ export type RootState = ReturnType<typeof rootReducer>
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['wallet', 'allocation', 'object', 'zerochain'],
+  whitelist: ['wallet', 'allocation', 'object', 'zerochain', 'transactions'],
 }
 
 const reducer = persistReducer(persistConfig, rootReducer)

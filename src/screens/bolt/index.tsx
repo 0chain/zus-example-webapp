@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
@@ -19,7 +17,7 @@ import {
   selectActiveWallet,
   selectWalletBalance,
 } from 'store/wallet'
-import { getLatestTxns } from 'store/transactions'
+import { getLatestTxns, selectTransactions } from 'store/transactions'
 import { tokenToZcn } from 'lib/utils/token'
 import { useBls } from 'lib/hooks'
 
@@ -34,23 +32,23 @@ export default function Bolt() {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [txnsCount, setTxnsCount] = useState(20)
-  const [transactions, setTransactions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState('Getting Balance')
+  const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
+    useState({})
 
   const dispatch = useDispatch()
   const { blsLoaded } = useBls()
 
+  const activeWallet = useSelector(selectActiveWallet)
+  const transactions: any = useSelector(selectTransactions)
+  // @ts-ignore
+  const { isWasmInitializing } = useSelector(state => state.zerochain)
+
   const pages = useMemo(() => {
     return Array.from(Array(Math.ceil(transactions.length / perPage)).keys())
   }, [transactions.length])
-
-  const activeWallet = useSelector(selectActiveWallet)
-  const { isWasmInitializing } = useSelector(state => state.zerochain)
-
-  const [confirmedTransactionDetails, setConfirmedTransactionDetails] =
-    useState({})
 
   const [
     isTransactionConfirmedDialogOpen,
@@ -100,16 +98,11 @@ export default function Bolt() {
 
     const { data }: any = await dispatch(getLatestTxns(params))
 
-    if (!data) {
-      setTransactions([])
-    } else {
+    if (data) {
       if (data?.length > itemsPerPage) {
         setTxnsCount(currentPage * itemsPerPage + data?.length)
         data.pop()
-      } else {
-        setTxnsCount(currentPage * itemsPerPage)
-      }
-      setTransactions(data)
+      } else setTxnsCount(currentPage * itemsPerPage)
     }
     setIsLoading(false)
   }, [activeWallet?.id, currentPage, dispatch])
@@ -217,7 +210,7 @@ export default function Bolt() {
                       </td>
                     </tr>
                   ))
-              : 'No records found..'}
+              : 'No records found'}
           </tbody>
         </table>
 

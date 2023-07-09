@@ -6,7 +6,7 @@ import { getRandomArrayElement } from 'lib/utils'
 export const getLatestTxns = params => async (dispatch, getState) => {
   const { sharders } = getState().zerochain.network
   if (!(sharders && sharders?.length))
-    return { error: 'Unable to get sharders', data: undefined }
+    return { error: 'Unable to get sharders' }
   const url = getRandomArrayElement(sharders)
 
   const { error, data }: any = await basicReqWithDispatch({
@@ -22,7 +22,7 @@ export const getLatestTxns = params => async (dispatch, getState) => {
 export const getTxnByHash = hash => async (dispatch, getState) => {
   const { sharders } = getState().zerochain.network
   if (!(sharders && sharders?.length))
-    return { error: 'Unable to get sharders', data: undefined }
+    return { error: 'Unable to get sharders' }
 
   const url = getRandomArrayElement(sharders)
 
