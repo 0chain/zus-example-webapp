@@ -62,8 +62,8 @@ const FaucetTokenDialog = ({ close, setIsSuccess, setIsError }) => {
           actionButtonOnClick={onFaucet}
           cancelButtonOnClick={close}
           cancelButtonLabel="Cancel"
-          theme="bolt"
-        ></Dialog.Footer>
+          actionButtonColor="bolt"
+        />
       </Dialog>
     </>
   )

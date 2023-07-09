@@ -4,20 +4,13 @@ const initialState = {
   transactions: [],
 }
 
-export function transactionsListReducer(state = initialState, action) {
+export function transactionsReducer(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
-    case types.GET_LATEST_TXNS_REQUEST: {
-      const transactions = []
-      return { ...state, transactions }
-    }
-    case types.GET_LATEST_TXNS_SUCCESS: {
-      return { ...state, transactions: payload }
-    }
-    case types.GET_LATEST_TXNS_ERROR: {
-      return { ...state }
-    }
+    case types.GET_LATEST_TXNS_SUCCESS:
+      return { ...state, transactions: payload || [] }
+
     default:
       return state
   }
