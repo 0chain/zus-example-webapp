@@ -7,6 +7,7 @@ export const configJson = {
   blockWorker: 'https://demo.zus.network/dns',
   zboxHost: 'https://0box.demo.zus.network',
   zboxAppType: 'vult',
+  defaultSharderConsensous: 3,
 }
 
 export const config = [
@@ -18,4 +19,5 @@ export const config = [
   configJson.confirmationChainLength,
   configJson.zboxHost,
   configJson.zboxAppType,
+  configJson.defaultSharderConsensous,
 ]

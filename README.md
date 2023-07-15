@@ -107,6 +107,7 @@ const configJson = {
   confirmationChainLength: 3,
   blockWorker: 'https://demo.zus.network/dns',
   zboxHost: 'https://0box.demo.zus.network',
+  defaultSharderConsensous: 3,
 }
 
 const config = [
@@ -118,6 +119,7 @@ const config = [
   configJson.confirmationChainLength,
   configJson.zboxHost,
   configJson.zboxAppType,
+  configJson.defaultSharderConsensous,
 ]
 
 await init(config)
