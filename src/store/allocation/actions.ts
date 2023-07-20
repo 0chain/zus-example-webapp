@@ -20,7 +20,6 @@ export const createAllocationFunc = () => async dispatch => {
     datashards: 4,
     parityshards: 2,
     size: 1073741824,
-    expiry: Math.round(new Date().getTime() / 1000) + 2628000,
     minReadPrice: 0,
     maxReadPrice: 10000000000,
     minWritePrice: 0,
