@@ -13,6 +13,7 @@
     "@next/font": "13.1.1",
     "@reduxjs/toolkit": "^1.8.1",
     "@svgr/webpack": "^8.0.1",
+    "@zerochain/zus-sdk": "^0.5.12",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "eslint": "8.31.0",
