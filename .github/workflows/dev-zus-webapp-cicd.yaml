@@ -57,7 +57,7 @@ jobs:
       #     docker push ${{ secrets.BOLT_REGISTRY }}:$TAG-$SHORT_SHA
       
       # - name: Push latest
-      #   if: ${{ github.event.inputs.branch }} == 'master'
+      #   if: ${{ github.event.inputs.branch }} == 'main'
       #   run: |
       #     docker push ${{ secrets.BOLT_REGISTRY }}:latest
             
