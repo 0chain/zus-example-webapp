@@ -32,15 +32,20 @@ export default function CreateWallet() {
   const [loadingMsg, setLoadingMsg] = useState('Creating Wallet...')
 
   const handleCreateAccount = async () => {
-    setIsLoading(true)
-    await dispatch(createWalletFunc())
+    try {
+      setIsLoading(true)
+      await dispatch(createWalletFunc())
 
-    setLoadingMsg('Creating Allocation...')
-    await getFaucetToken(12)
-    await dispatch(createAllocationFunc())
+      setLoadingMsg('Creating Allocation...')
+      await getFaucetToken(12)
+      await dispatch(createAllocationFunc())
 
-    setIsLoading(false)
-    setShowSuccessDialog(true)
+      setShowSuccessDialog(true)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const actions = [
